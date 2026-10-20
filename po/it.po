@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lovycairn\n"
 "Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
-"POT-Creation-Date: 2026-10-20 21:11+0200\n"
+"POT-Creation-Date: 2026-10-20 22:42+0200\n"
 "PO-Revision-Date: 2026-10-20 20:00+0200\n"
 "Last-Translator: LovyCairn contributors\n"
 "Language-Team: Italian\n"
@@ -15,35 +15,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extension/compat.js:25
+#: extension/compat.js:26
 msgid "Icons on the desktop"
 msgstr "Icone sul desktop"
 
-#: extension/compat.js:28
+#: extension/compat.js:29
 msgid "“New group…” in the desktop menu"
 msgstr "«Nuovo gruppo…» nel menu del desktop"
 
-#: extension/compat.js:31
+#: extension/compat.js:32
 msgid "“Add to Desktop” in the app menu"
 msgstr "«Aggiungi al desktop» nel menu delle app"
 
-#: extension/compat.js:33
+#: extension/compat.js:34
 msgid "Keyboard shortcuts"
 msgstr "Scorciatoie da tastiera"
 
-#: extension/compat.js:35
+#: extension/compat.js:36
 msgid "Project menus"
 msgstr "Menu dei progetti"
 
-#: extension/compat.js:38
+#: extension/compat.js:39
 msgid "Opening projects in workspaces"
 msgstr "Apertura dei progetti negli spazi di lavoro"
 
-#: extension/compat.js:93
+#: extension/compat.js:45
+msgid "Groups"
+msgstr "Gruppi"
+
+#: extension/compat.js:46 extension/prefs.js:49
+msgid "Quick picker"
+msgstr "Selettore rapido"
+
+#: extension/compat.js:47 extension/extension.js:986
+msgid "Git monitor"
+msgstr "Monitor git"
+
+#: extension/compat.js:48
+msgid "Opening projects"
+msgstr "Apertura dei progetti"
+
+#: extension/compat.js:49
+msgid "Notes on the desktop"
+msgstr "Note sul desktop"
+
+#: extension/compat.js:134
 msgid "LovyCairn: some features are off"
 msgstr "LovyCairn: alcune funzioni sono disattivate"
 
-#: extension/compat.js:94
+#: extension/compat.js:135
 #, javascript-format
 msgid ""
 "Turned off: %s.\n"
@@ -56,81 +76,81 @@ msgstr ""
 "risolvere: aggiorna LovyCairn all'ultima versione; se è già l'ultima, apri "
 "una segnalazione e incolla i dettagli («Copia dettagli»)."
 
-#: extension/compat.js:101
+#: extension/compat.js:142
 msgid "Open the project page"
 msgstr "Apri la pagina del progetto"
 
-#: extension/compat.js:103
+#: extension/compat.js:144
 msgid "Copy details"
 msgstr "Copia dettagli"
 
-#: extension/extension.js:214 extension/extension.js:981
+#: extension/extension.js:237 extension/extension.js:1041
 msgid "Remove from Desktop"
 msgstr "Rimuovi dal desktop"
 
-#: extension/extension.js:214
+#: extension/extension.js:237
 msgid "Add to Desktop"
 msgstr "Aggiungi al desktop"
 
-#: extension/extension.js:302 extension/groups.js:704 extension/groups.js:752
+#: extension/extension.js:325 extension/groups.js:704 extension/groups.js:752
 #, javascript-format
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] "%s elemento"
 msgstr[1] "%s elementi"
 
-#: extension/extension.js:417
+#: extension/extension.js:440
 msgid "not a git repo"
 msgstr "non è un repo git"
 
-#: extension/extension.js:609
+#: extension/extension.js:632
 msgid "not a git repository"
 msgstr "non è un repository git"
 
-#: extension/extension.js:621
+#: extension/extension.js:644
 #, javascript-format
 msgid "%s changed"
 msgid_plural "%s changed"
 msgstr[0] "%s modificato"
 msgstr[1] "%s modificati"
 
-#: extension/extension.js:621
+#: extension/extension.js:644
 #, javascript-format
 msgid "%s new"
 msgid_plural "%s new"
 msgstr[0] "%s nuovo"
 msgstr[1] "%s nuovi"
 
-#: extension/extension.js:622
+#: extension/extension.js:645
 msgid "all saved"
 msgstr "tutto salvato"
 
-#: extension/extension.js:632
+#: extension/extension.js:655
 msgid "CHANGES"
 msgstr "MODIFICHE"
 
-#: extension/extension.js:644
+#: extension/extension.js:667
 #, javascript-format
 msgid "… and %s more"
 msgstr "… e altri %s"
 
-#: extension/extension.js:648
+#: extension/extension.js:671
 msgid "RECENT COMMITS"
 msgstr "ULTIMI COMMIT"
 
-#: extension/extension.js:787
+#: extension/extension.js:810
 msgid "No terminal found"
 msgstr "Nessun terminale trovato"
 
-#: extension/extension.js:787
+#: extension/extension.js:810
 msgid "Choose one in the LovyCairn preferences."
 msgstr "Sceglilo nelle preferenze di LovyCairn."
 
-#: extension/extension.js:831
+#: extension/extension.js:854
 msgid "No active project"
 msgstr "Nessun progetto attivo"
 
-#: extension/extension.js:831
+#: extension/extension.js:854
 msgid ""
 "Open a project from the desktop, or bring its terminal to the front, then "
 "try again."
@@ -138,20 +158,24 @@ msgstr ""
 "Apri un progetto dal desktop, o porta in primo piano il suo terminale, e "
 "riprova."
 
-#: extension/extension.js:841
+#: extension/extension.js:864
 msgid "LovyCairn Notes is not installed"
 msgstr "LovyCairn Note non è installato"
 
-#: extension/extension.js:841
+#: extension/extension.js:864
 msgid "Install the notes app to use project notes (see the README)."
 msgstr ""
 "Installa l'app delle note per usare le note dei progetti (vedi il README)."
 
-#: extension/extension.js:852
+#: extension/extension.js:907
+msgid "Choose the project folder"
+msgstr "Scegli la cartella del progetto"
+
+#: extension/extension.js:913
 msgid "Add project"
 msgstr "Aggiungi progetto"
 
-#: extension/extension.js:853
+#: extension/extension.js:914
 msgid ""
 "Folder of the project, for example ~/code/my-app. The project appears on the "
 "desktop."
@@ -159,84 +183,80 @@ msgstr ""
 "Cartella del progetto, ad esempio ~/code/my-app. Il progetto compare sul "
 "desktop."
 
-#: extension/extension.js:854
+#: extension/extension.js:915
 msgid "Add"
 msgstr "Aggiungi"
 
-#: extension/extension.js:857
+#: extension/extension.js:916
 msgid "This folder does not exist."
 msgstr "Questa cartella non esiste."
 
-#: extension/extension.js:907 extension/extension.js:963
+#: extension/extension.js:967 extension/extension.js:1023
 msgid "Open"
 msgstr "Apri"
 
-#: extension/extension.js:914
+#: extension/extension.js:974
 msgid "Open project"
 msgstr "Apri il progetto"
 
-#: extension/extension.js:915
+#: extension/extension.js:975
 msgid "Open in a new workspace"
 msgstr "Apri in un nuovo spazio di lavoro"
 
-#: extension/extension.js:916
+#: extension/extension.js:976
 msgid "Open in this workspace"
 msgstr "Apri in questo spazio di lavoro"
 
-#: extension/extension.js:917
+#: extension/extension.js:977
 msgid "New terminal here"
 msgstr "Nuovo terminale qui"
 
-#: extension/extension.js:918
+#: extension/extension.js:978
 msgid "Open folder"
 msgstr "Apri cartella"
 
-#: extension/extension.js:926
+#: extension/extension.js:986
 msgid "Close git monitor"
 msgstr "Chiudi monitor git"
 
-#: extension/extension.js:926
-msgid "Git monitor"
-msgstr "Monitor git"
-
-#: extension/extension.js:930
+#: extension/extension.js:990
 msgid "New project note"
 msgstr "Nuova nota del progetto"
 
-#: extension/extension.js:931
+#: extension/extension.js:991
 msgid "Project notes"
 msgstr "Note del progetto"
 
-#: extension/extension.js:938
+#: extension/extension.js:998
 msgid "Click opens in a new workspace"
 msgstr "Il clic apre in un nuovo spazio di lavoro"
 
-#: extension/extension.js:953 extension/extension.js:970
+#: extension/extension.js:1013 extension/extension.js:1030
 msgid "Move out of group"
 msgstr "Sposta fuori dal gruppo"
 
-#: extension/extension.js:955 extension/extension.js:972
+#: extension/extension.js:1015 extension/extension.js:1032
 #: extension/groups.js:520 extension/groups.js:536
 msgid "New group…"
 msgstr "Nuovo gruppo…"
 
-#: extension/extension.js:957 extension/extension.js:974
+#: extension/extension.js:1017 extension/extension.js:1034
 msgid "Arrange icons"
 msgstr "Riordina icone"
 
-#: extension/extension.js:964
+#: extension/extension.js:1024
 msgid "Rename…"
 msgstr "Rinomina…"
 
-#: extension/extension.js:965
+#: extension/extension.js:1025
 msgid "New subgroup…"
 msgstr "Nuovo sottogruppo…"
 
-#: extension/extension.js:976
+#: extension/extension.js:1036
 msgid "Ungroup (contents stay)"
 msgstr "Sciogli gruppo (i contenuti restano)"
 
-#: extension/extension.js:981
+#: extension/extension.js:1041
 msgid "Remove"
 msgstr "Rimuovi"
 
@@ -540,7 +560,3 @@ msgstr "Nuova nota"
 #: extension/prefs.js:48
 msgid "New note for the active project"
 msgstr "Nuova nota del progetto attivo"
-
-#: extension/prefs.js:49
-msgid "Quick picker"
-msgstr "Selettore rapido"

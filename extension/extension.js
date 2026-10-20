@@ -870,18 +870,55 @@ export default class LovyCairn extends Extension {
 
     // ---- adding a project: a launcher (.desktop file) on the desktop -------------------------
 
-    async _askProject() {
-        const text = await this._groups.askText({
-            title: _('Add project'),
-            description: _('Folder of the project, for example ~/code/my-app. The project appears on the desktop.'),
-            initial: '', ok: _('Add'), hint: '~/code/my-app', wide: true,
-            validate: t => {
-                const dir = this._expandPath(t);
-                return t && GLib.file_test(dir, GLib.FileTest.IS_DIR) ? null : _('This folder does not exist.');
-            },
+    // GNOME's own folder chooser, through the desktop portal (the one other apps use).
+    // Resolves to the folder, null if cancelled, undefined if the portal is not available.
+    _chooseFolder(title, start) {
+        return new Promise(resolve => {
+            const bus = Gio.DBus.session;
+            const token = `lovycairn${GLib.random_int_range(0, 1000000000)}`;
+            const sender = bus.get_unique_name().slice(1).replaceAll('.', '_');
+            const request = `/org/freedesktop/portal/desktop/request/${sender}/${token}`;
+            const id = bus.signal_subscribe('org.freedesktop.portal.Desktop', 'org.freedesktop.portal.Request', 'Response',
+                request, null, Gio.DBusSignalFlags.NONE, (_c, _s, _p, _i, _sig, params) => {
+                    bus.signal_unsubscribe(id);
+                    const [code, results] = params.recursiveUnpack();
+                    resolve(code === 0 && results.uris?.length ? Gio.File.new_for_uri(results.uris[0]).get_path() : null);
+                });
+            const options = {
+                handle_token: new GLib.Variant('s', token), directory: new GLib.Variant('b', true), modal: new GLib.Variant('b', true),
+            };
+            if (start)
+                options.current_folder = new GLib.Variant('ay', new TextEncoder().encode(`${start}\0`));
+            bus.call('org.freedesktop.portal.Desktop', '/org/freedesktop/portal/desktop', 'org.freedesktop.portal.FileChooser',
+                'OpenFile', new GLib.Variant('(ssa{sv})', ['', title, options]), null, Gio.DBusCallFlags.NONE, -1, null, (c, r) => {
+                    try {
+                        c.call_finish(r);
+                    } catch (e) {
+                        bus.signal_unsubscribe(id);
+                        resolve(undefined);
+                    }
+                });
         });
-        if (text)
-            this.addProject(this._expandPath(text));
+    }
+
+    async _askProject() {
+        const code = GLib.build_filenamev([HOME, 'code']);
+        const start = GLib.file_test(code, GLib.FileTest.IS_DIR) ? code : HOME;
+        let folder = await this._chooseFolder(_('Choose the project folder'), start);
+        if (folder === null)
+            return;   // cancelled
+        if (folder === undefined) {
+            // no portal: fall back to typing the path
+            const text = await this._groups.askText({
+                title: _('Add project'),
+                description: _('Folder of the project, for example ~/code/my-app. The project appears on the desktop.'),
+                initial: '', ok: _('Add'), hint: '~/code/my-app', wide: true,
+                validate: t => (t && GLib.file_test(this._expandPath(t), GLib.FileTest.IS_DIR) ? null : _('This folder does not exist.')),
+            });
+            folder = text ? this._expandPath(text) : null;
+        }
+        if (folder)
+            this.addProject(folder);
     }
 
     _expandPath(p) {

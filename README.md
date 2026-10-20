@@ -107,7 +107,7 @@ lovycairn-doctor                         # checks that everything is in place
 lovycairn-add ~/code/my-project          # your first project
 ```
 
-…or right-click the desktop → **Add project…**, or right-click a folder in Files → *Scripts* → **Add as LovyCairn project**.
+…or right-click the desktop → **Add project…** (opens the GNOME folder chooser), or right-click a folder in Files → *Scripts* → **Add as LovyCairn project**.
 
 <details>
 <summary><b>Other ways to install</b></summary>

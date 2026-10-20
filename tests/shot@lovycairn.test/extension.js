@@ -145,7 +145,8 @@ const SCENES = {
         say(`added project icon=${ext._icons.has('project-odd-project.desktop')} total=${ext._icons.size}`);
         const app = ext._icons.get('project-odd-project.desktop')?._app;
         say(`exec line parses: ${app?.get_commandline?.()}`);
-        ext._askProject(); await wait(1200); await snap('add-project'); g._dialog?.close();
+        ext._askProject(); await wait(4000); await snap('add-project');
+        for (const a of global.get_window_actors()) say(`window: ${a.meta_window.get_title()}`);
     },
 
     // Simulates an internal call that starts to throw (what GNOME 51 did with St.BoxLayout.vertical): the feature must
