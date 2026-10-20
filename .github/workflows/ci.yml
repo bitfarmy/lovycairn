@@ -19,6 +19,9 @@ jobs:
     container:
       image: registry.fedoraproject.org/fedora:${{ matrix.tag }}
       options: --security-opt seccomp=unconfined
+    env:
+      # on Rawhide the shell may be newer than the versions in metadata.json: load the extensions anyway to see what breaks
+      LOVYCAIRN_SKIP_VERSION_CHECK: ${{ matrix.tag == 'rawhide' && '1' || '' }}
     steps:
       - name: Install dependencies
         run: |
