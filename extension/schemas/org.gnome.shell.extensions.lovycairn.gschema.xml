@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="lovycairn">
+  <schema id="org.gnome.shell.extensions.lovycairn" path="/org/gnome/shell/extensions/lovycairn/">
+    <key name="quick-note" type="as">
+      <default>["&lt;Super&gt;&lt;Shift&gt;n"]</default>
+      <summary>New note</summary>
+      <description>Opens an empty note right away.</description>
+    </key>
+    <key name="project-note" type="as">
+      <default>["&lt;Super&gt;&lt;Control&gt;n"]</default>
+      <summary>New note for the active project</summary>
+      <description>Opens a note tagged with the project of the focused terminal, or of the last project opened.</description>
+    </key>
+    <key name="picker" type="as">
+      <default>["&lt;Super&gt;j"]</default>
+      <summary>Quick picker for projects, apps and groups</summary>
+      <description>Search and open without the mouse.</description>
+    </key>
+    <key name="terminal-command" type="s">
+      <default>""</default>
+      <summary>Terminal command</summary>
+      <description>Command that opens a terminal in a project folder; {dir} is replaced by the folder. Empty: detect automatically.</description>
+    </key>
+    <key name="browser-command" type="s">
+      <default>""</default>
+      <summary>Browser command</summary>
+      <description>Command that opens the project documentation in a new window; {url} is replaced by the address. Empty: use the default browser.</description>
+    </key>
+    <key name="notes-command" type="s">
+      <default>""</default>
+      <summary>Notes app command</summary>
+      <description>Command of the notes app. Empty: use lovycairn-notes if it is installed.</description>
+    </key>
+    <key name="notes-dir" type="s">
+      <default>""</default>
+      <summary>Notes folder</summary>
+      <description>Folder where notes are stored. Empty: Notes in the home folder.</description>
+    </key>
+    <key name="notes-integration" type="b">
+      <default>true</default>
+      <summary>Show collapsed notes on the desktop</summary>
+      <description>Draws collapsed notes as sticky icons on the desktop and remembers where note windows were.</description>
+    </key>
+    <key name="compat-notified" type="s">
+      <default>""</default>
+      <summary>Last compatibility notice shown</summary>
+      <description>Internal: avoids showing the same notice at every login.</description>
+    </key>
+  </schema>
+</schemalist>

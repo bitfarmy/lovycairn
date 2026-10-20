@@ -1,0 +1,15 @@
+name: Broken by a GNOME update
+description: LovyCairn stopped working or switched features off after GNOME / Fedora was updated
+labels: [gnome-update]
+body:
+  - type: markdown
+    attributes:
+      value: The notification’s **Copy details** button and `lovycairn-doctor --report` give the information below.
+  - type: input
+    id: gnome
+    attributes: {label: GNOME Shell version, placeholder: "50.6 → 51.0"}
+    validations: {required: true}
+  - type: textarea
+    id: doctor
+    attributes: {label: Output of `lovycairn-doctor --report`, render: text}
+    validations: {required: true}

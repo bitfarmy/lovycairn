@@ -1,0 +1,50 @@
+name: Rawhide watch
+
+# Runs the smoke test every week against Fedora Rawhide, i.e. the GNOME that is coming. If it breaks, an issue is opened
+# (once) so a fix can be ready before the release reaches users.
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  rawhide:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.fedoraproject.org/fedora:rawhide
+      options: --security-opt seccomp=unconfined
+    steps:
+      - name: Install dependencies
+        run: |
+          dnf -y -q install --setopt=install_weak_deps=False gnome-shell mutter gjs glib2 gettext desktop-file-utils git \
+            dbus-daemon dbus-x11 nodejs python3 python3-gobject python3-dbusmock unzip zip xdg-user-dirs gtk4 libadwaita gh
+      - uses: actions/checkout@v4
+      - name: GNOME Shell version
+        id: ver
+        run: echo "shell=$(gnome-shell --version | grep -oE '[0-9]+(\.[0-9]+)*' | head -1)" >> "$GITHUB_OUTPUT"
+      - name: Smoke test (version check switched off, to see what would break)
+        id: smoke
+        continue-on-error: true
+        env:
+          LOVYCAIRN_SKIP_VERSION_CHECK: "1"
+        run: |
+          tests/container-setup.sh
+          mkdir -p tests/out
+          tests/run-headless.sh smoke tests/out
+          grep -q "extension state=1" tests/out/shell.log
+          grep -q "failedChecks=none" tests/out/shell.log
+      - name: Open an issue if it broke
+        if: steps.smoke.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHELL_VERSION: ${{ steps.ver.outputs.shell }}
+        run: |
+          title="Rawhide: LovyCairn breaks on GNOME Shell ${SHELL_VERSION}"
+          if [ -z "$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number')" ]; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --label gnome-update --title "$title" \
+              --body "The weekly Rawhide check failed on GNOME Shell ${SHELL_VERSION}. See the run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          fi

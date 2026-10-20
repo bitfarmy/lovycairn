@@ -1,0 +1,656 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 LovyCairn contributors
+"""LovyCairn Notes: minimal sticky notes for GNOME. One Markdown file per note, an archive with search, a trash,
+and project notes tagged with #project-tag (the tags come from the LovyCairn project launchers on the desktop)."""
+import gettext
+import json
+import os
+import re
+import signal
+import sys
+import time
+from pathlib import Path
+
+
+def _notes_dir_from_argv():
+    """--notes-dir must be known before the application starts (the state file lives there)."""
+    for i, arg in enumerate(sys.argv):
+        if arg == "--notes-dir" and i + 1 < len(sys.argv):
+            return sys.argv[i + 1]
+        if arg.startswith("--notes-dir="):
+            return arg.split("=", 1)[1]
+    return None
+
+
+NOTE_DIR = Path(_notes_dir_from_argv() or os.environ.get("LOVYCAIRN_NOTES_DIR") or Path.home() / "Notes").expanduser()
+
+DOMAIN = "lovycairn-notes"
+for _locale_dir in (os.environ.get("LOVYCAIRN_LOCALE_DIR"),
+                    Path(__file__).resolve().parent.parent / "share" / "locale",
+                    Path.home() / ".local" / "share" / "locale", "/usr/share/locale"):
+    if _locale_dir and gettext.find(DOMAIN, str(_locale_dir)):
+        gettext.bindtextdomain(DOMAIN, str(_locale_dir))
+        break
+gettext.textdomain(DOMAIN)
+_ = gettext.gettext
+
+import gi  # noqa: E402
+
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+from gi.repository import Adw, Gdk, Gio, GLib, Gtk  # noqa: E402
+
+APP_ID = "io.github.bitfarmy.LovyCairnNotes"
+TRASH_DIR = NOTE_DIR / ".trash"
+STATE_FILE = NOTE_DIR / ".state.json"
+DEFAULT_SIZE = (340, 380)
+SAVE_DELAY_MS = 600
+
+TAG_RE = re.compile(r"(?<!\S)#([\w-]+)")
+LIST_RE = re.compile(r"^(\s*)(- \[[ xX]\] |- )(.*)$")
+CHECK_RE = re.compile(r"^(\s*)- \[([ xX])\]")
+
+COLORS = {  # key: (name, color)
+    "yellow": (_("Yellow"), "#f6d32d"),
+    "orange": (_("Orange"), "#ff7800"),
+    "pink": (_("Pink"), "#e879a8"),
+    "green": (_("Green"), "#33d17a"),
+    "blue": (_("Blue"), "#62a0ea"),
+    "lilac": (_("Lilac"), "#c061cb"),
+    "gray": (_("Gray"), "#9a9996"),
+}
+DEFAULT_COLOR = "yellow"
+
+CSS = ("""
+window.note textview, window.note textview text { background: transparent; }
+window.note headerbar { background: transparent; box-shadow: none; }
+textview.note-text { font-size: 14px; padding: 10px 12px; }
+.tag-chip { padding: 2px 10px; min-height: 0; }
+button.color { min-width: 22px; min-height: 22px; padding: 0; border-radius: 50%; }
+.dot { font-size: 18px; }
+""" + "".join(
+    f"window.note-{k} {{ background: mix(@window_bg_color, {c}, 0.2); }}\n"
+    f"button.color-{k} {{ background: {c}; }}\n"
+    f".dot-{k} {{ color: {c}; }}\n"
+    for k, (_, c) in COLORS.items())).encode()
+
+
+# --- storage on disk ----------------------------------------------------------
+
+class Note:
+    def __init__(self, path: Path):
+        self.path = path
+        self.text = path.read_text(encoding="utf-8", errors="replace")
+        self.mtime = path.stat().st_mtime
+
+    @property
+    def title(self) -> str:
+        return text_title(self.text)
+
+    @property
+    def tags(self) -> set:
+        return set(TAG_RE.findall(self.text))
+
+
+def text_title(text: str) -> str:
+    for line in text.splitlines():
+        line = re.sub(r"^\s*(#+\s+|- \[[ xX]\]\s*|-\s+)", "", line).strip()
+        if line:
+            return line
+    return _("Empty note")
+
+
+def load_projects() -> dict:
+    """tag -> name, from the LovyCairn project launchers on the desktop (groups included)."""
+    desk = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DESKTOP)
+    out = {}
+    if not desk:
+        return out
+    base = Path(desk)
+    for f in sorted(base.rglob("*.desktop")):
+        if len(f.relative_to(base).parts) > 6:
+            continue
+        kf = GLib.KeyFile()
+        try:
+            kf.load_from_file(str(f), GLib.KeyFileFlags.NONE)
+            out[kf.get_string("Desktop Entry", "X-LovyCairn-Tag")] = kf.get_string("Desktop Entry", "Name")
+        except GLib.Error:
+            continue
+    return out
+
+
+def new_note_path() -> Path:
+    NOTE_DIR.mkdir(parents=True, exist_ok=True)
+    stem = time.strftime("%Y%m%d-%H%M%S")
+    path, n = NOTE_DIR / f"{stem}.md", 1
+    while path.exists():
+        path, n = NOTE_DIR / f"{stem}-{n}.md", n + 1
+    return path
+
+
+def save_text(path: Path, text: str):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(path)
+
+
+def list_notes(trash: bool = False) -> list:
+    folder = TRASH_DIR if trash else NOTE_DIR
+    if not folder.is_dir():
+        return []
+    notes = [Note(p) for p in folder.glob("*.md")]
+    return sorted(notes, key=lambda n: n.mtime, reverse=True)
+
+
+def move(path: Path, dest_dir: Path) -> Path:
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    dest, n = dest_dir / path.name, 1
+    while dest.exists():
+        dest, n = dest_dir / f"{path.stem}-{n}{path.suffix}", n + 1
+    path.replace(dest)
+    return dest
+
+
+# --- note window --------------------------------------------------------------
+
+class NoteWindow(Adw.ApplicationWindow):
+    def __init__(self, app, path: Path | None):
+        self.app = app
+        self.path = path or new_note_path()
+        w, h = app.sizes.get(self.path.name, DEFAULT_SIZE)
+        super().__init__(application=app, default_width=w, default_height=h)
+        self._timer = 0
+        self._dirty = False
+        self.add_css_class("note")
+        self.color = None
+        self.set_color(app.colors.get(self.path.name, DEFAULT_COLOR), save=False)
+
+        self.buf = Gtk.TextBuffer()
+        if self.path.exists():
+            self.buf.set_text(self.path.read_text(encoding="utf-8", errors="replace"))
+            self.buf.place_cursor(self.buf.get_start_iter() if self.path.name in app.cursor_start
+                                  else self.buf.get_end_iter())
+        self.wtitle = Adw.WindowTitle(title="", subtitle="")
+        self._update_title()
+        self.buf.connect("changed", self._on_changed)
+
+        self.view = Gtk.TextView(buffer=self.buf, wrap_mode=Gtk.WrapMode.WORD_CHAR)
+        self.view.add_css_class("note-text")
+        keys = Gtk.EventControllerKey()
+        keys.connect("key-pressed", self._on_key)
+        self.view.add_controller(keys)
+        click = Gtk.GestureClick()
+        click.connect("released", self._on_click)
+        self.view.add_controller(click)
+
+        scroll = Gtk.ScrolledWindow(child=self.view, vexpand=True)
+        header = Adw.HeaderBar(decoration_layout=":close", title_widget=self.wtitle)  # close only: no minimize/maximize
+        new_btn = Gtk.Button(icon_name="list-add-symbolic", tooltip_text=_("New note (Ctrl+N)"))
+        new_btn.set_action_name("app.new")
+        arch_btn = Gtk.Button(icon_name="view-list-symbolic", tooltip_text=_("Archive (Ctrl+E)"))
+        arch_btn.set_action_name("app.archive")
+        header.pack_start(new_btn)
+        header.pack_start(arch_btn)
+        del_btn = Gtk.Button(icon_name="user-trash-symbolic", tooltip_text=_("Move to trash"))
+        del_btn.connect("clicked", self._on_delete)
+        header.pack_end(del_btn)
+        coll_btn = Gtk.Button(icon_name="view-pin-symbolic", tooltip_text=_("Collapse to an icon on the desktop"))
+        coll_btn.connect("clicked", lambda *_: self.collapse())
+        header.pack_end(coll_btn)
+        header.pack_end(self._color_button())
+
+        tv = Adw.ToolbarView(content=scroll)
+        tv.add_top_bar(header)
+        self.set_content(tv)
+        self.connect("close-request", self._on_close)
+        self.view.grab_focus()
+
+    def _color_button(self):
+        row = Gtk.Box(spacing=8, margin_top=8, margin_bottom=8, margin_start=8, margin_end=8)
+        pop = Gtk.Popover(child=row)
+        for key, (name, _c) in COLORS.items():
+            b = Gtk.Button(tooltip_text=name, css_classes=["color", f"color-{key}"])
+            b.connect("clicked", lambda _b, k=key: (self.set_color(k), pop.popdown()))
+            row.append(b)
+        return Gtk.MenuButton(icon_name="preferences-color-symbolic", popover=pop, tooltip_text=_("Note color"))
+
+    def set_color(self, key, save=True):
+        if key not in COLORS:
+            key = DEFAULT_COLOR
+        if self.color:
+            self.remove_css_class(f"note-{self.color}")
+        self.color = key
+        self.add_css_class(f"note-{key}")
+        if save:
+            self.app.colors[self.path.name] = key
+            self.app.save_state()
+            self.app.refresh_archive()
+
+    def _update_title(self):
+        title = text_title(self._text())
+        self.wtitle.set_title(title)
+        # the suffix lets the GNOME extension recognize the note (position memory)
+        self.set_title(f"{title} · {self.path.stem}")
+
+    def current_size(self):
+        w, h = self.get_width(), self.get_height()  # 0 if not shown yet
+        return (w, h) if w > 0 and h > 0 else tuple(self.get_default_size())
+
+    def _text(self) -> str:
+        return self.buf.get_text(self.buf.get_start_iter(), self.buf.get_end_iter(), False)
+
+    # saving
+    def _on_changed(self, *_):
+        self._dirty = True
+        self._update_title()
+        if self._timer:
+            GLib.source_remove(self._timer)
+        self._timer = GLib.timeout_add(SAVE_DELAY_MS, self._autosave)
+
+    def _autosave(self):
+        self._timer = 0
+        self.flush()
+        return GLib.SOURCE_REMOVE
+
+    def flush(self):
+        if self._timer:
+            GLib.source_remove(self._timer)
+            self._timer = 0
+        if not self._dirty:
+            return
+        self._dirty = False
+        text = self._text()
+        if text.strip():
+            save_text(self.path, text)
+        elif self.path.exists():
+            self.path.unlink()
+        self.app.refresh_archive()
+
+    def _on_close(self, *_):
+        self.flush()
+        if not self._text().strip() and self.path.exists():
+            self.path.unlink()
+        self.app.sizes[self.path.name] = self.current_size()
+        self.app.windows.pop(self.path, None)  # closed = goes to the archive, no longer pinned
+        self.app.save_state()
+        self.app.refresh_archive()
+        return False
+
+    def collapse(self):
+        """Collapse the note to an icon on the desktop (drawn by the GNOME extension): no window."""
+        self.flush()
+        if self.path.exists():
+            self.app.collapsed.add(self.path.name)
+        self.close()
+
+    def _on_delete(self, *_):
+        self._dirty = False
+        if self._timer:
+            GLib.source_remove(self._timer)
+            self._timer = 0
+        if self._text().strip():
+            save_text(self.path, self._text())
+            move(self.path, TRASH_DIR)
+        self.app.collapsed.discard(self.path.name)
+        self.close()
+
+    # checklists
+    def _on_key(self, ctrl, keyval, keycode, state):
+        if keyval not in (Gdk.KEY_Return, Gdk.KEY_KP_Enter):
+            return False
+        if state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK):
+            return False
+        cur = self.buf.get_iter_at_mark(self.buf.get_insert())
+        if not cur.ends_line():
+            return False
+        start = cur.copy()
+        start.set_line_offset(0)
+        m = LIST_RE.match(self.buf.get_text(start, cur, False))
+        if not m:
+            return False
+        indent, marker, rest = m.groups()
+        if not rest.strip():  # empty item: ends the list
+            self.buf.delete(start, cur)
+        else:
+            prefix = indent + ("- [ ] " if "[" in marker else "- ")
+            self.buf.insert(cur, "\n" + prefix)
+        return True
+
+    def _on_click(self, gesture, n_press, x, y):
+        if n_press != 1 or self.buf.get_has_selection():
+            return
+        bx, by = self.view.window_to_buffer_coords(Gtk.TextWindowType.WIDGET, int(x), int(y))
+        found, it = self.view.get_iter_at_location(bx, by)
+        if not found:
+            return
+        line = it.get_line()
+        _ok, start = self.buf.get_iter_at_line(line)
+        end = start.copy()
+        if not end.ends_line():
+            end.forward_to_line_end()
+        m = CHECK_RE.match(self.buf.get_text(start, end, False))
+        if not m or it.get_line_offset() > len(m.group(0)):
+            return
+        box = start.copy()
+        box.forward_chars(len(m.group(1)) + 3)
+        box_end = box.copy()
+        box_end.forward_char()
+        new = " " if m.group(2) in "xX" else "x"
+        self.buf.begin_user_action()
+        self.buf.delete(box, box_end)
+        self.buf.insert(box, new)
+        self.buf.end_user_action()
+
+
+# --- archive window -----------------------------------------------------------
+
+class ArchiveWindow(Adw.ApplicationWindow):
+    def __init__(self, app):
+        super().__init__(application=app, default_width=420, default_height=560, title=_("Notes"))
+        self.app = app
+        self.tag = None          # tag filter in the Notes section
+        self.ptag = None         # selected project in the Projects section
+        self.section = "notes"
+
+        header = Adw.HeaderBar()
+        sections = Gtk.Box(css_classes=["linked"])
+        self.sec_notes = Gtk.ToggleButton(label=_("Notes"), active=True)
+        self.sec_proj = Gtk.ToggleButton(label=_("Projects"), group=self.sec_notes)
+        self.sec_proj.connect("toggled", self._on_section)
+        sections.append(self.sec_notes)
+        sections.append(self.sec_proj)
+        header.set_title_widget(sections)
+        new_btn = Gtk.Button(icon_name="list-add-symbolic", tooltip_text=_("New note (Ctrl+N)"))
+        new_btn.connect("clicked", self._on_new)
+        header.pack_start(new_btn)
+        self.trash_btn = Gtk.ToggleButton(icon_name="user-trash-symbolic", tooltip_text=_("Trash"))
+        self.trash_btn.connect("toggled", lambda *_: self.refresh())
+        header.pack_end(self.trash_btn)
+
+        self.search = Gtk.SearchEntry(placeholder_text=_("Search notes…"), margin_start=12,
+                                      margin_end=12, margin_top=6)
+        self.search.connect("search-changed", lambda *_: self.refresh())
+        self.search.connect("activate", self._open_first)
+        self.chips = Gtk.FlowBox(selection_mode=Gtk.SelectionMode.NONE, homogeneous=False,
+                                 column_spacing=6, row_spacing=6, margin_start=12, margin_end=12,
+                                 margin_top=8, max_children_per_line=8)
+
+        self.list = Gtk.ListBox(selection_mode=Gtk.SelectionMode.NONE, margin_start=12,
+                                margin_end=12, margin_top=8, margin_bottom=12)
+        self.list.add_css_class("boxed-list")
+        self.list.set_placeholder(Adw.StatusPage(title=_("No notes"), icon_name="document-edit-symbolic"))
+        self.list.connect("row-activated", self._on_activated)
+        list_scroll = Gtk.ScrolledWindow(child=self.list, vexpand=True)
+
+        body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        for w in (self.search, self.chips, list_scroll):
+            body.append(w)
+        tv = Adw.ToolbarView(content=body)
+        tv.add_top_bar(header)
+        self.set_content(tv)
+        self.connect("close-request", self._on_close)
+        self.refresh()
+        self.search.grab_focus()
+
+    def _on_close(self, *_):
+        self.app.archive = None
+        return False
+
+    def refresh(self):
+        trash = self.trash_btn.get_active()
+        notes = list_notes(trash)
+        query = self.search.get_text().strip().lower()
+
+        projects = load_projects()
+        in_proj = self.section == "projects"
+        if in_proj:
+            notes = [n for n in notes if n.tags & set(projects)]
+            tags = list(projects)
+            if self.ptag not in projects:
+                self.ptag = next(iter(projects), None)   # the “+” always creates inside a project
+            current = self.ptag
+        else:
+            notes = [n for n in notes if not n.tags & set(projects)]
+            tags = sorted({t for n in notes for t in n.tags})
+            if self.tag not in tags:
+                self.tag = None
+            current = self.tag
+        self.search.set_placeholder_text(_("Search projects…") if in_proj else _("Search notes…"))
+        while (c := self.chips.get_first_child()):
+            self.chips.remove(c)
+        for t in tags:
+            label = f"#{t}"
+            if in_proj:
+                label = f"{projects[t]} ({sum(1 for n in list_notes(trash) if t in n.tags)})"
+            chip = Gtk.ToggleButton(label=label, active=(t == current))
+            chip.add_css_class("pill")
+            chip.add_css_class("tag-chip")
+            chip.connect("toggled", self._on_chip, t)
+            self.chips.append(chip)
+
+        while (r := self.list.get_first_child()):
+            self.list.remove(r)
+        for n in notes:
+            if current and current not in n.tags:
+                continue
+            if query and query not in n.text.lower():
+                continue
+            self.list.append(self._row(n, trash))
+
+    def _row(self, n: Note, trash: bool):
+        preview = " ".join(n.text.split()[:40])
+        row = Adw.ActionRow(use_markup=False, activatable=not trash, subtitle_lines=2, title_lines=1)
+        row.set_title(n.title)
+        row.set_subtitle(preview)
+        row.note_path = n.path
+        key = self.app.colors.get(n.path.name, DEFAULT_COLOR)
+        row.add_prefix(Gtk.Label(label="●", css_classes=["dot", f"dot-{key}"]))
+        row.add_prefix(Gtk.Label(label=time.strftime("%d/%m\n%H:%M", time.localtime(n.mtime)),
+                                 css_classes=["dim-label", "caption"]))
+        btn = Gtk.Button(icon_name="edit-undo-symbolic" if trash else "user-trash-symbolic",
+                         valign=Gtk.Align.CENTER, css_classes=["flat"],
+                         tooltip_text=_("Restore") if trash else _("Move to trash"))
+        btn.connect("clicked", self._on_row_button, n.path, trash)
+        row.add_suffix(btn)
+        return row
+
+    def _on_section(self, btn):
+        self.section = "projects" if btn.get_active() else "notes"
+        self.refresh()
+
+    def open_tag(self, tag):
+        """From the command line: a project tag opens the Projects section, any other tag the Notes section."""
+        if tag in load_projects():
+            self.ptag = tag
+            self.sec_proj.set_active(True)
+        else:
+            self.tag = tag
+            self.sec_notes.set_active(True)
+        self.refresh()
+
+    def _on_new(self, *_):
+        if self.section == "projects" and self.ptag:
+            self.app.new_tagged_note(self.ptag)   # a note inside the selected project
+        else:
+            self.app.open_note()
+
+    def _on_chip(self, chip, tag):
+        attr = "ptag" if self.section == "projects" else "tag"
+        if chip.get_active():
+            setattr(self, attr, tag)
+        elif getattr(self, attr) == tag:
+            if attr == "tag":
+                self.tag = None       # in Projects one is always selected
+        else:
+            return
+        self.refresh()
+
+    def _on_row_button(self, btn, path, trash):
+        if trash:
+            move(path, NOTE_DIR)
+        else:
+            win = self.app.windows.get(path)
+            if win:
+                win._dirty = False
+                win.close()
+            if path.exists():
+                move(path, TRASH_DIR)
+            self.app.collapsed.discard(path.name)
+            self.app.save_state()
+        self.refresh()
+
+    def _on_activated(self, listbox, row):
+        self.app.open_note(row.note_path)
+
+    def _open_first(self, *_):
+        row = self.list.get_first_child()
+        if row is not None and not self.trash_btn.get_active():
+            self.app.open_note(row.note_path)
+
+
+# --- application --------------------------------------------------------------
+
+class NoteApp(Adw.Application):
+    def __init__(self):
+        super().__init__(application_id=APP_ID, flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
+        self.windows: dict = {}
+        self.archive = None
+        self.sizes: dict = {}
+        self.colors: dict = {}
+        self.collapsed: set = set()  # notes collapsed to a desktop icon
+        self.restored = False
+        self.cursor_start: set = set()  # new tagged notes: cursor at the top, not at the end
+        self.add_main_option("new", ord("n"), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             _("Open an empty note right away"), None)
+        self.add_main_option("archive", ord("a"), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             _("Open the archive"), None)
+        self.add_main_option("open", 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             _("Expand a note collapsed to an icon"), "NAME.md")
+        self.add_main_option("uncollapse", 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             _("Take a note off the desktop and send it to the archive"), "NAME.md")
+        self.add_main_option("tag", ord("t"), GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             _("With --new: a new note with #TAG. Alone: the archive filtered by #TAG"), "TAG")
+        self.add_main_option("background", ord("b"), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             _("Only restore the pinned notes"), None)
+        self.add_main_option("notes-dir", 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             _("Folder where the notes are stored (default: ~/Notes)"), "DIR")
+
+    def do_startup(self):
+        Adw.Application.do_startup(self)
+        # no hold(): with no windows open the process exits by itself and uses no resources;
+        # at launch (autostart or a click on an icon) it starts again and restores the pinned notes
+        css = Gtk.CssProvider()
+        css.load_from_data(CSS)
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(), css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        for name, cb, accel in (("new", lambda *_: self.open_note(), "<Ctrl>n"),
+                                ("archive", lambda *_: self.show_archive(), "<Ctrl>e"),
+                                ("quit", lambda *_: self.quit_app(), "<Ctrl>q")):
+            action = Gio.SimpleAction.new(name, None)
+            action.connect("activate", cb)
+            self.add_action(action)
+            self.set_accels_for_action(f"app.{name}", [accel])
+        self.set_accels_for_action("window.close", ["<Ctrl>w"])
+        for sig in (signal.SIGTERM, signal.SIGINT):
+            GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, sig, self.quit_app)
+        self.load_state()
+
+    def do_command_line(self, cmdline):
+        opts = cmdline.get_options_dict()
+        if not self.restored:
+            self.restored = True
+            for name in self.pinned:
+                if (NOTE_DIR / name).exists():
+                    self.open_note(NOTE_DIR / name)
+        tag_value = opts.lookup_value("tag", None)
+        tag = tag_value.get_string() if tag_value is not None else ""
+        if tag and re.fullmatch(r"[\w-]+", tag):
+            if opts.contains("new"):
+                self.new_tagged_note(tag)
+            else:
+                self.show_archive(tag)
+            return 0
+        target = self._note_arg(opts, "open")
+        if target:
+            self.open_note(target)
+        elif (target := self._note_arg(opts, "uncollapse")):
+            self.collapsed.discard(target.name)
+            self.save_state()
+            self.refresh_archive()
+        elif opts.contains("new"):
+            self.open_note()
+        elif not opts.contains("background"):
+            self.show_archive()
+        return 0
+
+    @staticmethod
+    def _note_arg(opts, key):
+        value = opts.lookup_value(key, None)
+        name = value.get_string() if value is not None else ""
+        if name and Path(name).name == name and name.endswith(".md") and (NOTE_DIR / name).exists():
+            return NOTE_DIR / name
+        return None
+
+    # state: notes pinned on the desktop (open windows) and their sizes
+    def load_state(self):
+        try:
+            data = json.loads(STATE_FILE.read_text())
+        except (OSError, ValueError):
+            data = {}
+        self.pinned = list(data.get("pinned", []))
+        self.sizes = {k: tuple(v) for k, v in data.get("sizes", {}).items()}
+        self.colors = dict(data.get("colors", {}))
+        self.collapsed = set(data.get("collapsed", []))
+
+    def save_state(self):
+        for win in self.windows.values():
+            win.flush()
+            self.sizes[win.path.name] = win.current_size()
+        pinned = [p.name for p in self.windows if p.exists()]
+        self.collapsed = {n for n in self.collapsed if (NOTE_DIR / n).exists()} - set(pinned)
+        live = {p.name for p in self.windows} | {p.name for p in NOTE_DIR.glob("*.md")}
+        sizes = {k: v for k, v in self.sizes.items() if k in live}
+        colors = {k: v for k, v in self.colors.items() if k in live}
+        NOTE_DIR.mkdir(parents=True, exist_ok=True)
+        save_text(STATE_FILE, json.dumps({"pinned": pinned, "collapsed": sorted(self.collapsed),
+                                          "sizes": sizes, "colors": colors}))
+
+    def quit_app(self, *_):
+        self.save_state()  # open notes stay pinned at the next start
+        self.quit()
+        return GLib.SOURCE_REMOVE
+
+    def new_tagged_note(self, tag: str):
+        path = new_note_path()
+        save_text(path, f"\n\n#{tag}\n")
+        self.cursor_start.add(path.name)
+        self.open_note(path)
+
+    def open_note(self, path: Path | None = None):
+        win = self.windows.get(path) if path else None
+        if path:
+            self.collapsed.discard(path.name)
+        if win is None:
+            win = NoteWindow(self, path)
+            self.windows[win.path] = win
+            self.save_state()
+        win.present()
+
+    def show_archive(self, tag=None):
+        if self.archive is None:
+            self.archive = ArchiveWindow(self)
+        if tag is not None:
+            self.archive.open_tag(tag)
+        self.archive.refresh()
+        self.archive.present()
+
+    def refresh_archive(self):
+        if self.archive is not None:
+            self.archive.refresh()
+
+
+if __name__ == "__main__":
+    GLib.set_prgname(APP_ID)
+    sys.exit(NoteApp().run(sys.argv))

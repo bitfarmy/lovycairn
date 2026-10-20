@@ -1,0 +1,7 @@
+dist/
+tests/out/
+tests/out-it/
+tests/.wallpaper.png
+__pycache__/
+*.mo
+*.zip

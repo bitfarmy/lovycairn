@@ -1,0 +1,546 @@
+# Italian translation of LovyCairn.
+# Copyright (C) 2026 LovyCairn contributors
+# This file is distributed under the same license as the LovyCairn package.
+msgid ""
+msgstr ""
+"Project-Id-Version: lovycairn\n"
+"Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
+"POT-Creation-Date: 2026-10-20 21:11+0200\n"
+"PO-Revision-Date: 2026-10-20 20:00+0200\n"
+"Last-Translator: LovyCairn contributors\n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: extension/compat.js:25
+msgid "Icons on the desktop"
+msgstr "Icone sul desktop"
+
+#: extension/compat.js:28
+msgid "“New group…” in the desktop menu"
+msgstr "«Nuovo gruppo…» nel menu del desktop"
+
+#: extension/compat.js:31
+msgid "“Add to Desktop” in the app menu"
+msgstr "«Aggiungi al desktop» nel menu delle app"
+
+#: extension/compat.js:33
+msgid "Keyboard shortcuts"
+msgstr "Scorciatoie da tastiera"
+
+#: extension/compat.js:35
+msgid "Project menus"
+msgstr "Menu dei progetti"
+
+#: extension/compat.js:38
+msgid "Opening projects in workspaces"
+msgstr "Apertura dei progetti negli spazi di lavoro"
+
+#: extension/compat.js:93
+msgid "LovyCairn: some features are off"
+msgstr "LovyCairn: alcune funzioni sono disattivate"
+
+#: extension/compat.js:94
+#, javascript-format
+msgid ""
+"Turned off: %s.\n"
+"GNOME Shell %s changed parts that LovyCairn relies on. How to fix: update "
+"LovyCairn to its latest version; if it is already the latest, open an issue "
+"and paste the details (“Copy details”)."
+msgstr ""
+"Disattivate: %s.\n"
+"GNOME Shell %s ha cambiato parti su cui LovyCairn si appoggia. Come "
+"risolvere: aggiorna LovyCairn all'ultima versione; se è già l'ultima, apri "
+"una segnalazione e incolla i dettagli («Copia dettagli»)."
+
+#: extension/compat.js:101
+msgid "Open the project page"
+msgstr "Apri la pagina del progetto"
+
+#: extension/compat.js:103
+msgid "Copy details"
+msgstr "Copia dettagli"
+
+#: extension/extension.js:214 extension/extension.js:981
+msgid "Remove from Desktop"
+msgstr "Rimuovi dal desktop"
+
+#: extension/extension.js:214
+msgid "Add to Desktop"
+msgstr "Aggiungi al desktop"
+
+#: extension/extension.js:302 extension/groups.js:704 extension/groups.js:752
+#, javascript-format
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] "%s elemento"
+msgstr[1] "%s elementi"
+
+#: extension/extension.js:417
+msgid "not a git repo"
+msgstr "non è un repo git"
+
+#: extension/extension.js:609
+msgid "not a git repository"
+msgstr "non è un repository git"
+
+#: extension/extension.js:621
+#, javascript-format
+msgid "%s changed"
+msgid_plural "%s changed"
+msgstr[0] "%s modificato"
+msgstr[1] "%s modificati"
+
+#: extension/extension.js:621
+#, javascript-format
+msgid "%s new"
+msgid_plural "%s new"
+msgstr[0] "%s nuovo"
+msgstr[1] "%s nuovi"
+
+#: extension/extension.js:622
+msgid "all saved"
+msgstr "tutto salvato"
+
+#: extension/extension.js:632
+msgid "CHANGES"
+msgstr "MODIFICHE"
+
+#: extension/extension.js:644
+#, javascript-format
+msgid "… and %s more"
+msgstr "… e altri %s"
+
+#: extension/extension.js:648
+msgid "RECENT COMMITS"
+msgstr "ULTIMI COMMIT"
+
+#: extension/extension.js:787
+msgid "No terminal found"
+msgstr "Nessun terminale trovato"
+
+#: extension/extension.js:787
+msgid "Choose one in the LovyCairn preferences."
+msgstr "Sceglilo nelle preferenze di LovyCairn."
+
+#: extension/extension.js:831
+msgid "No active project"
+msgstr "Nessun progetto attivo"
+
+#: extension/extension.js:831
+msgid ""
+"Open a project from the desktop, or bring its terminal to the front, then "
+"try again."
+msgstr ""
+"Apri un progetto dal desktop, o porta in primo piano il suo terminale, e "
+"riprova."
+
+#: extension/extension.js:841
+msgid "LovyCairn Notes is not installed"
+msgstr "LovyCairn Note non è installato"
+
+#: extension/extension.js:841
+msgid "Install the notes app to use project notes (see the README)."
+msgstr ""
+"Installa l'app delle note per usare le note dei progetti (vedi il README)."
+
+#: extension/extension.js:852
+msgid "Add project"
+msgstr "Aggiungi progetto"
+
+#: extension/extension.js:853
+msgid ""
+"Folder of the project, for example ~/code/my-app. The project appears on the "
+"desktop."
+msgstr ""
+"Cartella del progetto, ad esempio ~/code/my-app. Il progetto compare sul "
+"desktop."
+
+#: extension/extension.js:854
+msgid "Add"
+msgstr "Aggiungi"
+
+#: extension/extension.js:857
+msgid "This folder does not exist."
+msgstr "Questa cartella non esiste."
+
+#: extension/extension.js:907 extension/extension.js:963
+msgid "Open"
+msgstr "Apri"
+
+#: extension/extension.js:914
+msgid "Open project"
+msgstr "Apri il progetto"
+
+#: extension/extension.js:915
+msgid "Open in a new workspace"
+msgstr "Apri in un nuovo spazio di lavoro"
+
+#: extension/extension.js:916
+msgid "Open in this workspace"
+msgstr "Apri in questo spazio di lavoro"
+
+#: extension/extension.js:917
+msgid "New terminal here"
+msgstr "Nuovo terminale qui"
+
+#: extension/extension.js:918
+msgid "Open folder"
+msgstr "Apri cartella"
+
+#: extension/extension.js:926
+msgid "Close git monitor"
+msgstr "Chiudi monitor git"
+
+#: extension/extension.js:926
+msgid "Git monitor"
+msgstr "Monitor git"
+
+#: extension/extension.js:930
+msgid "New project note"
+msgstr "Nuova nota del progetto"
+
+#: extension/extension.js:931
+msgid "Project notes"
+msgstr "Note del progetto"
+
+#: extension/extension.js:938
+msgid "Click opens in a new workspace"
+msgstr "Il clic apre in un nuovo spazio di lavoro"
+
+#: extension/extension.js:953 extension/extension.js:970
+msgid "Move out of group"
+msgstr "Sposta fuori dal gruppo"
+
+#: extension/extension.js:955 extension/extension.js:972
+#: extension/groups.js:520 extension/groups.js:536
+msgid "New group…"
+msgstr "Nuovo gruppo…"
+
+#: extension/extension.js:957 extension/extension.js:974
+msgid "Arrange icons"
+msgstr "Riordina icone"
+
+#: extension/extension.js:964
+msgid "Rename…"
+msgstr "Rinomina…"
+
+#: extension/extension.js:965
+msgid "New subgroup…"
+msgstr "Nuovo sottogruppo…"
+
+#: extension/extension.js:976
+msgid "Ungroup (contents stay)"
+msgstr "Sciogli gruppo (i contenuti restano)"
+
+#: extension/extension.js:981
+msgid "Remove"
+msgstr "Rimuovi"
+
+#: extension/groups.js:28
+msgid "Automatic"
+msgstr "Automatico"
+
+#: extension/groups.js:29
+msgid "Green"
+msgstr "Verde"
+
+#: extension/groups.js:29
+msgid "Lime"
+msgstr "Lime"
+
+#: extension/groups.js:29
+msgid "Yellow"
+msgstr "Giallo"
+
+#: extension/groups.js:29
+msgid "Orange"
+msgstr "Arancio"
+
+#: extension/groups.js:30
+msgid "Red"
+msgstr "Rosso"
+
+#: extension/groups.js:30
+msgid "Pink"
+msgstr "Rosa"
+
+#: extension/groups.js:30
+msgid "Violet"
+msgstr "Viola"
+
+#: extension/groups.js:30
+msgid "Indigo"
+msgstr "Indaco"
+
+#: extension/groups.js:31
+msgid "Blue"
+msgstr "Blu"
+
+#: extension/groups.js:31
+msgid "Cyan"
+msgstr "Ciano"
+
+#: extension/groups.js:31
+msgid "Teal"
+msgstr "Turchese"
+
+#: extension/groups.js:31
+msgid "Gray"
+msgstr "Grigio"
+
+#: extension/groups.js:35
+msgid "Cube"
+msgstr "Cubo"
+
+#: extension/groups.js:35
+msgid "Folder with code"
+msgstr "Cartella con codice"
+
+#: extension/groups.js:35
+msgid "Board"
+msgstr "Lavagna"
+
+#: extension/groups.js:35
+msgid "Flag"
+msgstr "Bandiera"
+
+#: extension/groups.js:36
+msgid "Package"
+msgstr "Pacchetto"
+
+#: extension/groups.js:36
+msgid "Engineering"
+msgstr "Ingegneria"
+
+#: extension/groups.js:36
+msgid "Terminal"
+msgstr "Terminale"
+
+#: extension/groups.js:37
+msgid "Server"
+msgstr "Server"
+
+#: extension/groups.js:37
+msgid "Laboratory"
+msgstr "Laboratorio"
+
+#: extension/groups.js:42
+msgid "Folder"
+msgstr "Cartella"
+
+#: extension/groups.js:42
+msgid "Solid folder"
+msgstr "Cartella piena"
+
+#: extension/groups.js:42
+msgid "Stack"
+msgstr "Pila"
+
+#: extension/groups.js:42
+msgid "Grid"
+msgstr "Griglia"
+
+#: extension/groups.js:43
+msgid "Star"
+msgstr "Stella"
+
+#: extension/groups.js:43
+msgid "Documents"
+msgstr "Documenti"
+
+#: extension/groups.js:43
+msgid "Bookmark"
+msgstr "Segnalibro"
+
+#: extension/groups.js:162
+msgid "Enter a name."
+msgstr "Scrivi un nome."
+
+#: extension/groups.js:164
+msgid "The name cannot contain “/”."
+msgstr "Il nome non può contenere «/»."
+
+#: extension/groups.js:166
+msgid "The name cannot start with a dot."
+msgstr "Il nome non può iniziare con un punto."
+
+#: extension/groups.js:168
+msgid "An item with this name already exists."
+msgstr "Esiste già un elemento con questo nome."
+
+#: extension/groups.js:282
+msgid "New group"
+msgstr "Nuovo gruppo"
+
+#: extension/groups.js:282
+msgid "Create"
+msgstr "Crea"
+
+#: extension/groups.js:288
+msgid "Rename group"
+msgstr "Rinomina gruppo"
+
+#: extension/groups.js:288
+msgid "Rename"
+msgstr "Rinomina"
+
+#: extension/groups.js:342
+msgid "Group name"
+msgstr "Nome del gruppo"
+
+#: extension/groups.js:392
+msgid "Cancel"
+msgstr "Annulla"
+
+#: extension/groups.js:407
+msgid "Project documentation"
+msgstr "Documentazione del progetto"
+
+#: extension/groups.js:408
+msgid ""
+"Pages to open in the browser when you open the project. Separate them with a "
+"space. Leave empty to not open the browser."
+msgstr ""
+"Pagine da aprire nel browser quando apri il progetto. Separale con uno "
+"spazio. Lascia vuoto per non aprire il browser."
+
+#: extension/groups.js:409
+msgid "Save"
+msgstr "Salva"
+
+#: extension/groups.js:413
+#, javascript-format
+msgid "Invalid address: %s (must start with https://, http:// or file://)"
+msgstr ""
+"Indirizzo non valido: %s (deve iniziare con https://, http:// o file://)"
+
+#: extension/groups.js:455
+#, javascript-format
+msgid "Docs in browser (%s page)…"
+msgid_plural "Docs in browser (%s pages)…"
+msgstr[0] "Documentazione nel browser (%s pagina)…"
+msgstr[1] "Documentazione nel browser (%s pagine)…"
+
+#: extension/groups.js:455
+msgid "Docs in browser…"
+msgstr "Documentazione nel browser…"
+
+#: extension/groups.js:482
+msgid "Color"
+msgstr "Colore"
+
+#: extension/groups.js:496
+msgid "Shape"
+msgstr "Forma"
+
+#: extension/groups.js:513
+msgid "Move to…"
+msgstr "Sposta in…"
+
+#: extension/groups.js:538
+msgid "Add project…"
+msgstr "Aggiungi progetto…"
+
+#: extension/groups.js:708
+msgid "Empty group. Drag desktop icons here, or use “Move to…” in their menu."
+msgstr ""
+"Gruppo vuoto. Trascina qui le icone del desktop, oppure usa «Sposta in…» nel "
+"loro menu."
+
+#: extension/groups.js:809
+msgid "Search a project, app or group…"
+msgstr "Cerca un progetto, un'app o un gruppo…"
+
+#: extension/groups.js:840
+msgid "No results"
+msgstr "Nessun risultato"
+
+#: extension/notes.js:37
+msgid "Empty note"
+msgstr "Nota vuota"
+
+#: extension/prefs.js:12
+msgid "LovyCairn"
+msgstr "LovyCairn"
+
+#: extension/prefs.js:26
+msgid "Opening a project"
+msgstr "Apertura di un progetto"
+
+#: extension/prefs.js:27
+msgid "Leave a field empty to detect the right command automatically."
+msgstr "Lascia un campo vuoto per rilevare automaticamente il comando giusto."
+
+#: extension/prefs.js:29
+msgid "Terminal command"
+msgstr "Comando del terminale"
+
+#: extension/prefs.js:29
+msgid "{dir} is replaced by the project folder, e.g. kitty --directory {dir}"
+msgstr ""
+"{dir} viene sostituito dalla cartella del progetto, ad es. kitty --directory "
+"{dir}"
+
+#: extension/prefs.js:30
+msgid "Browser command"
+msgstr "Comando del browser"
+
+#: extension/prefs.js:30
+msgid "{url} is replaced by the address, e.g. firefox --new-window {url}"
+msgstr ""
+"{url} viene sostituito dall'indirizzo, ad es. firefox --new-window {url}"
+
+#: extension/prefs.js:33
+msgid "Notes"
+msgstr "Note"
+
+#: extension/prefs.js:35
+msgid "Collapsed notes on the desktop"
+msgstr "Note ridotte sul desktop"
+
+#: extension/prefs.js:36
+msgid ""
+"Draw collapsed notes as sticky icons and remember where note windows were."
+msgstr ""
+"Disegna le note ridotte come icone adesive e ricorda dove stavano le "
+"finestre delle note."
+
+#: extension/prefs.js:40
+msgid "Notes app command"
+msgstr "Comando dell'app delle note"
+
+#: extension/prefs.js:40
+msgid "Empty: lovycairn-notes, if installed"
+msgstr "Vuoto: lovycairn-notes, se installato"
+
+#: extension/prefs.js:41
+msgid "Notes folder"
+msgstr "Cartella delle note"
+
+#: extension/prefs.js:41
+msgid "Empty: the Notes folder in your home"
+msgstr "Vuoto: la cartella Notes nella tua home"
+
+#: extension/prefs.js:45
+msgid "Shortcuts"
+msgstr "Scorciatoie"
+
+#: extension/prefs.js:46
+msgid "Edit with the keyboard shortcut syntax, for example &lt;Super&gt;j."
+msgstr "Modifica con la sintassi delle scorciatoie, ad esempio &lt;Super&gt;j."
+
+#: extension/prefs.js:48
+msgid "New note"
+msgstr "Nuova nota"
+
+#: extension/prefs.js:48
+msgid "New note for the active project"
+msgstr "Nuova nota del progetto attivo"
+
+#: extension/prefs.js:49
+msgid "Quick picker"
+msgstr "Selettore rapido"

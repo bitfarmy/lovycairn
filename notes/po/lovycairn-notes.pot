@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the lovycairn-notes package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: lovycairn-notes\n"
+"Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
+"POT-Creation-Date: 2026-10-20 21:11+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: notes/lovycairn-notes:55
+msgid "Yellow"
+msgstr ""
+
+#: notes/lovycairn-notes:56
+msgid "Orange"
+msgstr ""
+
+#: notes/lovycairn-notes:57
+msgid "Pink"
+msgstr ""
+
+#: notes/lovycairn-notes:58
+msgid "Green"
+msgstr ""
+
+#: notes/lovycairn-notes:59
+msgid "Blue"
+msgstr ""
+
+#: notes/lovycairn-notes:60
+msgid "Lilac"
+msgstr ""
+
+#: notes/lovycairn-notes:61
+msgid "Gray"
+msgstr ""
+
+#: notes/lovycairn-notes:101
+msgid "Empty note"
+msgstr ""
+
+#: notes/lovycairn-notes:190 notes/lovycairn-notes:365
+msgid "New note (Ctrl+N)"
+msgstr ""
+
+#: notes/lovycairn-notes:192
+msgid "Archive (Ctrl+E)"
+msgstr ""
+
+#: notes/lovycairn-notes:196 notes/lovycairn-notes:454
+msgid "Move to trash"
+msgstr ""
+
+#: notes/lovycairn-notes:199
+msgid "Collapse to an icon on the desktop"
+msgstr ""
+
+#: notes/lovycairn-notes:217
+msgid "Note color"
+msgstr ""
+
+#: notes/lovycairn-notes:351 notes/lovycairn-notes:359
+msgid "Notes"
+msgstr ""
+
+#: notes/lovycairn-notes:360
+msgid "Projects"
+msgstr ""
+
+#: notes/lovycairn-notes:368
+msgid "Trash"
+msgstr ""
+
+#: notes/lovycairn-notes:372 notes/lovycairn-notes:420
+msgid "Search notes…"
+msgstr ""
+
+#: notes/lovycairn-notes:383
+msgid "No notes"
+msgstr ""
+
+#: notes/lovycairn-notes:420
+msgid "Search projects…"
+msgstr ""
+
+#: notes/lovycairn-notes:454
+msgid "Restore"
+msgstr ""
+
+#: notes/lovycairn-notes:526
+msgid "Open an empty note right away"
+msgstr ""
+
+#: notes/lovycairn-notes:528
+msgid "Open the archive"
+msgstr ""
+
+#: notes/lovycairn-notes:530
+msgid "Expand a note collapsed to an icon"
+msgstr ""
+
+#: notes/lovycairn-notes:532
+msgid "Take a note off the desktop and send it to the archive"
+msgstr ""
+
+#: notes/lovycairn-notes:534
+msgid "With --new: a new note with #TAG. Alone: the archive filtered by #TAG"
+msgstr ""
+
+#: notes/lovycairn-notes:536
+msgid "Only restore the pinned notes"
+msgstr ""
+
+#: notes/lovycairn-notes:538
+msgid "Folder where the notes are stored (default: ~/Notes)"
+msgstr ""

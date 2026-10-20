@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 LovyCairn contributors
+# Nautilus script: right-click a folder → Scripts → "Add as LovyCairn project".
+set -u
+for folder in "$@"; do
+  [ -d "$folder" ] && lovycairn-add -- "$folder"
+done
+[ $# -eq 0 ] && [ -n "${NAUTILUS_SCRIPT_CURRENT_URI:-}" ] && lovycairn-add -- "$(python3 -c 'import sys,urllib.parse; print(urllib.parse.unquote(urllib.parse.urlparse(sys.argv[1]).path))' "$NAUTILUS_SCRIPT_CURRENT_URI")"
+exit 0

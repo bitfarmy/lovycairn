@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=LovyCairn Notes
+Name[it]=LovyCairn Note
+Comment=Sticky notes for your projects
+Comment[it]=Note adesive per i tuoi progetti
+Exec=lovycairn-notes
+Icon=io.github.bitfarmy.LovyCairnNotes
+Terminal=false
+Categories=Utility;TextEditor;GTK;
+StartupWMClass=io.github.bitfarmy.LovyCairnNotes
+X-GNOME-UsesNotifications=false

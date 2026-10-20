@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 LovyCairn contributors
+# lovycairn-add — add a folder as a project on the desktop.
+#   lovycairn-add [options] <folder> [name]
+#     --color '#rrggbb'   color of the icon
+#     --shape <name>      cube, folder-code, board, flag, package-x-generic, applications-engineering,
+#                         utilities-terminal, network-server, applications-science
+#     --docs <url>        page to open in the browser with the project (repeat for more pages)
+#     --desktop <dir>     desktop folder (default: your Desktop)
+set -euo pipefail
+
+color=""; shape=""; docs=(); desktop=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --color)   color="$2"; shift 2 ;;
+    --shape)   shape="$2"; shift 2 ;;
+    --docs)    docs+=("$2"); shift 2 ;;
+    --desktop) desktop="$2"; shift 2 ;;
+    -h|--help) sed -n 4,10p "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    --) shift; break ;;
+    -*) echo "lovycairn-add: unknown option $1" >&2; exit 2 ;;
+    *) break ;;
+  esac
+done
+[ $# -ge 1 ] || { echo "usage: lovycairn-add [options] <folder> [name]" >&2; exit 2; }
+
+dir="$(realpath -- "$1")"
+[ -d "$dir" ] || { echo "lovycairn-add: not a folder: $dir" >&2; exit 1; }
+name="${2:-$(basename -- "$dir")}"
+[ -n "$desktop" ] || desktop="$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Desktop")"
+mkdir -p -- "$desktop"
+tag="$(printf '%s' "$name" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_-]+/-/g; s/^-+|-+$//g')"
+[ -n "$tag" ] || tag="project"
+file="$desktop/project-$tag.desktop"
+if [ -n "$color" ] && ! printf '%s' "$color" | grep -Eq '^#[0-9a-fA-F]{6}$'; then
+  echo "lovycairn-add: the color must look like #3a9bec" >&2; exit 2
+fi
+# the .desktop format forbids newlines and uses ';' as a list separator
+docs_joined=""
+for u in "${docs[@]:-}"; do
+  [ -n "$u" ] || continue
+  printf '%s' "$u" | grep -Eq '^(https?|file)://[^[:space:];]+$' || { echo "lovycairn-add: invalid address: $u" >&2; exit 2; }
+  docs_joined+="${docs_joined:+;}$u"
+done
+# Exec quoting from the Desktop Entry spec: double quotes, with \ " ` $ escaped (twice in the file) and % doubled
+quoted="\"$(printf '%s' "$dir" | sed -e 's/%/%%/g' -e 's/[\\"`$]/\\\\&/g')\""
+{
+  echo "[Desktop Entry]"
+  echo "Type=Application"
+  echo "Name=$name"
+  echo "Exec=gio open $quoted"
+  echo "Icon=folder"
+  echo "Terminal=false"
+  echo "Categories=Development;"
+  echo "X-LovyCairn-Path=$dir"
+  echo "X-LovyCairn-Tag=$tag"
+  [ -z "$color" ] || echo "X-LovyCairn-Color=$color"
+  [ -z "$shape" ] || echo "X-LovyCairn-Icon=$shape"
+  [ -z "$docs_joined" ] || echo "X-LovyCairn-Docs=$docs_joined"
+} > "$file"
+chmod +x "$file"
+echo "created: $file"

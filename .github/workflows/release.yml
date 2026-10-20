@@ -1,0 +1,34 @@
+name: Release
+
+# Pushing a tag vX.Y.Z builds the extension zip and attaches it to a GitHub release.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.fedoraproject.org/fedora:44
+    steps:
+      - name: Install dependencies
+        run: dnf -y -q install --setopt=install_weak_deps=False gnome-shell gjs glib2 gettext desktop-file-utils git nodejs python3 python3-gobject unzip zip gh
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          scripts/dev.sh check
+          scripts/dev.sh pack
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" dist/*.zip --clobber
+          else
+            gh release create "$tag" dist/*.zip --title "LovyCairn ${tag#v}" --generate-notes
+          fi

@@ -1,0 +1,11 @@
+{
+  "uuid": "lovycairn@bitfarmy.github.io",
+  "name": "LovyCairn",
+  "description": "Your projects as icons on the desktop: git status, groups, colors, one click to open terminal and docs in a fresh workspace, project notes and a quick picker.",
+  "shell-version": ["50", "51"],
+  "url": "https://github.com/bitfarmy/lovycairn",
+  "settings-schema": "org.gnome.shell.extensions.lovycairn",
+  "gettext-domain": "lovycairn",
+  "version": 1,
+  "version-name": "1.0.0"
+}

@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 LovyCairn contributors
+# lovycairn-doctor — checks that LovyCairn works on this system and tells you how to fix what does not.
+#   lovycairn-doctor            human readable check
+#   lovycairn-doctor --report   the same plus the shell log, ready to paste in an issue
+#   lovycairn-doctor --watch    silent; notifies ONCE when GNOME changed to a version LovyCairn is not marked for
+#                               (this is what the autostart entry runs)
+set -u
+UUID="lovycairn@bitfarmy.github.io"
+URL="https://github.com/bitfarmy/lovycairn"
+mode="${1:-}"
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/lovycairn"
+ext_dir="$HOME/.local/share/gnome-shell/extensions/$UUID"
+
+shell_version="$(gnome-shell --version 2>/dev/null | grep -oE '[0-9]+(\.[0-9]+)*' | head -1 || true)"
+shell_major="${shell_version%%.*}"
+supported="$(python3 - "$ext_dir/metadata.json" <<'PY' 2>/dev/null || true
+import json, sys
+print(' '.join(json.load(open(sys.argv[1])).get('shell-version', [])))
+PY
+)"
+version="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("version-name","?"))' "$ext_dir/metadata.json" 2>/dev/null || echo "?")"
+info="$(gnome-extensions info "$UUID" 2>/dev/null || true)"
+ext_state="$(printf '%s\n' "$info" | sed -n 's/^ *State: *//p' | head -1)"
+supports=false; for v in $supported; do [ "$v" = "$shell_major" ] && supports=true; done
+
+notify() { command -v notify-send >/dev/null && notify-send -a LovyCairn -i dialog-warning-symbolic "$1" "$2"; echo "$1 — $2"; }
+
+if [ "$mode" = "--watch" ]; then
+  [ -d "$ext_dir" ] || exit 0
+  mkdir -p "$state_dir"
+  last="$(cat "$state_dir/shell-major" 2>/dev/null || true)"
+  echo "$shell_major" > "$state_dir/shell-major"
+  if [ -n "$last" ] && [ "$last" != "$shell_major" ] && ! $supports; then
+    notify "GNOME was updated (now $shell_major)" "LovyCairn $version is only marked for GNOME ${supported:-?}. Check for a new release: $URL/releases — or run: lovycairn-doctor"
+  elif [ "$ext_state" = "ERROR" ] || [ "$ext_state" = "OUT OF DATE" ]; then
+    key="$state_dir/notified-$shell_major-$ext_state"
+    [ -f "$key" ] || { touch "$key"; notify "LovyCairn could not start ($ext_state)" "Run: lovycairn-doctor — then update LovyCairn: $URL/releases"; }
+  fi
+  exit 0
+fi
+
+ok()   { printf '  \033[32m✓\033[0m %s\n' "$1"; }
+bad()  { printf '  \033[31m✗\033[0m %s\n' "$1"; problems=$((problems + 1)); }
+warn() { printf '  \033[33m!\033[0m %s\n' "$1"; }
+problems=0
+echo "LovyCairn $version · GNOME Shell ${shell_version:-unknown}"
+[ -d "$ext_dir" ] && ok "extension installed in $ext_dir" || bad "extension not installed — run scripts/install.sh"
+if [ -n "$supported" ]; then
+  $supports && ok "marked for GNOME $supported" || bad "marked for GNOME $supported but you run $shell_major — look for a newer release: $URL/releases"
+fi
+case "$ext_state" in
+  ACTIVE|ENABLED) ok "extension is running" ;;
+  "") bad "GNOME does not know the extension yet — log out and in" ;;
+  INITIALIZED) warn "extension is installed but not enabled — run: gnome-extensions enable $UUID" ;;
+  *) bad "extension state: $ext_state — see the log below; update LovyCairn or open an issue" ;;
+esac
+command -v git >/dev/null && ok "git found" || bad "git not found (needed for the status lines)"
+terminal=""; for t in ptyxis kgx gnome-terminal konsole kitty alacritty foot wezterm xterm; do command -v "$t" >/dev/null && { terminal="$t"; break; }; done
+[ -n "$terminal" ] && ok "terminal: $terminal" || warn "no known terminal found — set one in the LovyCairn preferences"
+command -v lovycairn-notes >/dev/null && ok "notes app installed" || warn "notes app not installed (optional): scripts/install.sh installs it"
+desktop="$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Desktop")"
+n="$(grep -rl '^X-LovyCairn-Path=' "$desktop" 2>/dev/null | wc -l)"
+echo "  · $n project launcher(s) on $desktop"
+
+if [ "$mode" = "--report" ] || [ "$problems" -gt 0 ]; then
+  echo; echo "Shell log (LovyCairn lines):"
+  journalctl --user -b --no-pager 2>/dev/null | grep -iE 'lovycairn' | tail -15 | sed 's/^/  /' || true
+fi
+echo
+if [ "$problems" -eq 0 ]; then echo "Everything looks fine."; else
+  echo "How to fix: 1) update to the latest release: $URL/releases  2) log out and in  3) if it still fails, open an issue and paste this output: $URL/issues"
+fi
+exit 0
