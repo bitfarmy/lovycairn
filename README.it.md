@@ -148,7 +148,7 @@ Scorciatoie, comandi del terminale e del browser e cartella delle note si cambia
 | `X-LovyCairn-Color` | Colore `#rrggbb` dell'icona |
 | `X-LovyCairn-Icon` | `cube`, `folder-code`, `board`, `flag`, oppure un'icona a linee: `package-x-generic`, `applications-engineering`, `utilities-terminal`, `network-server`, `applications-science` |
 | `X-LovyCairn-Docs` | Pagine da aprire con il progetto, separate da `;` |
-| `X-LovyCairn-NewWorkspace` | `false` = il clic apre nello spazio di lavoro attuale |
+| `X-LovyCairn-NewWorkspace` | assente = il clic chiede dove aprire; `true` = sempre un nuovo spazio; `false` = sempre quello attuale |
 
 Un gruppo è una cartella che contiene un file `.group` con righe facoltative `color=#rrggbb` e `icon=folder|folder-solid|stack|grid|star|folder-documents|user-bookmarks`.
 </details>

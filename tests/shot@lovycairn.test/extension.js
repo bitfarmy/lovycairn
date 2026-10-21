@@ -164,6 +164,40 @@ const SCENES = {
         say(`launch new → active=${wm.get_active_workspace_index()} monitor workspace=${m ? m.ws.index() : 'none'} visible=${m?.actor.visible}`);
     },
 
+    // A click on a project asks where to open it; cancelling opens nothing; a fixed choice skips the question.
+    async ask() {
+        await wait(6000);
+        const ext = lc(), g = ext._groups, home = GLib.get_home_dir(), wm = global.workspace_manager;
+        const trace = `${home}/trace`;
+        GLib.mkdir_with_parents(trace, 0o755);
+        ext._settings.set_string('terminal-command', `sh -c 'echo "$0" >> ${trace}/terminal.log' {dir}`);
+        ext._settings.set_string('browser-command', `sh -c 'echo "$0" >> ${trace}/browser.log' {url}`);
+        const atlas = [...g.all()].find(v => v.rel === 'work/project-atlas-api.desktop');
+        const name = 'work/project-atlas-api.desktop';
+        const proj = {_project: `${home}/code/atlas-api`, _app: atlas.app};
+        const lines = () => { try { return new TextDecoder().decode(GLib.file_get_contents(`${trace}/terminal.log`)[1]).trim().split('\n').length; } catch (e) { return 0; } };
+        const state = e => say(`${e} → dialog=${!!ext._whereDialog} terminal launches=${lines()} monitor=${ext._mons.has(name)} default=${ext._whereToOpen(atlas.app)}`);
+        state('before');
+        ext._launch(proj, name); await wait(1500);
+        state('after click (must ask, open nothing)'); await snap('ask-dialog');
+        ext._whereDialog?._finish('here'); await wait(2500);
+        state('chose “this workspace”');
+        ext._closeMonitor(name);
+        proj._lastLaunch = 0; ext._launch(proj, name); await wait(1200);
+        ext._whereDialog?._finish(null); await wait(1500);
+        state('cancelled (nothing more)');
+        // fixed choice on the project: no dialog
+        g.setAppearance(`${g.root}/work/project-atlas-api.desktop`, 'project', 'X-LovyCairn-NewWorkspace', 'false'); await wait(1800);
+        const app2 = [...g.all()].find(v => v.rel === name).app;
+        say(`fixed choice → ${ext._whereToOpen(app2)}`);
+        proj._app = app2; proj._lastLaunch = 0; ext._launch(proj, name); await wait(2500);
+        state('fixed “here”: opened without asking');
+        ext._showMenu(ext._icons.get('project-dotfiles.desktop'), 'project-dotfiles.desktop'); await wait(900);
+        const find = (a, text) => { if (a.text?.startsWith?.(text)) return a; for (const c of a.get_children?.() ?? []) { const r = find(c, text); if (r) return r; } return null; };
+        let a = find(ext._menu.actor, 'Click on this project'); while (a && !a.menu) a = a.get_parent();
+        a.menu.open(true); await wait(900); await snap('ask-menu');
+    },
+
     // Opening a project: terminal, browser and workspace behavior, with fake commands that leave a trace.
     async launch() {
         await wait(5000);

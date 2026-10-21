@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lovycairn\n"
 "Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
-"POT-Creation-Date: 2026-10-21 16:26+0200\n"
+"POT-Creation-Date: 2026-10-21 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Quick picker"
 msgstr ""
 
-#: extension/compat.js:47 extension/extension.js:1015
+#: extension/compat.js:47 extension/extension.js:1065
 msgid "Git monitor"
 msgstr ""
 
@@ -83,174 +83,207 @@ msgstr ""
 msgid "Copy details"
 msgstr ""
 
-#: extension/extension.js:240 extension/extension.js:1070
+#: extension/extension.js:242 extension/extension.js:1123
 msgid "Remove from Desktop"
 msgstr ""
 
-#: extension/extension.js:240
+#: extension/extension.js:242
 msgid "Add to Desktop"
 msgstr ""
 
-#: extension/extension.js:328 extension/groups.js:740 extension/groups.js:788
+#: extension/extension.js:330 extension/groups.js:740 extension/groups.js:788
 #, javascript-format
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:447
+#: extension/extension.js:449
 msgid "not a git repo"
 msgstr ""
 
-#: extension/extension.js:657
+#: extension/extension.js:659
 msgid "not a git repository"
 msgstr ""
 
-#: extension/extension.js:669
+#: extension/extension.js:671
 #, javascript-format
 msgid "%s changed"
 msgid_plural "%s changed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:669
+#: extension/extension.js:671
 #, javascript-format
 msgid "%s new"
 msgid_plural "%s new"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:670
+#: extension/extension.js:672
 msgid "all saved"
 msgstr ""
 
-#: extension/extension.js:680
+#: extension/extension.js:682
 msgid "CHANGES"
 msgstr ""
 
-#: extension/extension.js:692
+#: extension/extension.js:694
 #, javascript-format
 msgid "… and %s more"
 msgstr ""
 
-#: extension/extension.js:696
+#: extension/extension.js:698
 msgid "RECENT COMMITS"
 msgstr ""
 
-#: extension/extension.js:839
+#: extension/extension.js:778
+#, javascript-format
+msgid "Where do I open “%s”?"
+msgstr ""
+
+#: extension/extension.js:782
+msgid "You can fix the choice for this project from the right-click menu."
+msgstr ""
+
+#: extension/extension.js:799 extension/groups.js:405
+msgid "Cancel"
+msgstr ""
+
+#: extension/extension.js:800
+msgid "This workspace"
+msgstr ""
+
+#: extension/extension.js:801
+msgid "New workspace"
+msgstr ""
+
+#: extension/extension.js:889
 msgid "No terminal found"
 msgstr ""
 
-#: extension/extension.js:839
+#: extension/extension.js:889
 msgid "Choose one in the LovyCairn preferences."
 msgstr ""
 
-#: extension/extension.js:883
+#: extension/extension.js:933
 msgid "No active project"
 msgstr ""
 
-#: extension/extension.js:883
+#: extension/extension.js:933
 msgid ""
 "Open a project from the desktop, or bring its terminal to the front, then "
 "try again."
 msgstr ""
 
-#: extension/extension.js:893
+#: extension/extension.js:943
 msgid "LovyCairn Notes is not installed"
 msgstr ""
 
-#: extension/extension.js:893
+#: extension/extension.js:943
 msgid "Install the notes app to use project notes (see the README)."
 msgstr ""
 
-#: extension/extension.js:936
+#: extension/extension.js:986
 msgid "Choose the project folder"
 msgstr ""
 
-#: extension/extension.js:942
+#: extension/extension.js:992
 msgid "Add project"
 msgstr ""
 
-#: extension/extension.js:943
+#: extension/extension.js:993
 msgid ""
 "Folder of the project, for example ~/code/my-app. The project appears on the "
 "desktop."
 msgstr ""
 
-#: extension/extension.js:944
+#: extension/extension.js:994
 msgid "Add"
 msgstr ""
 
-#: extension/extension.js:945
+#: extension/extension.js:995
 msgid "This folder does not exist."
 msgstr ""
 
-#: extension/extension.js:996 extension/extension.js:1052
+#: extension/extension.js:1046 extension/extension.js:1105
 msgid "Open"
 msgstr ""
 
-#: extension/extension.js:1003
+#: extension/extension.js:1053
 msgid "Open project"
 msgstr ""
 
-#: extension/extension.js:1004
+#: extension/extension.js:1054
 msgid "Open in a new workspace"
 msgstr ""
 
-#: extension/extension.js:1005
+#: extension/extension.js:1055
 msgid "Open in this workspace"
 msgstr ""
 
-#: extension/extension.js:1006
+#: extension/extension.js:1056
 msgid "New terminal here"
 msgstr ""
 
-#: extension/extension.js:1007
+#: extension/extension.js:1057
 msgid "Open folder"
 msgstr ""
 
-#: extension/extension.js:1015
+#: extension/extension.js:1065
 msgid "Close git monitor"
 msgstr ""
 
-#: extension/extension.js:1019
+#: extension/extension.js:1069
 msgid "New project note"
 msgstr ""
 
-#: extension/extension.js:1020
+#: extension/extension.js:1070
 msgid "Project notes"
 msgstr ""
 
-#: extension/extension.js:1027
-msgid "Click opens in a new workspace"
+#: extension/extension.js:1078
+msgid "Click on this project…"
 msgstr ""
 
-#: extension/extension.js:1042 extension/extension.js:1059
+#: extension/extension.js:1079
+msgid "Asks where to open"
+msgstr ""
+
+#: extension/extension.js:1079
+msgid "Opens in a new workspace"
+msgstr ""
+
+#: extension/extension.js:1080
+msgid "Opens in this workspace"
+msgstr ""
+
+#: extension/extension.js:1095 extension/extension.js:1112
 msgid "Move out of group"
 msgstr ""
 
-#: extension/extension.js:1044 extension/extension.js:1061
+#: extension/extension.js:1097 extension/extension.js:1114
 #: extension/groups.js:555 extension/groups.js:571
 msgid "New group…"
 msgstr ""
 
-#: extension/extension.js:1046 extension/extension.js:1063
+#: extension/extension.js:1099 extension/extension.js:1116
 msgid "Arrange icons"
 msgstr ""
 
-#: extension/extension.js:1053
+#: extension/extension.js:1106
 msgid "Rename…"
 msgstr ""
 
-#: extension/extension.js:1054
+#: extension/extension.js:1107
 msgid "New subgroup…"
 msgstr ""
 
-#: extension/extension.js:1065
+#: extension/extension.js:1118
 msgid "Ungroup (contents stay)"
 msgstr ""
 
-#: extension/extension.js:1070
+#: extension/extension.js:1123
 msgid "Remove"
 msgstr ""
 
@@ -520,10 +553,6 @@ msgstr ""
 
 #: extension/groups.js:355
 msgid "Group name"
-msgstr ""
-
-#: extension/groups.js:405
-msgid "Cancel"
 msgstr ""
 
 #: extension/groups.js:420

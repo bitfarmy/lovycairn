@@ -13,6 +13,7 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as AppMenuModule from 'resource:///org/gnome/shell/ui/appMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import {ModalDialog} from 'resource:///org/gnome/shell/ui/modalDialog.js';
 import {Extension, gettext as _, ngettext} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 import {Groups, isGroup, countApps, groupColor, groupIcon, applyGroupIcon, applyIcon} from './groups.js';
@@ -122,6 +123,7 @@ export default class LovyCairn extends Extension {
         this._drag?.grab?.dismiss();
         this._menu?.destroy();
         this._menu = null;
+        this._whereDialog?._finish?.(null);
         for (const name of [...this._mons?.keys() ?? []])
             this._closeMonitor(name);
         if (this._wsId)
@@ -758,12 +760,50 @@ export default class LovyCairn extends Extension {
     }
 
     // A click chooses by itself ('auto'); the menu entries force the behavior:
-    //   auto → if the project is already open, go there; otherwise open it in an empty workspace (or in this one, if for that
-    //           project the “Click opens in a new workspace” switch is off);
+    //   auto → if the project is already open, go there; otherwise ASK where to open it, unless the choice was fixed for
+    //           that project (right-click menu, key X-LovyCairn-NewWorkspace: absent = ask, true = new, false = here);
     //   new  → always open it in an empty workspace, even if it is already open elsewhere;
     //   here → always open it in the current workspace, without switching.
-    _newWorkspaceDefault(app) {
-        return app.get_string('X-LovyCairn-NewWorkspace') !== 'false';
+    _whereToOpen(app) {
+        const v = app.get_string('X-LovyCairn-NewWorkspace');
+        return v === 'true' ? 'new' : v === 'false' ? 'here' : 'ask';
+    }
+
+    // The workspace is never decided silently. Resolves to 'new', 'here' or null (cancelled).
+    _askWhere(icon) {
+        return new Promise(resolve => {
+            const dlg = new ModalDialog({destroyOnClose: true});
+            const box = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style: 'spacing: 8px;'});
+            box.add_child(new St.Label({
+                text: fmt(_('Where do I open “%s”?'), icon._app.get_name()),
+                style: `font-family: "Source Code Pro", monospace; color: ${P.ink}; font-weight: 600; font-size: 11pt;`,
+            }));
+            const note = new St.Label({
+                text: _('You can fix the choice for this project from the right-click menu.'),
+                style: `font-family: "Source Code Pro", monospace; color: ${P.ink3}; font-size: 9pt; max-width: 440px;`,
+            });
+            note.clutter_text.set_line_wrap(true);
+            box.add_child(note);
+            dlg.contentLayout.add_child(box);
+            let done = false;
+            const finish = value => {
+                if (done)
+                    return;
+                done = true;
+                this._whereDialog = null;
+                dlg.close();
+                resolve(value);
+            };
+            dlg._finish = finish;
+            dlg.setButtons([
+                {label: _('Cancel'), action: () => finish(null), key: Clutter.KEY_Escape},
+                {label: _('This workspace'), action: () => finish('here')},
+                {label: _('New workspace'), action: () => finish('new'), default: true},
+            ]);
+            dlg.connect('closed', () => finish(null));
+            this._whereDialog = dlg;
+            dlg.open();
+        });
     }
 
     _goToProject(icon, mode = 'auto', name = null) {
@@ -777,8 +817,18 @@ export default class LovyCairn extends Extension {
                 return;
             }
         }
-        const ws = (mode === 'new' || (mode === 'auto' && this._newWorkspaceDefault(icon._app)))
-            ? this._emptyWorkspace() : global.workspace_manager.get_active_workspace();
+        if (mode === 'auto') {
+            const where = this._whereToOpen(icon._app);
+            if (where === 'ask') {
+                this._askWhere(icon).then(choice => {
+                    if (choice)
+                        this._goToProject(icon, choice, name);
+                });
+                return;
+            }
+            mode = where;
+        }
+        const ws = mode === 'new' ? this._emptyWorkspace() : global.workspace_manager.get_active_workspace();
         if (name)
             this._openMonitor(icon, name, ws);   // the monitor is born in the chosen workspace, not the one you clicked from
         this._watchWindows(path);
@@ -1023,12 +1073,15 @@ export default class LovyCairn extends Extension {
         this._groups.addAppearanceMenu(menu, src, 'project', {color: icon._color, icon: icon._iconId});
         this._groups.addDocsMenu(menu, src, this._docsOf(icon._app));
         {
-            // what a click does on this project: per-project switch (key X-LovyCairn-NewWorkspace)
-            const item = new PopupMenu.PopupSwitchMenuItem(_('Click opens in a new workspace'),
-                this._newWorkspaceDefault(icon._app));
-            item.connect('toggled', (_v, on) =>
-                this._groups.setAppearance(src, 'project', 'X-LovyCairn-NewWorkspace', on ? null : 'false'));
-            menu.addMenuItem(item);
+            // what a click does on this project (key X-LovyCairn-NewWorkspace: absent = asks, true = new workspace, false = this one)
+            const current = this._whereToOpen(icon._app);
+            const sub = new PopupMenu.PopupSubMenuMenuItem(_('Click on this project…'));
+            for (const [where, text, value] of [['ask', _('Asks where to open'), null], ['new', _('Opens in a new workspace'), 'true'],
+                ['here', _('Opens in this workspace'), 'false']]) {
+                const entry = sub.menu.addAction(text, () => this._groups.setAppearance(src, 'project', 'X-LovyCairn-NewWorkspace', value));
+                entry.setOrnament(where === current ? PopupMenu.Ornament.CHECK : PopupMenu.Ornament.NONE);
+            }
+            menu.addMenuItem(sub);
         }
         this._groupItems(menu, icon, src);
         this._addRemove(menu, name, icon._panelItem);

@@ -125,7 +125,7 @@ lovycairn-add ~/code/my-project          # your first project
 | **Click** a project | Opens it (terminal + docs) in an empty workspace — or takes you to it if it is already open |
 | **Click** a group | Opens its panel; click outside, or ✕, to close |
 | **Drag** an icon onto a group | Moves the launcher into that group |
-| **Right-click** a project | Open here / in a new workspace, new terminal, open folder, git monitor, project notes, **color**, **shape**, docs pages, move, remove |
+| **Right-click** a project | Open here / in a new workspace, **what a click does** (ask, new workspace or this one), new terminal, open folder, git monitor, project notes, **color**, **shape**, docs pages, move, remove |
 | **Right-click** a group | Rename, subgroup, color, shape, move, ungroup |
 | **Right-click** the desktop | **New group…**, **Add project…** |
 | `Super`+`J` | Quick picker |
@@ -148,7 +148,7 @@ Shortcuts, the terminal and browser commands and the notes folder can all be cha
 | `X-LovyCairn-Color` | `#rrggbb` color of the icon |
 | `X-LovyCairn-Icon` | `cube`, `folder-code`, `board`, `flag`, or an outline icon: `package-x-generic`, `applications-engineering`, `utilities-terminal`, `network-server`, `applications-science` |
 | `X-LovyCairn-Docs` | Pages to open with the project, separated by `;` |
-| `X-LovyCairn-NewWorkspace` | `false` = a click opens in the current workspace |
+| `X-LovyCairn-NewWorkspace` | absent = a click asks where to open; `true` = always a new workspace; `false` = always the current one |
 
 A group is a folder containing a file named `.group` with optional lines `color=#rrggbb` and `icon=folder|folder-solid|stack|grid|star|folder-documents|user-bookmarks`.
 </details>

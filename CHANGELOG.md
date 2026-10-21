@@ -5,6 +5,11 @@ project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.0] — 2026-10-21
+
+### Changed
+- A click on a project that is not open yet now **asks where to open it** (this workspace or a new one) instead of silently opening a new workspace. The choice can be fixed per project from the right-click menu (“Click on this project…”: asks / new workspace / this workspace), which replaces the old on/off switch. Projects that had the old switch off (`X-LovyCairn-NewWorkspace=false`) keep opening in the current workspace; every other project now asks. Cancelling opens nothing, and no git monitor is left behind.
+
 ## [1.1.0] — 2026-10-21
 
 ### Added
