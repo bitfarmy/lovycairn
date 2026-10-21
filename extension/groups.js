@@ -30,17 +30,30 @@ export const COLORS = [
     [N_('Red'), P.swatch.red], [N_('Pink'), P.swatch.pink], [N_('Violet'), P.swatch.violet], [N_('Indigo'), P.swatch.indigo],
     [N_('Blue'), P.swatch.blue], [N_('Cyan'), P.swatch.cyan], [N_('Teal'), P.swatch.teal], [N_('Gray'), P.swatch.gray],
 ];
-// The four SOLID shapes (drawn by icons.js) and the five outline symbolic icons from the icon theme.
+// SOLID shapes shared by projects and groups (drawn by icons.js).
+const COMMON_SOLID = [
+    [N_('Shield'), 'shield'], [N_('Bolt'), 'bolt'], [N_('Book'), 'book'], [N_('Cloud'), 'cloud'], [N_('Target'), 'target'], [N_('House'), 'house'],
+    [N_('Terminal'), 'terminal'], [N_('Git'), 'git'], [N_('Penguin'), 'penguin'], [N_('Chip'), 'chip'], [N_('Bug'), 'bug'], [N_('Database'), 'database'],
+    [N_('Code'), 'code'], [N_('Container'), 'container'], [N_('Gear'), 'gear'], [N_('Server'), 'rack'], [N_('Network'), 'network'],
+    [N_('Android'), 'android'], [N_('Phone'), 'phone'], [N_('Keyboard'), 'keyboard'], [N_('APK'), 'apk'],
+    [N_('Skull'), 'skull'], [N_('Padlock'), 'padlock'], [N_('Key'), 'key'], [N_('Eye'), 'eye'], [N_('Hacker'), 'hacker'],
+    [N_('Download'), 'download'], [N_('Music'), 'music'], [N_('Pictures'), 'pictures'], [N_('Video'), 'video'], [N_('Games'), 'games'],
+];
+// Projects: the original shapes (four solid and five outline), then the shared solid ones.
 export const ICONS = [
     [N_('Cube'), 'cube'], [N_('Folder with code'), 'folder-code'], [N_('Board'), 'board'], [N_('Flag'), 'flag'],
     [N_('Package'), 'package-x-generic'], [N_('Engineering'), 'applications-engineering'], [N_('Terminal'), 'utilities-terminal'],
     [N_('Server'), 'network-server'], [N_('Laboratory'), 'applications-science'],
+    [N_('Folder'), 'folder-solid'], [N_('Stack'), 'stack'], [N_('Grid'), 'grid'], [N_('Star'), 'star'],
+    ...COMMON_SOLID.filter(([, id]) => id !== 'terminal' && id !== 'rack'),
 ];
 export const PROJECT_ICON = 'cube';
-// Group shapes: the classic outline folder (default), two more outline ones and four solid ones.
+// Groups: the classic outline folder (default) with two more outline shapes, then the solid ones.
 export const GROUP_ICONS = [
     [N_('Folder'), 'folder'], [N_('Solid folder'), 'folder-solid'], [N_('Stack'), 'stack'], [N_('Grid'), 'grid'],
     [N_('Star'), 'star'], [N_('Documents'), 'folder-documents'], [N_('Bookmark'), 'user-bookmarks'],
+    [N_('Cube'), 'cube'], [N_('Board'), 'board'], [N_('Flag'), 'flag'],
+    ...COMMON_SOLID,
 ];
 export const GROUP_ICON = 'folder';
 const PROJECT_COLOR = P.ink2;
@@ -492,19 +505,41 @@ export class Groups {
             return [b, _(name)];
         }));
 
+        // The shapes live in a grid inside a submenu, so the menu does not get wider.
         const isGroupKind = kind === 'group';
-        row(_('Shape'), (isGroupKind ? GROUP_ICONS : ICONS).map(([name, id]) => {
-            const chosen = (current.icon ?? (isGroupKind ? GROUP_ICON : PROJECT_ICON)) === id;
-            const ic = new St.Icon({icon_size: 16});
-            applyIcon(ic, id, current.color, base, isGroupKind ? GROUP_ICONS : ICONS, isGroupKind ? GROUP_ICON : PROJECT_ICON);
+        const shapes = isGroupKind ? GROUP_ICONS : ICONS;
+        const shape0 = isGroupKind ? GROUP_ICON : PROJECT_ICON;
+        const currentShape = shapes.find(([, id]) => id === (current.icon ?? shape0)) ?? shapes[0];
+        const sub = new PopupMenu.PopupSubMenuMenuItem(`${_('Shape')} · ${_(currentShape[0])}`);
+        const currentIcon = new St.Icon({icon_size: 16, style_class: 'popup-menu-icon'});
+        applyIcon(currentIcon, currentShape[1], current.color, base, shapes, shape0);
+        sub.insert_child_above(currentIcon, sub.label);
+        const item = new PopupMenu.PopupBaseMenuItem({activate: false, can_focus: false});
+        const column = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, x_expand: true, style: 'spacing: 6px; padding: 4px 0;'});
+        const shapeName = new St.Label({text: ' ', style: `color: ${P.ink3}; font-size: 9pt;`});
+        column.add_child(shapeName);
+        const COLUMNS = 9;
+        let line = null;
+        shapes.forEach(([name, id], i) => {
+            if (i % COLUMNS === 0) {
+                line = new St.BoxLayout({style: 'spacing: 5px;'});
+                column.add_child(line);
+            }
+            const chosen = currentShape[1] === id;
+            const ic = new St.Icon({icon_size: 20});
+            applyIcon(ic, id, current.color, base, shapes, shape0);
             const b = new St.Button({
-                reactive: true, can_focus: true, width: 26, height: 26, child: ic,
+                reactive: true, can_focus: true, width: 32, height: 32, child: ic,
                 style: `border-radius: 2px; border: 1px solid ${chosen ? P.ink : P.line}; ` +
                     `background-color: ${chosen ? P.surface3 : 'transparent'};`,
             });
+            b.connect('notify::hover', () => shapeName.set_text(b.hover ? _(name) : ' '));
             b.connect('clicked', () => choose('X-LovyCairn-Icon', id));
-            return [b, _(name)];
-        }));
+            line.add_child(b);
+        });
+        item.add_child(column);
+        sub.menu.addMenuItem(item);
+        menu.addMenuItem(sub);
     }
 
     // ---- menu: “Move to…” and the entry in the background menu ------------------------------------
@@ -672,7 +707,8 @@ export class Groups {
         actor.add_child(head);
         actor.add_child(sub);
         actor.add_child(scroll);
-        Main.uiGroup.add_child(actor);
+        // On the desktop layer (like the icons), not above everything: windows and dialogs go in front of it.
+        Main.layoutManager._backgroundGroup.add_child(actor);
         this.panel = {actor, root: path, path, title, sub, back, body, anchor, outside: null};
         this.panel.listener = global.stage.connect('captured-event', (_s, ev) => this._outsideEvent(ev));
         this._render();

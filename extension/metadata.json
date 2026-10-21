@@ -6,6 +6,6 @@
   "url": "https://github.com/bitfarmy/lovycairn",
   "settings-schema": "org.gnome.shell.extensions.lovycairn",
   "gettext-domain": "lovycairn",
-  "version": 1,
-  "version-name": "1.0.0"
+  "version": 2,
+  "version-name": "1.1.0"
 }

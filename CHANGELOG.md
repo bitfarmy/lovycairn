@@ -5,10 +5,18 @@ project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-10-21
+
+### Added
+- 31 more solid shapes for projects and groups, in the same three-shade style: developer and Linux (terminal, git, penguin, chip, bug, database, code, container, gear, server rack, network), Android (robot, phone, keyboard, APK), hacking (skull, padlock, key, eye, hooded hacker), media (download, music, pictures, video, games) and a few general ones (shield, bolt, book, cloud, target, house). Projects now also get the solid folder, stack, grid and star.
+
 ### Changed
+- The shape choice in the menu is a grid (9 columns) inside a submenu, shared by projects and groups, instead of a long row that made the menu wider.
+- The git monitor belongs to the workspace where the project is opened and shows only there (it used to open in the workspace you clicked from and stay visible everywhere).
 - “Add project…” opens GNOME's folder chooser (through the desktop portal) instead of asking for a typed path; typing is only the fallback when no portal is available.
 
 ### Fixed
+- An open group panel was drawn above everything, including dialogs and windows; it now sits on the desktop layer, like the icons.
 - Three Italian strings of the failure notice were untranslated.
 
 ## [1.0.0] — 2026-10-20

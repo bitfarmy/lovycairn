@@ -6,6 +6,7 @@ import Clutter from 'gi://Clutter';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Shell from 'gi://Shell';
+import St from 'gi://St';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
@@ -116,6 +117,51 @@ const SCENES = {
         for (const a of global.get_window_actors()) { const w = a.meta_window; say(`window: ${w.get_title()} class=${w.get_wm_class()} ${w.get_frame_rect().width}x${w.get_frame_rect().height} minimized=${w.minimized}`); }
         await snap('prefs');
         say('prefs opened');
+    },
+
+    // Shape picker (grid in a submenu, for projects and groups), group panel layer, git monitor per workspace.
+    async shapes() {
+        await wait(6000);
+        const ext = lc(), g = ext._groups, home = GLib.get_home_dir(), wm = global.workspace_manager;
+        const find = (a, text) => { if (a.text?.startsWith?.(text)) return a; for (const c of a.get_children?.() ?? []) { const r = find(c, text); if (r) return r; } return null; };
+        const openShapes = async (icon, name, file) => {
+            ext._showMenu(icon, name); await wait(900);
+            let a = find(ext._menu.actor, 'Shape'); while (a && !a.menu) a = a.get_parent();
+            a.menu.open(true); await wait(900); await snap(file);
+            const count = (function walk(x) { return (x instanceof St.Button ? 1 : 0) + (x.get_children?.() ?? []).reduce((n, c) => n + walk(c), 0); })(a.menu.actor);
+            say(`${file}: submenu open=${a.menu.isOpen} buttons=${count}`);
+            ext._menu?.close(); await wait(500);
+        };
+        await openShapes(ext._icons.get('project-dotfiles.desktop'), 'project-dotfiles.desktop', 'shapes-project');
+        await openShapes(ext._icons.get('work/'), 'work/', 'shapes-group');
+        g.setAppearance(`${g.root}/project-dotfiles.desktop`, 'project', 'X-LovyCairn-Icon', 'android'); await wait(900);
+        g.setAppearance(`${g.root}/work`, 'group', 'X-LovyCairn-Icon', 'penguin'); await wait(900);
+        // the group panel lives on the desktop layer, so windows go in front of it
+        g.open(ext._icons.get('work/'), `${g.root}/work`); await wait(900);
+        say(`panel on desktop layer=${g.panel.actor.get_parent() === Main.layoutManager._backgroundGroup}`);
+        ext._raiseIcons();
+        say(`panel on top of icons=${Main.layoutManager._backgroundGroup.get_last_child() === g.panel.actor}`);
+        await snap('shapes-panel');
+        g.close(); await wait(400);
+        // the git monitor shows only in the workspace of its project
+        const atlas = [...g.all()].find(v => v.rel === 'work/project-atlas-api.desktop');
+        const proj = {_project: `${home}/code/atlas-api`, _app: atlas.app}, name = 'work/project-atlas-api.desktop';
+        new Gio.Settings({schema_id: 'org.gnome.mutter'}).set_boolean('dynamic-workspaces', false);   // an empty extra workspace would be removed at once
+        const ws1 = wm.append_new_workspace(false, global.get_current_time()); await wait(500);
+        ext._openMonitor(proj, name, ws1); await wait(800);
+        const vis = () => `monitor visible=${ext._mons.get(name).actor.visible} active=${wm.get_active_workspace_index()}`;
+        say(`opened for workspace 2 while on 1 → ${vis()}`);
+        ws1.activate(global.get_current_time()); await wait(1200);
+        say(`switched to 2 → ${vis()}`);
+        wm.get_workspace_by_index(0).activate(global.get_current_time()); await wait(1200);
+        say(`back on 1 → ${vis()}`);
+        ext._closeMonitor(name);
+        // opening a project in a new workspace puts the monitor there
+        ext._settings.set_string('terminal-command', "sh -c 'true' {dir}");
+        proj._lastProject = null;
+        ext._launch(proj, name, 'new'); await wait(2500);
+        const m = ext._mons.get(name);
+        say(`launch new → active=${wm.get_active_workspace_index()} monitor workspace=${m ? m.ws.index() : 'none'} visible=${m?.actor.visible}`);
     },
 
     // Opening a project: terminal, browser and workspace behavior, with fake commands that leave a trace.

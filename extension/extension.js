@@ -124,6 +124,9 @@ export default class LovyCairn extends Extension {
         this._menu = null;
         for (const name of [...this._mons?.keys() ?? []])
             this._closeMonitor(name);
+        if (this._wsId)
+            global.workspace_manager.disconnect(this._wsId);
+        this._wsId = 0;
         for (const icon of this._icons?.values() ?? [])
             icon.destroy();
         this._compat?.destroy();
@@ -426,6 +429,10 @@ export default class LovyCairn extends Extension {
             if (icon.get_parent() === group && group.get_last_child() !== icon)
                 group.set_child_above_sibling(icon, null);
         }
+        // the panel of an open group stays above the desktop icons
+        const panel = this._groups?.panel?.actor;
+        if (panel && panel.get_parent() === group && group.get_last_child() !== panel)
+            group.set_child_above_sibling(panel, null);
     }
 
     _refreshGit(icon) {
@@ -522,9 +529,21 @@ export default class LovyCairn extends Extension {
 
     // ---- git monitor: always-on-top card, draggable, refreshes itself ----
 
-    _openMonitor(icon, name) {
-        if (this._mons.has(name))
+    // The git monitor belongs to the workspace where the project is opened: it shows only there.
+    _monitorWorkspace(mon) {
+        const wm = global.workspace_manager;
+        if (!mon.ws || mon.ws.index() < 0)
+            mon.ws = wm.get_active_workspace();   // the workspace was removed: follow the current one
+        mon.actor.visible = mon.ws === wm.get_active_workspace();
+    }
+
+    _openMonitor(icon, name, ws = global.workspace_manager.get_active_workspace()) {
+        const existing = this._mons.get(name);
+        if (existing) {
+            existing.ws = ws;
+            this._monitorWorkspace(existing);
             return;
+        }
         const path = icon._project;
         const label = (text, style, ellipsize = true) => {
             const l = new St.Label({text, style, y_align: Clutter.ActorAlign.CENTER});
@@ -590,8 +609,14 @@ export default class LovyCairn extends Extension {
             return Clutter.EVENT_STOP;
         });
 
-        const mon = {actor, timer: 0, branch, summary, body, path, label};
+        const mon = {actor, timer: 0, branch, summary, body, path, label, ws};
         this._mons.set(name, mon);
+        this._monitorWorkspace(mon);
+        if (!this._wsId)
+            this._wsId = global.workspace_manager.connect('active-workspace-changed', () => {
+                for (const m of this._mons.values())
+                    this._monitorWorkspace(m);
+            });
         mon.timer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 3, () => {
             this._refreshMonitor(name);
             return GLib.SOURCE_CONTINUE;
@@ -700,8 +725,7 @@ export default class LovyCairn extends Extension {
                 path: icon._project, name: icon._app.get_name(),
                 tag: icon._app.get_string('X-LovyCairn-Tag') ?? icon._app.get_name().toLowerCase().replace(/\s+/g, '-'),
             };
-            this._openMonitor(icon, name);
-            this._goToProject(icon, mode);
+            this._goToProject(icon, mode, name);
             return;
         }
         try {
@@ -742,17 +766,21 @@ export default class LovyCairn extends Extension {
         return app.get_string('X-LovyCairn-NewWorkspace') !== 'false';
     }
 
-    _goToProject(icon, mode = 'auto') {
+    _goToProject(icon, mode = 'auto', name = null) {
         const path = icon._project;
         if (mode === 'auto') {
             const openWindows = this._projectWindows(path);
             if (openWindows.length) {
                 Main.activateWindow(openWindows[0]);   // switches workspace and raises the window
+                if (name)
+                    this._openMonitor(icon, name, openWindows[0].get_workspace());
                 return;
             }
         }
-        if (mode === 'new' || (mode === 'auto' && this._newWorkspaceDefault(icon._app)))
-            this._emptyWorkspace();
+        const ws = (mode === 'new' || (mode === 'auto' && this._newWorkspaceDefault(icon._app)))
+            ? this._emptyWorkspace() : global.workspace_manager.get_active_workspace();
+        if (name)
+            this._openMonitor(icon, name, ws);   // the monitor is born in the chosen workspace, not the one you clicked from
         this._watchWindows(path);
         this._openTerminal(path);
         const docs = this._docsOf(icon._app);
@@ -774,6 +802,7 @@ export default class LovyCairn extends Extension {
             ws ??= wm.append_new_workspace(false, t);
         }
         ws.activate(t);
+        return ws;
     }
 
     // For 20 seconds, remember the windows that appear (terminal and browser) as windows of this project.

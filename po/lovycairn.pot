@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lovycairn\n"
 "Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
-"POT-Creation-Date: 2026-10-20 22:42+0200\n"
+"POT-Creation-Date: 2026-10-21 16:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Quick picker"
 msgstr ""
 
-#: extension/compat.js:47 extension/extension.js:986
+#: extension/compat.js:47 extension/extension.js:1015
 msgid "Git monitor"
 msgstr ""
 
@@ -83,174 +83,174 @@ msgstr ""
 msgid "Copy details"
 msgstr ""
 
-#: extension/extension.js:237 extension/extension.js:1041
+#: extension/extension.js:240 extension/extension.js:1070
 msgid "Remove from Desktop"
 msgstr ""
 
-#: extension/extension.js:237
+#: extension/extension.js:240
 msgid "Add to Desktop"
 msgstr ""
 
-#: extension/extension.js:325 extension/groups.js:704 extension/groups.js:752
+#: extension/extension.js:328 extension/groups.js:740 extension/groups.js:788
 #, javascript-format
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:440
+#: extension/extension.js:447
 msgid "not a git repo"
 msgstr ""
 
-#: extension/extension.js:632
+#: extension/extension.js:657
 msgid "not a git repository"
 msgstr ""
 
-#: extension/extension.js:644
+#: extension/extension.js:669
 #, javascript-format
 msgid "%s changed"
 msgid_plural "%s changed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:644
+#: extension/extension.js:669
 #, javascript-format
 msgid "%s new"
 msgid_plural "%s new"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:645
+#: extension/extension.js:670
 msgid "all saved"
 msgstr ""
 
-#: extension/extension.js:655
+#: extension/extension.js:680
 msgid "CHANGES"
 msgstr ""
 
-#: extension/extension.js:667
+#: extension/extension.js:692
 #, javascript-format
 msgid "… and %s more"
 msgstr ""
 
-#: extension/extension.js:671
+#: extension/extension.js:696
 msgid "RECENT COMMITS"
 msgstr ""
 
-#: extension/extension.js:810
+#: extension/extension.js:839
 msgid "No terminal found"
 msgstr ""
 
-#: extension/extension.js:810
+#: extension/extension.js:839
 msgid "Choose one in the LovyCairn preferences."
 msgstr ""
 
-#: extension/extension.js:854
+#: extension/extension.js:883
 msgid "No active project"
 msgstr ""
 
-#: extension/extension.js:854
+#: extension/extension.js:883
 msgid ""
 "Open a project from the desktop, or bring its terminal to the front, then "
 "try again."
 msgstr ""
 
-#: extension/extension.js:864
+#: extension/extension.js:893
 msgid "LovyCairn Notes is not installed"
 msgstr ""
 
-#: extension/extension.js:864
+#: extension/extension.js:893
 msgid "Install the notes app to use project notes (see the README)."
 msgstr ""
 
-#: extension/extension.js:907
+#: extension/extension.js:936
 msgid "Choose the project folder"
 msgstr ""
 
-#: extension/extension.js:913
+#: extension/extension.js:942
 msgid "Add project"
 msgstr ""
 
-#: extension/extension.js:914
+#: extension/extension.js:943
 msgid ""
 "Folder of the project, for example ~/code/my-app. The project appears on the "
 "desktop."
 msgstr ""
 
-#: extension/extension.js:915
+#: extension/extension.js:944
 msgid "Add"
 msgstr ""
 
-#: extension/extension.js:916
+#: extension/extension.js:945
 msgid "This folder does not exist."
 msgstr ""
 
-#: extension/extension.js:967 extension/extension.js:1023
+#: extension/extension.js:996 extension/extension.js:1052
 msgid "Open"
 msgstr ""
 
-#: extension/extension.js:974
+#: extension/extension.js:1003
 msgid "Open project"
 msgstr ""
 
-#: extension/extension.js:975
+#: extension/extension.js:1004
 msgid "Open in a new workspace"
 msgstr ""
 
-#: extension/extension.js:976
+#: extension/extension.js:1005
 msgid "Open in this workspace"
 msgstr ""
 
-#: extension/extension.js:977
+#: extension/extension.js:1006
 msgid "New terminal here"
 msgstr ""
 
-#: extension/extension.js:978
+#: extension/extension.js:1007
 msgid "Open folder"
 msgstr ""
 
-#: extension/extension.js:986
+#: extension/extension.js:1015
 msgid "Close git monitor"
 msgstr ""
 
-#: extension/extension.js:990
+#: extension/extension.js:1019
 msgid "New project note"
 msgstr ""
 
-#: extension/extension.js:991
+#: extension/extension.js:1020
 msgid "Project notes"
 msgstr ""
 
-#: extension/extension.js:998
+#: extension/extension.js:1027
 msgid "Click opens in a new workspace"
 msgstr ""
 
-#: extension/extension.js:1013 extension/extension.js:1030
+#: extension/extension.js:1042 extension/extension.js:1059
 msgid "Move out of group"
 msgstr ""
 
-#: extension/extension.js:1015 extension/extension.js:1032
-#: extension/groups.js:520 extension/groups.js:536
+#: extension/extension.js:1044 extension/extension.js:1061
+#: extension/groups.js:555 extension/groups.js:571
 msgid "New group…"
 msgstr ""
 
-#: extension/extension.js:1017 extension/extension.js:1034
+#: extension/extension.js:1046 extension/extension.js:1063
 msgid "Arrange icons"
 msgstr ""
 
-#: extension/extension.js:1024
+#: extension/extension.js:1053
 msgid "Rename…"
 msgstr ""
 
-#: extension/extension.js:1025
+#: extension/extension.js:1054
 msgid "New subgroup…"
 msgstr ""
 
-#: extension/extension.js:1036
+#: extension/extension.js:1065
 msgid "Ungroup (contents stay)"
 msgstr ""
 
-#: extension/extension.js:1041
+#: extension/extension.js:1070
 msgid "Remove"
 msgstr ""
 
@@ -307,164 +307,280 @@ msgid "Gray"
 msgstr ""
 
 #: extension/groups.js:35
-msgid "Cube"
+msgid "Shield"
 msgstr ""
 
 #: extension/groups.js:35
-msgid "Folder with code"
+msgid "Bolt"
 msgstr ""
 
 #: extension/groups.js:35
-msgid "Board"
+msgid "Book"
 msgstr ""
 
 #: extension/groups.js:35
-msgid "Flag"
+msgid "Cloud"
 msgstr ""
 
-#: extension/groups.js:36
-msgid "Package"
+#: extension/groups.js:35
+msgid "Target"
 msgstr ""
 
-#: extension/groups.js:36
-msgid "Engineering"
+#: extension/groups.js:35
+msgid "House"
 msgstr ""
 
-#: extension/groups.js:36
+#: extension/groups.js:36 extension/groups.js:45
 msgid "Terminal"
 msgstr ""
 
+#: extension/groups.js:36
+msgid "Git"
+msgstr ""
+
+#: extension/groups.js:36
+msgid "Penguin"
+msgstr ""
+
+#: extension/groups.js:36
+msgid "Chip"
+msgstr ""
+
+#: extension/groups.js:36
+msgid "Bug"
+msgstr ""
+
+#: extension/groups.js:36
+msgid "Database"
+msgstr ""
+
 #: extension/groups.js:37
+msgid "Code"
+msgstr ""
+
+#: extension/groups.js:37
+msgid "Container"
+msgstr ""
+
+#: extension/groups.js:37
+msgid "Gear"
+msgstr ""
+
+#: extension/groups.js:37 extension/groups.js:46
 msgid "Server"
 msgstr ""
 
 #: extension/groups.js:37
+msgid "Network"
+msgstr ""
+
+#: extension/groups.js:38
+msgid "Android"
+msgstr ""
+
+#: extension/groups.js:38
+msgid "Phone"
+msgstr ""
+
+#: extension/groups.js:38
+msgid "Keyboard"
+msgstr ""
+
+#: extension/groups.js:38
+msgid "APK"
+msgstr ""
+
+#: extension/groups.js:39
+msgid "Skull"
+msgstr ""
+
+#: extension/groups.js:39
+msgid "Padlock"
+msgstr ""
+
+#: extension/groups.js:39
+msgid "Key"
+msgstr ""
+
+#: extension/groups.js:39
+msgid "Eye"
+msgstr ""
+
+#: extension/groups.js:39
+msgid "Hacker"
+msgstr ""
+
+#: extension/groups.js:40
+msgid "Download"
+msgstr ""
+
+#: extension/groups.js:40
+msgid "Music"
+msgstr ""
+
+#: extension/groups.js:40
+msgid "Pictures"
+msgstr ""
+
+#: extension/groups.js:40
+msgid "Video"
+msgstr ""
+
+#: extension/groups.js:40
+msgid "Games"
+msgstr ""
+
+#: extension/groups.js:44 extension/groups.js:55
+msgid "Cube"
+msgstr ""
+
+#: extension/groups.js:44
+msgid "Folder with code"
+msgstr ""
+
+#: extension/groups.js:44 extension/groups.js:55
+msgid "Board"
+msgstr ""
+
+#: extension/groups.js:44 extension/groups.js:55
+msgid "Flag"
+msgstr ""
+
+#: extension/groups.js:45
+msgid "Package"
+msgstr ""
+
+#: extension/groups.js:45
+msgid "Engineering"
+msgstr ""
+
+#: extension/groups.js:46
 msgid "Laboratory"
 msgstr ""
 
-#: extension/groups.js:42
+#: extension/groups.js:47 extension/groups.js:53
 msgid "Folder"
 msgstr ""
 
-#: extension/groups.js:42
-msgid "Solid folder"
-msgstr ""
-
-#: extension/groups.js:42
+#: extension/groups.js:47 extension/groups.js:53
 msgid "Stack"
 msgstr ""
 
-#: extension/groups.js:42
+#: extension/groups.js:47 extension/groups.js:53
 msgid "Grid"
 msgstr ""
 
-#: extension/groups.js:43
+#: extension/groups.js:47 extension/groups.js:54
 msgid "Star"
 msgstr ""
 
-#: extension/groups.js:43
+#: extension/groups.js:53
+msgid "Solid folder"
+msgstr ""
+
+#: extension/groups.js:54
 msgid "Documents"
 msgstr ""
 
-#: extension/groups.js:43
+#: extension/groups.js:54
 msgid "Bookmark"
 msgstr ""
 
-#: extension/groups.js:162
+#: extension/groups.js:175
 msgid "Enter a name."
 msgstr ""
 
-#: extension/groups.js:164
+#: extension/groups.js:177
 msgid "The name cannot contain “/”."
 msgstr ""
 
-#: extension/groups.js:166
+#: extension/groups.js:179
 msgid "The name cannot start with a dot."
 msgstr ""
 
-#: extension/groups.js:168
+#: extension/groups.js:181
 msgid "An item with this name already exists."
 msgstr ""
 
-#: extension/groups.js:282
+#: extension/groups.js:295
 msgid "New group"
 msgstr ""
 
-#: extension/groups.js:282
+#: extension/groups.js:295
 msgid "Create"
 msgstr ""
 
-#: extension/groups.js:288
+#: extension/groups.js:301
 msgid "Rename group"
 msgstr ""
 
-#: extension/groups.js:288
+#: extension/groups.js:301
 msgid "Rename"
 msgstr ""
 
-#: extension/groups.js:342
+#: extension/groups.js:355
 msgid "Group name"
 msgstr ""
 
-#: extension/groups.js:392
+#: extension/groups.js:405
 msgid "Cancel"
 msgstr ""
 
-#: extension/groups.js:407
+#: extension/groups.js:420
 msgid "Project documentation"
 msgstr ""
 
-#: extension/groups.js:408
+#: extension/groups.js:421
 msgid ""
 "Pages to open in the browser when you open the project. Separate them with a "
 "space. Leave empty to not open the browser."
 msgstr ""
 
-#: extension/groups.js:409
+#: extension/groups.js:422
 msgid "Save"
 msgstr ""
 
-#: extension/groups.js:413
+#: extension/groups.js:426
 #, javascript-format
 msgid "Invalid address: %s (must start with https://, http:// or file://)"
 msgstr ""
 
-#: extension/groups.js:455
+#: extension/groups.js:468
 #, javascript-format
 msgid "Docs in browser (%s page)…"
 msgid_plural "Docs in browser (%s pages)…"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/groups.js:455
+#: extension/groups.js:468
 msgid "Docs in browser…"
 msgstr ""
 
-#: extension/groups.js:482
+#: extension/groups.js:495
 msgid "Color"
 msgstr ""
 
-#: extension/groups.js:496
+#: extension/groups.js:513
 msgid "Shape"
 msgstr ""
 
-#: extension/groups.js:513
+#: extension/groups.js:548
 msgid "Move to…"
 msgstr ""
 
-#: extension/groups.js:538
+#: extension/groups.js:573
 msgid "Add project…"
 msgstr ""
 
-#: extension/groups.js:708
+#: extension/groups.js:744
 msgid "Empty group. Drag desktop icons here, or use “Move to…” in their menu."
 msgstr ""
 
-#: extension/groups.js:809
+#: extension/groups.js:845
 msgid "Search a project, app or group…"
 msgstr ""
 
-#: extension/groups.js:840
+#: extension/groups.js:876
 msgid "No results"
 msgstr ""
 
