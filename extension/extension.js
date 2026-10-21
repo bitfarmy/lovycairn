@@ -81,6 +81,12 @@ export default class LovyCairn extends Extension {
             this._safe('background-menu', () => this._groups?.hookBackground());   // GNOME recreates the background menu: hook the entry again
             return GLib.SOURCE_CONTINUE;
         });
+        this._watchNotes();
+        this._notesDirId = this._settings.connect('changed::notes-dir', () => {
+            this._noteCache = null;
+            this._watchNotes();
+            this._refreshNoteCounts();
+        });
         this._gitTimer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 60, () => {
             for (const icon of this._icons.values())
                 this._refreshGit(icon);
@@ -101,6 +107,14 @@ export default class LovyCairn extends Extension {
         this._groups?.destroy();
         this._groups = null;
         this._unpatchAppMenu();
+        if (this._notesDirId)
+            this._settings.disconnect(this._notesDirId);
+        this._notesDirId = 0;
+        this._noteMon?.cancel();
+        this._noteMon = null;
+        if (this._noteTimer)
+            GLib.source_remove(this._noteTimer);
+        this._noteTimer = 0;
         if (this._gitTimer)
             GLib.source_remove(this._gitTimer);
         this._gitTimer = 0;
@@ -437,16 +451,81 @@ export default class LovyCairn extends Extension {
             group.set_child_above_sibling(panel, null);
     }
 
+    _notesFolder() {
+        return this._settings.get_string('notes-dir') || GLib.build_filenamev([GLib.get_home_dir(), 'Notes']);
+    }
+
+    // Notes per tag (a note counts once per tag): the notes are the .md files in the notes folder, a tag is “#tag” as in the Notes app.
+    _noteTags() {
+        const now = GLib.get_monotonic_time();
+        if (this._noteCache && now - this._noteCache.t < 2000000)
+            return this._noteCache.counts;
+        const counts = new Map();
+        const dir = this._notesFolder();
+        try {
+            const en = Gio.File.new_for_path(dir).enumerate_children('standard::name', Gio.FileQueryInfoFlags.NONE, null);
+            for (let i = en.next_file(null); i; i = en.next_file(null)) {
+                const file = i.get_name();
+                if (!file.endsWith('.md') || file.startsWith('.'))
+                    continue;
+                const [ok, bytes] = GLib.file_get_contents(GLib.build_filenamev([dir, file]));
+                if (!ok)
+                    continue;
+                const tags = new Set([...new TextDecoder().decode(bytes).matchAll(/(?<!\S)#([\p{L}\p{N}_-]+)/gu)].map(m => m[1]));
+                for (const t of tags)
+                    counts.set(t, (counts.get(t) ?? 0) + 1);
+            }
+            en.close(null);
+        } catch (e) {
+            // no notes folder: no notes
+        }
+        this._noteCache = {t: now, counts};
+        return counts;
+    }
+
+    _refreshNoteCounts() {
+        for (const icon of this._icons?.values() ?? [])
+            this._refreshGit(icon);
+        if (this._groups?.panel)
+            this._groups._render();
+    }
+
+    // When the notes change, the counter on the icons updates by itself (shortly after the last change).
+    _watchNotes() {
+        this._noteMon?.cancel();
+        this._noteMon = null;
+        try {
+            const dir = this._notesFolder();
+            GLib.mkdir_with_parents(dir, 0o755);
+            this._noteMon = Gio.File.new_for_path(dir).monitor_directory(Gio.FileMonitorFlags.NONE, null);
+            this._noteMon.connect('changed', () => {
+                if (this._noteTimer)
+                    return;
+                this._noteTimer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 600, () => {
+                    this._noteTimer = 0;
+                    this._noteCache = null;
+                    this._refreshNoteCounts();
+                    return GLib.SOURCE_REMOVE;
+                });
+            });
+        } catch (e) {
+            console.error(`lovycairn: cannot watch the notes folder: ${e}`);
+        }
+    }
+
     _refreshGit(icon) {
         const path = icon._project;
         if (!path)
             return;
+        const tag = icon._app.get_string('X-LovyCairn-Tag') ?? icon._app.get_name().toLowerCase().replace(/\s+/g, '-');
+        const notes = this._noteTags().get(tag) ?? 0;
+        const notesMarkup = notes > 0 ? ` <span foreground="${P.accent}" weight="bold">✎${notes}</span>` : '';
         const alive = () => !icon._dead && (icon._panelItem || (this._icons && [...this._icons.values()].includes(icon)));
         this._git(['-C', path, 'status', '--porcelain=v2', '--branch'], out => {
             if (!alive())
                 return;
             if (out === null) {
-                icon._status.set_text(_('not a git repo'));
+                icon._status.clutter_text.set_markup(`<span foreground="${P.ink2}">${GLib.markup_escape_text(_('not a git repo'), -1)}</span>${notesMarkup}`);
                 return;
             }
             let branch = '?', ahead = 0, dirty = 0;
@@ -472,7 +551,7 @@ export default class LovyCairn extends Extension {
                 if (!Number.isNaN(secs))
                     parts.push(dim(secs < 3600 ? `${Math.max(1, Math.floor(secs / 60))}m`
                         : secs < 86400 ? `${Math.floor(secs / 3600)}h` : `${Math.floor(secs / 86400)}d`));
-                icon._status.clutter_text.set_markup(parts.join(' '));
+                icon._status.clutter_text.set_markup(parts.join(' ') + notesMarkup);
             });
         });
     }

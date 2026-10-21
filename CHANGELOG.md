@@ -5,6 +5,9 @@ project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- A project that has notes shows a **✎n counter** next to its git state (on the desktop and inside group panels). Notes are matched by the project tag (`#tag`, as in the Notes app) and the counter follows the notes folder live.
+
 ## [1.2.0] — 2026-10-21
 
 ### Changed

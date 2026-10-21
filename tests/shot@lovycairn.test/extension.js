@@ -164,6 +164,18 @@ const SCENES = {
         say(`launch new → active=${wm.get_active_workspace_index()} monitor workspace=${m ? m.ws.index() : 'none'} visible=${m?.actor.visible}`);
     },
 
+    // Projects with notes show a counter (✎n) next to the git state; it follows the notes folder live.
+    async notecount() {
+        await wait(6000);
+        const ext = lc(), home = GLib.get_home_dir(), dir = `${home}/Notes`;
+        const name = 'project-dotfiles.desktop';
+        const show = e => say(`${e} → "${ext._icons.get(name)?._status.get_text()}"`);
+        show('no notes');
+        GLib.file_set_contents(`${dir}/a.md`, 'first #dotfiles\ntext'); await wait(2500); show('one note');
+        GLib.file_set_contents(`${dir}/b.md`, 'second #dotfiles #other'); await wait(2500); show('two notes'); await snap('notecount');
+        Gio.File.new_for_path(`${dir}/a.md`).delete(null); await wait(2500); show('one deleted');
+    },
+
     // A click on a project asks where to open it; cancelling opens nothing; a fixed choice skips the question.
     async ask() {
         await wait(6000);
