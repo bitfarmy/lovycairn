@@ -72,6 +72,10 @@ class SuiteWindow(Adw.ApplicationWindow):
         self.selected_project = None
         self.query = ''
         self.notes_query = ''
+        self.notes_section = 'free'
+        self.notes_project_rel = None
+        self.notes_tag = None
+        self.visible_notes = []
         self.sort_refresh_id = 0
         self.sort = 0
         self.projects = []
@@ -551,8 +555,8 @@ class SuiteWindow(Adw.ApplicationWindow):
     def append_note_row(self, box, note, project=None):
         associated = [p.name for p in self.projects if p.tag in note.tags] if project is None else []
         preview = ' '.join(line.strip() for line in note.text.splitlines() if line.strip() and not line.strip().startswith('#'))
-        if associated:
-            preview = ', '.join(associated)+' · '+preview
+        date = time.strftime('%d/%m/%Y %H:%M',time.localtime(note.mtime))
+        preview = ' · '.join([*associated,date,preview])
         row = Adw.ActionRow(title=GLib.markup_escape_text(shortened(note.title,100)),subtitle=GLib.markup_escape_text(shortened(preview)))
         row.set_subtitle_lines(2)
         row.set_activatable(True)
@@ -561,29 +565,111 @@ class SuiteWindow(Adw.ApplicationWindow):
         row.connect('activated',lambda *_:self.run_action(lambda:self.launcher.open_notes(name=note.path.name)))
         box.append(row)
 
-    def show_notes(self):
+    def show_notes(self, section_name=None):
+        if section_name in ('free','projects'):
+            self.notes_section = section_name
         self.view = 'notes'
         self.selected_project = None
         self.build_navigation()
-        page = self.page(_('Notes'), _('Ideas and notes, together with their projects.'),
-            button(_('Open LovyCairn Notes'),lambda:self.run_action(lambda:self.launcher.open_notes(archive=True)),'external-link-symbolic'))
-        search = Gtk.SearchEntry(placeholder_text=_('Search notes'))
+        project_tags = {p.tag for p in self.projects}
+        free = [n for n in self.notes if not project_tags.intersection(n.tags)]
+        associated = [n for n in self.notes if project_tags.intersection(n.tags)]
+        projects = sorted(self.projects,key=lambda p:p.name.casefold())
+        if self.notes_project_rel not in {p.rel for p in projects}:
+            self.notes_project_rel = None
+        tags = sorted({tag for note in free for tag in note.tags})
+        if self.notes_tag not in tags:
+            self.notes_tag = None
+        actions = Gtk.Box(spacing=8)
+        actions.append(button(_('New project note') if self.notes_section=='projects' else _('New note'),
+            self.create_note_from_archive,'list-add-symbolic','suggested-action'))
+        actions.append(icon_button('window-new-symbolic',_('Open LovyCairn Notes'),
+            lambda:self.run_action(lambda:self.launcher.open_notes(archive=True))))
+        page = self.page(_('Notes'), _('Free notes and project notes, as in LovyCairn Notes.'), actions)
+        switches = Gtk.Box(css_classes=['linked'],halign=Gtk.Align.START)
+        free_button = Gtk.ToggleButton(label=_('Free notes'))
+        project_button = Gtk.ToggleButton(label=_('Projects'),group=free_button)
+        (project_button if self.notes_section=='projects' else free_button).set_active(True)
+        free_button.connect('toggled',lambda widget:self.show_notes('free') if widget.get_active() else None)
+        project_button.connect('toggled',lambda widget:self.show_notes('projects') if widget.get_active() else None)
+        switches.append(free_button);switches.append(project_button)
+        page.append(switches)
+        if self.notes_section=='projects':
+            values = [None,*(p.rel for p in projects)]
+            names = [_('All projects')]+[p.name+' ('+str(len(self.project_notes(p)))+')' for p in projects]
+            selector = Adw.ComboRow(title=_('Project'),model=Gtk.StringList.new(names))
+            selector.set_selected(values.index(self.notes_project_rel))
+            selector.connect('notify::selected',lambda row,_spec:self.select_notes_project(values[row.get_selected()]))
+            group = Adw.PreferencesGroup()
+            group.add(selector)
+            page.append(group)
+        elif tags:
+            chips = Gtk.FlowBox(selection_mode=Gtk.SelectionMode.NONE,homogeneous=False,
+                column_spacing=6,row_spacing=6,max_children_per_line=8)
+            for tag in [None,*tags]:
+                chip = Gtk.ToggleButton(label='#'+tag if tag else _('All tags'),active=self.notes_tag==tag)
+                chip.add_css_class('pill')
+                chip.connect('toggled',lambda widget,t=tag:self.select_notes_tag(t if widget.get_active() else None))
+                chips.append(chip)
+            page.append(chips)
+        search = Gtk.SearchEntry(placeholder_text=_('Search project notes') if self.notes_section=='projects' else _('Search notes'))
         search.set_text(self.notes_query)
         page.append(search)
         rows = boxed_list()
         page.append(rows)
+        count = label('', 'dim-label')
+        page.append(count)
         def populate(*_args):
             clear(rows)
             self.notes_query = search.get_text()
             query = self.notes_query.casefold()
-            for note in sorted(self.notes,key=lambda n:-n.mtime):
-                if query not in note.text.casefold():
+            candidates = associated if self.notes_section=='projects' else free
+            selected = next((p for p in projects if p.rel==self.notes_project_rel),None)
+            if self.notes_section=='projects' and selected:
+                candidates = [n for n in candidates if selected.tag in n.tags]
+            elif self.notes_section=='free' and self.notes_tag:
+                candidates = [n for n in candidates if self.notes_tag in n.tags]
+            self.visible_notes = []
+            for note in sorted(candidates,key=lambda n:-n.mtime):
+                names = ' '.join(p.name for p in projects if p.tag in note.tags)
+                if query not in (note.text+' '+names).casefold():
                     continue
+                self.visible_notes.append(note)
                 self.append_note_row(rows,note)
-            if not rows.get_first_child():
-                rows.append(Adw.ActionRow(title=_('No notes found'),subtitle=_('Create a note in LovyCairn Notes.')))
+            if not self.visible_notes:
+                rows.append(Adw.ActionRow(title=_('No notes found'),
+                    subtitle=_('Create a note for the selected project.') if self.notes_section=='projects' else _('Create a free note to get started.')))
+            total = len(self.visible_notes)
+            count.set_label(_('1 note') if total==1 else _('%s notes') % total)
         search.connect('search-changed',populate)
         populate()
+
+    def select_notes_project(self, relative):
+        self.notes_project_rel = relative
+        self.show_notes('projects')
+
+    def select_notes_tag(self, tag):
+        self.notes_tag = tag
+        self.show_notes('free')
+
+    def create_note_from_archive(self):
+        if self.notes_section=='free':
+            self.run_action(lambda:self.launcher.open_notes(new=True))
+            return
+        projects = sorted(self.projects,key=lambda p:p.name.casefold())
+        selected = next((p for p in projects if p.rel==self.notes_project_rel),None)
+        if selected:
+            self.new_note(selected)
+            return
+        if not projects:
+            self.toast(_('Add a project before creating a project note.'))
+            return
+        def create(form):
+            self.new_note(projects[form.project_choice.get_selected()])
+        form = Form(self,_('Choose a project'),_('Create note'),create)
+        form.project_choice = Adw.ComboRow(title=_('Project'),model=Gtk.StringList.new([p.name for p in projects]))
+        form.group().add(form.project_choice)
+        form.present(self)
 
     def show_settings(self):
         self.view = 'settings'

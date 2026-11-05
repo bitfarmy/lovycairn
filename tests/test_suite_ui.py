@@ -197,6 +197,53 @@ class NativeSuiteTests(unittest.TestCase):
         current=next(w for w in descendants(self.window) if isinstance(w,Gtk.SearchEntry))
         self.assertEqual(current.get_text(),'Alpha')
 
+    def test_notes_archive_distinguishes_project_notes_from_free_and_orphan_notes(self):
+        atlas=self.project('Atlas');beta=self.project('Beta')
+        for name,text in [('free.md','A free note\n#personal'),('atlas.md','Atlas work\n#'+atlas.tag),
+                          ('beta.md','Beta work\n#'+beta.tag),('orphan.md','Old work\n#removed-project')]:
+            (self.root/'Notes'/name).write_text(text)
+        self.window.refresh();self.window.show_notes()
+        self.assertEqual({n.path.name for n in self.window.visible_notes},{'free.md','orphan.md'})
+        self.window.show_notes('projects')
+        self.assertEqual({n.path.name for n in self.window.visible_notes},{'atlas.md','beta.md'})
+        self.window.select_notes_project(atlas.rel)
+        self.assertEqual([n.path.name for n in self.window.visible_notes],['atlas.md'])
+        self.window.refresh()
+        self.assertEqual([n.path.name for n in self.window.visible_notes],['atlas.md'])
+
+    def test_new_note_from_archive_uses_free_or_selected_project_context(self):
+        atlas=self.project('Atlas')
+        requests=[]
+        self.window.launcher.open_notes=lambda **options:requests.append(options)
+        self.window.refresh();self.window.show_notes()
+        self.window.create_note_from_archive();spin(.2)
+        self.assertEqual(requests[-1],{'new':True})
+        self.window.show_notes('projects')
+        self.window.select_notes_project(atlas.rel)
+        self.window.create_note_from_archive();spin(.2)
+        self.assertEqual(requests[-1],{'tag':atlas.tag,'new':True})
+
+    def test_free_note_tag_filter_does_not_include_project_notes(self):
+        atlas=self.project('Atlas')
+        for name,text in [('one.md','One\n#idea'),('two.md','Two\n#later'),('project.md','Project\n#idea #'+atlas.tag)]:
+            (self.root/'Notes'/name).write_text(text)
+        self.window.refresh();self.window.show_notes()
+        self.window.select_notes_tag('idea')
+        self.assertEqual([n.path.name for n in self.window.visible_notes],['one.md'])
+
+    def test_new_project_note_from_all_projects_asks_before_launching_editor(self):
+        self.project('Atlas');beta=self.project('Beta')
+        requests=[]
+        self.window.launcher.open_notes=lambda **options:requests.append(options)
+        self.window.refresh();self.window.show_notes('projects')
+        self.window.create_note_from_archive();spin(.2)
+        self.assertEqual(requests,[])
+        form=self.window.active_dialog
+        self.assertIsNotNone(form)
+        form.project_choice.set_selected(1)
+        form.submit();spin(.3)
+        self.assertEqual(requests,[{'tag':beta.tag,'new':True}])
+
 
 if __name__ == '__main__':
     unittest.main()

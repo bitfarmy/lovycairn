@@ -31,6 +31,7 @@ for name,group,color in [('LovyCairn','Desktop App','#95c4ac'),('LovyTerm','Desk
 store.set_metadata(projects[0],favorite=True,next_step='Verificare la nuova finestra insieme ai progetti sulla scrivania.',last_opened=time.time())
 store.set_metadata(projects[1],favorite=True)
 (store.notes_dir/'progetto.md').write_text('Un unico spazio per riprendere il lavoro\n\nProgetti, note e prossimo passo devono essere subito visibili.\n\n#'+projects[0].tag)
+(store.notes_dir/'libera.md').write_text('Idee da tenere a portata di mano\n\nUn appunto libero, da ritrovare anche senza un progetto.\n\n#idee')
 settings=make_settings()
 settings.set_string('suite-theme','dark')
 settings.set_string('terminal-command','lovyterm --directory {dir}')
@@ -57,6 +58,7 @@ def control():
     if view=='detail': w.show_project(w.projects[0])
     elif view=='settings': w.show_settings()
     elif view=='notes': w.show_notes()
+    elif view=='notes-projects': w.show_notes('projects')
     elif view=='add': w.show_projects();w.new_project()
     else: w.show_projects()
     def ready():

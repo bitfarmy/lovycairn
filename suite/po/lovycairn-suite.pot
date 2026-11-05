@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: lovycairn-suite\n"
-"Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
-"POT-Creation-Date: 2026-11-05 12:30+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 16:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,462 +17,496 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: suite/lovycairn_suite/app.py:98 suite/lovycairn_suite/app.py:593
+#: suite/lovycairn_suite/app.py:102 suite/lovycairn_suite/app.py:679
 msgid "Settings"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:100
+#: suite/lovycairn_suite/app.py:104
 msgid "Projects on your computer"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:110
+#: suite/lovycairn_suite/app.py:114
 msgid "Your workspace"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:120
+#: suite/lovycairn_suite/app.py:124
 msgid "Show navigation"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:122
+#: suite/lovycairn_suite/app.py:126
 msgid "Back to projects"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:125 suite/lovycairn_suite/app.py:526
+#: suite/lovycairn_suite/app.py:129 suite/lovycairn_suite/app.py:530
 msgid "Refresh"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:258
+#: suite/lovycairn_suite/app.py:262 suite/lovycairn_suite/app.py:599
 msgid "All projects"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:261 suite/lovycairn_suite/app.py:314
+#: suite/lovycairn_suite/app.py:265 suite/lovycairn_suite/app.py:318
 msgid "Favorites"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:262 suite/lovycairn_suite/app.py:568
+#: suite/lovycairn_suite/app.py:266 suite/lovycairn_suite/app.py:588
 msgid "Notes"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:263
+#: suite/lovycairn_suite/app.py:267
 msgid "Desktop groups"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:274 suite/lovycairn_suite/views.py:228
+#: suite/lovycairn_suite/app.py:278 suite/lovycairn_suite/views.py:228
 msgid "New group"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:314
+#: suite/lovycairn_suite/app.py:318 suite/lovycairn_suite/app.py:591
 msgid "Projects"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:315
+#: suite/lovycairn_suite/app.py:319
 msgid "Everything you need to resume your work."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:316 suite/lovycairn_suite/app.py:347
+#: suite/lovycairn_suite/app.py:320 suite/lovycairn_suite/app.py:351
 #: suite/lovycairn_suite/views.py:122
 msgid "Add project"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:322
+#: suite/lovycairn_suite/app.py:326
 msgid "Resume here"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:325
+#: suite/lovycairn_suite/app.py:329
 msgid "Open the project to continue."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:327 suite/lovycairn_suite/app.py:404
-#: suite/lovycairn_suite/app.py:491
+#: suite/lovycairn_suite/app.py:331 suite/lovycairn_suite/app.py:408
+#: suite/lovycairn_suite/app.py:495
 #, python-format
 msgid "Open with %s"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:328
+#: suite/lovycairn_suite/app.py:332
 msgid "Project details"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:333
+#: suite/lovycairn_suite/app.py:337
 msgid "Search a project or folder"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:337
+#: suite/lovycairn_suite/app.py:341
 msgid "Recent"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:337 suite/lovycairn_suite/views.py:124
+#: suite/lovycairn_suite/app.py:341 suite/lovycairn_suite/views.py:124
 #: suite/lovycairn_suite/views.py:229
 msgid "Name"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:337
+#: suite/lovycairn_suite/app.py:341
 msgid "Git changes"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:339
+#: suite/lovycairn_suite/app.py:343
 msgid "Sort projects"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:346 suite/lovycairn_suite/app.py:377
+#: suite/lovycairn_suite/app.py:350 suite/lovycairn_suite/app.py:381
 msgid "No projects yet"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:346 suite/lovycairn_suite/app.py:378
+#: suite/lovycairn_suite/app.py:350 suite/lovycairn_suite/app.py:382
 msgid "Add a folder to get started."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:377
+#: suite/lovycairn_suite/app.py:381
 msgid "No projects found"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:377
+#: suite/lovycairn_suite/app.py:381
 msgid "No favorites yet"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:378
+#: suite/lovycairn_suite/app.py:382
 msgid "Try another name or path."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:378
+#: suite/lovycairn_suite/app.py:382
 msgid "Use the star beside a project to keep it here."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:380
+#: suite/lovycairn_suite/app.py:384
 msgid "1 project"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:380
+#: suite/lovycairn_suite/app.py:384
 #, python-format
 msgid "%s projects"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:390 suite/lovycairn_suite/app.py:528
+#: suite/lovycairn_suite/app.py:394 suite/lovycairn_suite/app.py:532
 msgid "Reading Git…"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:391 suite/lovycairn_suite/app.py:497
+#: suite/lovycairn_suite/app.py:395 suite/lovycairn_suite/app.py:501
 #: suite/lovycairn_suite/views.py:132
 msgid "Desktop"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:398 suite/lovycairn_suite/app.py:516
+#: suite/lovycairn_suite/app.py:402 suite/lovycairn_suite/app.py:520
 msgid "Project notes"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:403
+#: suite/lovycairn_suite/app.py:407
 msgid "Remove from favorites"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:403 suite/lovycairn_suite/app.py:501
+#: suite/lovycairn_suite/app.py:407 suite/lovycairn_suite/app.py:505
 msgid "Add to favorites"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:467
+#: suite/lovycairn_suite/app.py:471
 msgid "Folder not found"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:467
+#: suite/lovycairn_suite/app.py:471
 msgid "Not a Git repository"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:467
+#: suite/lovycairn_suite/app.py:471
 msgid "Git unavailable"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:471
+#: suite/lovycairn_suite/app.py:475
 msgid "No changes"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:471
+#: suite/lovycairn_suite/app.py:475
 msgid "1 changed file"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:471
+#: suite/lovycairn_suite/app.py:475
 #, python-format
 msgid "%s changed files"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:488 suite/lovycairn_suite/views.py:122
+#: suite/lovycairn_suite/app.py:492 suite/lovycairn_suite/views.py:122
 msgid "Edit project"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:492
+#: suite/lovycairn_suite/app.py:496
 msgid "Open folder"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:493
+#: suite/lovycairn_suite/app.py:497
 msgid "Open in editor"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:499
+#: suite/lovycairn_suite/app.py:503 suite/lovycairn_suite/app.py:643
 msgid "1 note"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:499
+#: suite/lovycairn_suite/app.py:503 suite/lovycairn_suite/app.py:643
 #, python-format
 msgid "%s notes"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:501
+#: suite/lovycairn_suite/app.py:505
 msgid "In favorites"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:512 suite/lovycairn_suite/views.py:211
+#: suite/lovycairn_suite/app.py:516 suite/lovycairn_suite/views.py:211
 msgid "Where I left off"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:512
+#: suite/lovycairn_suite/app.py:516
 msgid "Edit"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:513
+#: suite/lovycairn_suite/app.py:517
 msgid "Write the next step to find it when you return to this project."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:516 suite/lovycairn_suite/app.py:621
+#: suite/lovycairn_suite/app.py:520 suite/lovycairn_suite/app.py:584
+#: suite/lovycairn_suite/app.py:707
 msgid "New note"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:521
+#: suite/lovycairn_suite/app.py:525
 msgid "No notes for this project yet"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:521
+#: suite/lovycairn_suite/app.py:525
 msgid "New notes will be associated automatically."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:524
+#: suite/lovycairn_suite/app.py:528
 msgid "Notes open in LovyCairn Notes."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:526
+#: suite/lovycairn_suite/app.py:530
 msgid "Git status"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:535
+#: suite/lovycairn_suite/app.py:539
 msgid "Links"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:543
+#: suite/lovycairn_suite/app.py:547
 msgid "No documentation links"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:543
+#: suite/lovycairn_suite/app.py:547
 msgid "Add links from Edit project."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:547
+#: suite/lovycairn_suite/app.py:551
 msgid "Remove project launcher"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:568
-msgid "Ideas and notes, together with their projects."
+#: suite/lovycairn_suite/app.py:584 suite/lovycairn_suite/app.py:707
+msgid "New project note"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:569
+#: suite/lovycairn_suite/app.py:586
 msgid "Open LovyCairn Notes"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:570
+#: suite/lovycairn_suite/app.py:588
+msgid "Free notes and project notes, as in LovyCairn Notes."
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:590
+msgid "Free notes"
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:600 suite/lovycairn_suite/app.py:670
+#: suite/lovycairn_suite/views.py:123
+msgid "Project"
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:610
+msgid "All tags"
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:615
+msgid "Search project notes"
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:615
 msgid "Search notes"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:584
+#: suite/lovycairn_suite/app.py:640
 msgid "No notes found"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:584
-msgid "Create a note in LovyCairn Notes."
+#: suite/lovycairn_suite/app.py:641
+msgid "Create a note for the selected project."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:593
+#: suite/lovycairn_suite/app.py:641
+msgid "Create a free note to get started."
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:665
+msgid "Add a project before creating a project note."
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:669
+msgid "Choose a project"
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:669
+msgid "Create note"
+msgstr ""
+
+#: suite/lovycairn_suite/app.py:679
 msgid "The same environment, from the suite and the desktop."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:594
+#: suite/lovycairn_suite/app.py:680
 msgid "Opening projects"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:596 suite/lovycairn_suite/views.py:151
+#: suite/lovycairn_suite/app.py:682 suite/lovycairn_suite/views.py:151
 msgid "Terminal"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:596
+#: suite/lovycairn_suite/app.py:682
 msgid "Automatic"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:596
+#: suite/lovycairn_suite/app.py:682
 #, python-brace-format
 msgid "{dir} is replaced by the project folder. Empty: detect automatically."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:597
+#: suite/lovycairn_suite/app.py:683
 msgid "Browser"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:597
+#: suite/lovycairn_suite/app.py:683
 msgid "Default browser"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:597
+#: suite/lovycairn_suite/app.py:683
 #, python-brace-format
 msgid "{url} is replaced by the documentation address. Empty: default browser."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:598
+#: suite/lovycairn_suite/app.py:684
 msgid "Editor"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:598 suite/lovycairn_suite/services.py:134
+#: suite/lovycairn_suite/app.py:684 suite/lovycairn_suite/services.py:134
 msgid "Not configured"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:598
+#: suite/lovycairn_suite/app.py:684
 #, python-brace-format
 msgid "Set an editor command using {dir}, for example code {dir}."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:599 suite/lovycairn_suite/views.py:165
+#: suite/lovycairn_suite/app.py:685 suite/lovycairn_suite/views.py:165
 msgid "Workspace"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:599
+#: suite/lovycairn_suite/app.py:685
 msgid "Ask every time"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:599 suite/lovycairn_suite/views.py:165
+#: suite/lovycairn_suite/app.py:685 suite/lovycairn_suite/views.py:165
 msgid "New workspace"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:599 suite/lovycairn_suite/views.py:165
+#: suite/lovycairn_suite/app.py:685 suite/lovycairn_suite/views.py:165
 msgid "Current workspace"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:604
+#: suite/lovycairn_suite/app.py:690
 msgid "Notes and appearance"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:606
+#: suite/lovycairn_suite/app.py:692
 msgid "Notes on the desktop"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:606
+#: suite/lovycairn_suite/app.py:692
 msgid "Show notes collapsed to icons."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:609
+#: suite/lovycairn_suite/app.py:695
 msgid "Notes command"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:609
+#: suite/lovycairn_suite/app.py:695
 msgid "Empty: lovycairn-notes."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:610
+#: suite/lovycairn_suite/app.py:696
 msgid "Notes folder"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:611
+#: suite/lovycairn_suite/app.py:697
 msgid "Empty: ~/Notes."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:614 suite/lovycairn_suite/views.py:135
+#: suite/lovycairn_suite/app.py:700 suite/lovycairn_suite/views.py:135
 msgid "Appearance"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:614
+#: suite/lovycairn_suite/app.py:700
 msgid "System"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:614
+#: suite/lovycairn_suite/app.py:700
 msgid "Light"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:614
+#: suite/lovycairn_suite/app.py:700
 msgid "Dark"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:619
+#: suite/lovycairn_suite/app.py:705
 msgid "Desktop shortcuts"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:619
+#: suite/lovycairn_suite/app.py:705
 msgid "Press Enter or Apply to save a shortcut, for example <Super>j."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:621
+#: suite/lovycairn_suite/app.py:707
 msgid "Find a project"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:621
-msgid "New project note"
-msgstr ""
-
-#: suite/lovycairn_suite/app.py:640 suite/lovycairn_suite/app.py:643
+#: suite/lovycairn_suite/app.py:726 suite/lovycairn_suite/app.py:729
 msgid "Custom command"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:644
+#: suite/lovycairn_suite/app.py:730
 msgid "Command"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:690
+#: suite/lovycairn_suite/app.py:776
 msgid "Enter an executable command."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:692
+#: suite/lovycairn_suite/app.py:778
 msgid "The command has invalid quotation marks."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:694 suite/lovycairn_suite/app.py:702
-#: suite/lovycairn_suite/app.py:711
+#: suite/lovycairn_suite/app.py:780 suite/lovycairn_suite/app.py:788
+#: suite/lovycairn_suite/app.py:797
 msgid "Preference saved."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:699
+#: suite/lovycairn_suite/app.py:785
 msgid "Choose an existing notes folder."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:708
+#: suite/lovycairn_suite/app.py:794
 msgid "Enter a valid keyboard shortcut."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:724
+#: suite/lovycairn_suite/app.py:810
 msgid "Next step saved."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:748
+#: suite/lovycairn_suite/app.py:834
 #, python-format
 msgid "Remove “%s” from LovyCairn?"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:749
+#: suite/lovycairn_suite/app.py:835
 msgid ""
 "Only the launcher moves to the trash. The project folder and its notes are "
 "kept."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:750 suite/lovycairn_suite/views.py:97
+#: suite/lovycairn_suite/app.py:836 suite/lovycairn_suite/views.py:97
 msgid "Cancel"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:751
+#: suite/lovycairn_suite/app.py:837
 msgid "Remove launcher"
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:790
+#: suite/lovycairn_suite/app.py:876
 msgid "The desktop extension is unavailable. Opened in the current workspace."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:816
+#: suite/lovycairn_suite/app.py:902
 msgid "Show a project from its desktop launcher."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:849
+#: suite/lovycairn_suite/app.py:935
 msgid "This project is no longer available."
 msgstr ""
 
-#: suite/lovycairn_suite/app.py:854
+#: suite/lovycairn_suite/app.py:940
 msgid "LovyCairn could not start"
 msgstr ""
 
@@ -638,10 +672,6 @@ msgstr ""
 
 #: suite/lovycairn_suite/views.py:122 suite/lovycairn_suite/views.py:211
 msgid "Save"
-msgstr ""
-
-#: suite/lovycairn_suite/views.py:123
-msgid "Project"
 msgstr ""
 
 #: suite/lovycairn_suite/views.py:126
