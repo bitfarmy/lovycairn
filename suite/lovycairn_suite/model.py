@@ -89,6 +89,8 @@ class Group:
     rel: str
     name: str
     label: str
+    shape: str = 'folder'
+    color: str = ''
 
 
 @dataclass(frozen=True)
@@ -124,7 +126,12 @@ class Store:
             for child in sorted(parent.iterdir()):
                 if child.is_symlink() or not child.is_dir() or not (child/'.group').is_file() or (child/'.group').is_symlink(): continue
                 rel = child.relative_to(self.desktop).as_posix()
-                result.append(Group(child, rel, child.name, rel)); visit(child)
+                try:
+                    appearance = dict(re.findall(r'^(color|icon)=(\S+)\s*$',(child/'.group').read_text(errors='replace'),re.M))
+                except OSError:
+                    appearance = {}
+                result.append(Group(child, rel, child.name, rel, appearance.get('icon','folder'),appearance.get('color','')))
+                visit(child)
         visit(self.desktop)
         return result
 

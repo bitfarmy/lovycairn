@@ -61,6 +61,8 @@ Use libadwaita's own window, boxed-list, dialog and control elevation. Custom pa
 
 Custom panel curvature is defined by the panel token. Native buttons, switches, search entries, dialogs and boxed lists retain platform geometry. Reuse the existing cairn logo, extension SVG shapes and symbolic GTK icons; project identity color and shape remain user data.
 
+Project identities in lists, resume panels and details, and group identities in the sidebar, use the same shape IDs, vector geometry and default colors as the desktop. `scripts/suite-icons.mjs` generates `shapes.json` and `visuals.json` from the extension and note editor sources; edit those sources rather than generated assets. Explicit identity colors override generic GTK icon tinting. Notes use small filled dots colored from the editor's `.state.json`, including pastel colors; color names are accessible tooltips.
+
 ## Components
 
 - **Primary actions:** native buttons with `suggested-action`, especially opening the configured terminal and adding projects. Secondary actions use standard or flat buttons. Destructive launcher removal uses native destructive styling and explicit confirmation.

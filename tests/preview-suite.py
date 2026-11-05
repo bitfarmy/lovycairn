@@ -19,19 +19,22 @@ assert str(home).startswith('/tmp/lovycairn-suite-preview.'), 'Use the isolated 
 store = Store(home/'Desktop',home/'Notes')
 store.notes_dir.mkdir(parents=True)
 for name in ['Desktop App','web','Lab']:
-    store.create_group(name)
+    group=store.create_group(name)
+    style={'Desktop App':('cube','#22c4b5'),'web':('skull','#e96ea9'),'Lab':('bolt','#b59be6')}[name]
+    (group.path/'.group').write_text('icon='+style[0]+'\ncolor='+style[1]+'\n')
 projects=[]
 for name,group,color in [('LovyCairn','Desktop App','#95c4ac'),('LovyTerm','Desktop App','#95c4ac'),('App Ristoranti','web','#9dabbc'),('TramaMind','Lab','#c6b17f')]:
     folder=home/'projects'/name
     folder.mkdir(parents=True)
     subprocess.run(['git','init','-q','-b','main',str(folder)],check=True)
     (folder/'README.md').write_text('# '+name+'\n')
-    p=store.save_project(name=name,folder=folder,group=group,color=color,docs=('https://github.com/bitfarmy/lovycairn',) if name=='LovyCairn' else ())
+    p=store.save_project(name=name,folder=folder,group=group,color=color,shape={'LovyCairn':'cube','LovyTerm':'utilities-terminal','App Ristoranti':'git','TramaMind':'applications-science'}[name],docs=('https://github.com/bitfarmy/lovycairn',) if name=='LovyCairn' else ())
     projects.append(p)
 store.set_metadata(projects[0],favorite=True,next_step='Verificare la nuova finestra insieme ai progetti sulla scrivania.',last_opened=time.time())
 store.set_metadata(projects[1],favorite=True)
 (store.notes_dir/'progetto.md').write_text('Un unico spazio per riprendere il lavoro\n\nProgetti, note e prossimo passo devono essere subito visibili.\n\n#'+projects[0].tag)
 (store.notes_dir/'libera.md').write_text('Idee da tenere a portata di mano\n\nUn appunto libero, da ritrovare anche senza un progetto.\n\n#idee')
+(store.notes_dir/'.state.json').write_text(json.dumps({'colors':{'progetto.md':'pastel-green','libera.md':'pastel-pink'}}))
 settings=make_settings()
 settings.set_string('suite-theme','dark')
 settings.set_string('terminal-command','lovyterm --directory {dir}')

@@ -1,0 +1,158 @@
+{
+  "project": {
+    "shape": "cube",
+    "color": "#aeb5bf",
+    "allowed": [
+      "cube",
+      "folder-code",
+      "board",
+      "flag",
+      "package-x-generic",
+      "applications-engineering",
+      "utilities-terminal",
+      "network-server",
+      "applications-science",
+      "folder-solid",
+      "stack",
+      "grid",
+      "star",
+      "shield",
+      "bolt",
+      "book",
+      "cloud",
+      "target",
+      "house",
+      "git",
+      "penguin",
+      "chip",
+      "bug",
+      "database",
+      "code",
+      "container",
+      "gear",
+      "network",
+      "android",
+      "phone",
+      "keyboard",
+      "apk",
+      "skull",
+      "padlock",
+      "key",
+      "eye",
+      "hacker",
+      "download",
+      "music",
+      "pictures",
+      "video",
+      "games"
+    ]
+  },
+  "group": {
+    "shape": "folder",
+    "color": "#d9dde3",
+    "allowed": [
+      "folder",
+      "folder-solid",
+      "stack",
+      "grid",
+      "star",
+      "folder-documents",
+      "user-bookmarks",
+      "cube",
+      "board",
+      "flag",
+      "shield",
+      "bolt",
+      "book",
+      "cloud",
+      "target",
+      "house",
+      "terminal",
+      "git",
+      "penguin",
+      "chip",
+      "bug",
+      "database",
+      "code",
+      "container",
+      "gear",
+      "rack",
+      "network",
+      "android",
+      "phone",
+      "keyboard",
+      "apk",
+      "skull",
+      "padlock",
+      "key",
+      "eye",
+      "hacker",
+      "download",
+      "music",
+      "pictures",
+      "video",
+      "games"
+    ]
+  },
+  "notes": {
+    "default": "yellow",
+    "colors": {
+      "yellow": {
+        "name": "Yellow",
+        "color": "#f6d32d"
+      },
+      "orange": {
+        "name": "Orange",
+        "color": "#ff7800"
+      },
+      "pink": {
+        "name": "Pink",
+        "color": "#e879a8"
+      },
+      "green": {
+        "name": "Green",
+        "color": "#33d17a"
+      },
+      "blue": {
+        "name": "Blue",
+        "color": "#62a0ea"
+      },
+      "lilac": {
+        "name": "Lilac",
+        "color": "#c061cb"
+      },
+      "gray": {
+        "name": "Gray",
+        "color": "#9a9996"
+      },
+      "pastel-yellow": {
+        "name": "Butter",
+        "color": "#f5e7ac"
+      },
+      "pastel-orange": {
+        "name": "Peach",
+        "color": "#f4c8ad"
+      },
+      "pastel-pink": {
+        "name": "Blush",
+        "color": "#edc3d1"
+      },
+      "pastel-green": {
+        "name": "Mint",
+        "color": "#bfe3cb"
+      },
+      "pastel-blue": {
+        "name": "Sky",
+        "color": "#bed9ed"
+      },
+      "pastel-lilac": {
+        "name": "Lavender",
+        "color": "#d8c9e9"
+      },
+      "pastel-gray": {
+        "name": "Sand",
+        "color": "#dedbd2"
+      }
+    }
+  }
+}

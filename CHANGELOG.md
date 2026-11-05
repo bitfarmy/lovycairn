@@ -6,6 +6,7 @@ project uses [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- Desktop-matching project/group symbols and colors throughout the suite, plus saved note colors displayed as dots in note lists.
 - Suite notes archive with separate free/project views, project and tag filters, and contextual note creation in LovyCairn Notes.
 - Seven pastel note colors, grouped separately from the classic palette and preserved on collapsed desktop notes.
 - Native GTK 4/libadwaita project suite (`lovycairn`) with shared desktop projects/groups, search, favorites, next steps, Git status, launcher management, notes previews and shared preferences; English and Italian interface.

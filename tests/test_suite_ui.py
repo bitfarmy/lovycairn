@@ -244,6 +244,43 @@ class NativeSuiteTests(unittest.TestCase):
         form.submit();spin(.3)
         self.assertEqual(requests,[{'tag':beta.tag,'new':True}])
 
+    def test_project_outline_and_automatic_color_match_desktop(self):
+        p=self.store.save_project(name='Atlas',folder=self.root/'code/Atlas',shape='applications-science')
+        self.window.refresh()
+        row=next(w for w in descendants(self.window.project_list) if isinstance(w,Adw.ActionRow))
+        image=next(w for w in descendants(row) if isinstance(w,Gtk.Image))
+        self.assertEqual(image.get_icon_name(),'applications-science-symbolic')
+        p=self.store.save_project(p,name='Atlas',folder=p.path,shape='cube')
+        self.window.refresh()
+        row=next(w for w in descendants(self.window.project_list) if isinstance(w,Adw.ActionRow))
+        image=next(w for w in descendants(row) if isinstance(w,Gtk.Image))
+        self.assertIn(b'#aeb5bf',image.get_gicon().get_bytes().get_data())
+
+    def test_group_uses_its_desktop_shape_and_color(self):
+        group=self.store.create_group('Lab')
+        (group.path/'.group').write_text('icon=skull\ncolor=#e96ea9\n')
+        self.window.refresh()
+        candidate=next(w for w in descendants(self.window.nav) if isinstance(w,Gtk.Label) and w.get_label()=='Lab  0')
+        image=candidate.get_parent().get_first_child()
+        self.assertIsInstance(image.get_gicon(),Gio.BytesIcon)
+        self.assertIn(b'#e96ea9',image.get_gicon().get_bytes().get_data())
+
+    def test_note_uses_saved_color_dot_and_refreshes_after_editor_changes(self):
+        note=self.root/'Notes/colored.md'
+        note.write_text('Colored note')
+        state=self.root/'Notes/.state.json'
+        state.write_text('{"colors":{"colored.md":"pastel-green"}}')
+        self.window.refresh();self.window.show_notes()
+        def dot():
+            row=next(w for w in descendants(self.window) if isinstance(w,Adw.ActionRow) and w.get_title()=='Colored note')
+            return next(w for w in descendants(row) if isinstance(w,Gtk.Image))
+        self.assertIsInstance(dot().get_gicon(),Gio.BytesIcon)
+        self.assertIn(b'<circle',dot().get_gicon().get_bytes().get_data())
+        self.assertIn(b'#bfe3cb',dot().get_gicon().get_bytes().get_data())
+        state.write_text('{"colors":{"colored.md":"pink"}}')
+        self.window.refresh()
+        self.assertIn(b'#e879a8',dot().get_gicon().get_bytes().get_data())
+
 
 if __name__ == '__main__':
     unittest.main()

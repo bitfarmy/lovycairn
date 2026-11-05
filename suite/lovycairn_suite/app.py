@@ -20,17 +20,20 @@ for locale_dir in (os.environ.get('LOVYCAIRN_LOCALE_DIR'),
                    Path(os.environ.get('XDG_DATA_HOME', Path.home()/'.local/share'))/'locale',
                    '/usr/share/locale'):
     if locale_dir and gettext.find(DOMAIN, str(locale_dir)):
+        if gettext.find('lovycairn-notes', str(locale_dir)):
+            gettext.bindtextdomain('lovycairn-notes', str(locale_dir))
         gettext.bindtextdomain(DOMAIN, str(locale_dir))
         break
 gettext.textdomain(DOMAIN)
 _ = gettext.gettext
 
-from .model import Store
+from .model import Store, read_json
 from .services import Launcher, git_state, make_settings
 from .views import Form, GroupForm, NextStepForm, ProjectForm, boxed_list, button, clear, icon_button, label, panel, section, shortened
 
 APP_ID = 'io.github.bitfarmy.LovyCairn'
 SHAPES = json.loads(Path(__file__).with_name('shapes.json').read_text())
+VISUALS = json.loads(Path(__file__).with_name('visuals.json').read_text())
 CSS = '''
 .suite-sidebar { padding: 12px 10px; background: alpha(@window_fg_color, .025); }
 .suite-sidebar button { min-height: 34px; padding: 5px 12px; }
@@ -48,14 +51,6 @@ CSS = '''
 .suite-note { padding: 5px 0; }
 '''
 
-
-def project_icon(project):
-    return {'folder-code':'folder-documents-symbolic','code':'applications-engineering-symbolic',
-            'git':'git-symbolic','network-server':'network-server-symbolic','phone':'phone-symbolic',
-            'music':'audio-x-generic-symbolic','pictures':'image-x-generic-symbolic',
-            'games':'applications-games-symbolic','book':'accessories-dictionary-symbolic',
-            'cloud':'weather-overcast-symbolic','star':'starred-symbolic',
-            'utilities-terminal':'utilities-terminal-symbolic'}.get(project.shape, 'folder-symbolic')
 
 
 class SuiteWindow(Adw.ApplicationWindow):
@@ -80,6 +75,7 @@ class SuiteWindow(Adw.ApplicationWindow):
         self.sort = 0
         self.projects = []
         self.notes = []
+        self.note_colors = {}
         self.visible_projects = []
         self.git = {}
         self.git_pending = set()
@@ -233,6 +229,11 @@ class SuiteWindow(Adw.ApplicationWindow):
             self.notes = self.store.notes()
         except (OSError, ValueError, GLib.Error) as exc:
             self.toast(str(exc))
+        try:
+            colors = read_json(self.store.notes_dir/'.state.json').get('colors',{})
+            self.note_colors = colors if isinstance(colors,dict) else {}
+        except (OSError,ValueError):
+            self.note_colors = {}
         self.build_navigation()
         self.watch()
         if self.view == 'detail' and self.selected_project:
@@ -273,15 +274,19 @@ class SuiteWindow(Adw.ApplicationWindow):
             groups = []
         for group in groups:
             count = sum(p.group == group.rel for p in self.projects)
-            self.nav.append(self.nav_button(group.label.replace('/', ' › ')+'  '+str(count), 'folder-symbolic',
-                lambda rel=group.rel: self.show_projects('projects', rel), self.group_filter==group.rel and self.view=='projects'))
+            group_button = self.nav_button(group.label.replace('/', ' › ')+'  '+str(count), 'folder-symbolic',
+                lambda rel=group.rel: self.show_projects('projects', rel), self.group_filter==group.rel and self.view=='projects')
+            group_image = group_button.get_child().get_first_child()
+            group_image.set_pixel_size(18)
+            self.apply_project_color(group_image,group,kind='group')
+            self.nav.append(group_button)
         self.nav.append(self.nav_button(_('New group'), 'list-add-symbolic', self.new_group))
         if self.view == 'settings':
             self.preferences_button.add_css_class('selected')
         else:
             self.preferences_button.remove_css_class('selected')
 
-    def page(self, title, subtitle='', action=None):
+    def page(self, title, subtitle='', action=None, identity=None):
         clear(self.content_box)
         self.git_rows = {}
         self.back_button.set_visible(self.view=='detail')
@@ -295,6 +300,9 @@ class SuiteWindow(Adw.ApplicationWindow):
         titles.append(label(title, 'title-1', True))
         if subtitle:
             titles.append(label(subtitle, 'dim-label', True))
+        if identity:
+            identity.set_valign(Gtk.Align.CENTER)
+            heading.append(identity)
         heading.append(titles)
         if action:
             action.set_valign(Gtk.Align.CENTER)
@@ -325,7 +333,10 @@ class SuiteWindow(Adw.ApplicationWindow):
                 p = recent[1]
                 resume = section(_('Resume here'))
                 body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-                body.append(label(p.name, 'title-3'))
+                identity = Gtk.Box(spacing=10)
+                identity.append(self.project_image(p,28))
+                identity.append(label(p.name,'title-3'))
+                body.append(identity)
                 body.append(label(self.safe_metadata(p).get('next_step') or _('Open the project to continue.'), wrap=True))
                 actions = Gtk.Box(spacing=8)
                 actions.append(button(_('Open with %s') % self.launcher.terminal_name(), lambda: self.open_project(p), 'utilities-terminal-symbolic', 'suggested-action'))
@@ -386,7 +397,7 @@ class SuiteWindow(Adw.ApplicationWindow):
             row = Adw.ActionRow(title=GLib.markup_escape_text(p.name), subtitle=GLib.markup_escape_text(str(p.path)))
             row.set_activatable(True)
             row.set_subtitle_lines(1)
-            image = Gtk.Image.new_from_icon_name(project_icon(p))
+            image = Gtk.Image()
             image.set_pixel_size(24)
             row.add_prefix(image)
             self.apply_project_color(image,p)
@@ -411,10 +422,17 @@ class SuiteWindow(Adw.ApplicationWindow):
             self.git_rows[str(p.path)] = git_label
             self.request_git(p)
 
-    def apply_project_color(self, widget, project):
+    def project_image(self, project, size=24):
+        image = Gtk.Image(pixel_size=size)
+        self.apply_project_color(image,project)
+        return image
+
+    def apply_project_color(self, widget, project, kind='project'):
         import re
-        color = project.color if re.fullmatch(r'#[0-9a-fA-F]{6}', project.color or '') else '#96b8a6'
-        drawing = SHAPES.get(project.shape)
+        defaults = VISUALS[kind]
+        color = project.color if re.fullmatch(r'#[0-9a-fA-F]{6}', project.color or '') else defaults['color']
+        shape = project.shape if project.shape in defaults['allowed'] else defaults['shape']
+        drawing = SHAPES.get(shape)
         if drawing:
             rgb = [int(color[i:i+2],16) for i in (1,3,5)]
             def shade(target, amount):
@@ -424,9 +442,10 @@ class SuiteWindow(Adw.ApplicationWindow):
             svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">'+drawing+'</svg>'
             widget.set_from_gicon(Gio.BytesIcon.new(GLib.Bytes.new(svg.encode())))
         else:
+            widget.set_from_icon_name(shape+'-symbolic')
             provider = Gtk.CssProvider()
             provider.load_from_string('image { color: '+color+'; }')
-            widget.get_style_context().add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+            widget.get_style_context().add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_USER+1)
 
     def request_git(self, project, force=False):
         key = str(project.path)
@@ -490,7 +509,7 @@ class SuiteWindow(Adw.ApplicationWindow):
         self.selected_project = project
         self.build_navigation()
         edit = icon_button('document-edit-symbolic', _('Edit project'), lambda: self.edit_project(project))
-        page = self.page(project.name, str(project.path), edit)
+        page = self.page(project.name, str(project.path), edit, self.project_image(project,40))
         actions = Gtk.FlowBox(selection_mode=Gtk.SelectionMode.NONE, row_spacing=8, column_spacing=8, homogeneous=False, max_children_per_line=5)
         for action in [button(_('Open with %s') % self.launcher.terminal_name(), lambda:self.open_project(project), 'utilities-terminal-symbolic', 'suggested-action'),
                        button(_('Open folder'), lambda:self.run_action(lambda:self.launcher.open_folder(project.path)), 'folder-open-symbolic'),
@@ -560,7 +579,17 @@ class SuiteWindow(Adw.ApplicationWindow):
         row = Adw.ActionRow(title=GLib.markup_escape_text(shortened(note.title,100)),subtitle=GLib.markup_escape_text(shortened(preview)))
         row.set_subtitle_lines(2)
         row.set_activatable(True)
-        row.add_prefix(Gtk.Image.new_from_icon_name('text-x-generic-symbolic'))
+        palette = VISUALS['notes']
+        key = self.note_colors.get(note.path.name)
+        color = palette['colors'].get(key) if isinstance(key,str) else None
+        color = color or palette['colors'][palette['default']]
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5" fill="'+color['color']+'"/></svg>'
+        dot = Gtk.Image.new_from_gicon(Gio.BytesIcon.new(GLib.Bytes.new(svg.encode())))
+        dot.set_pixel_size(18)
+        color_name = gettext.dgettext('lovycairn-notes',color['name'])
+        dot.set_tooltip_text(color_name)
+        dot.update_property([Gtk.AccessibleProperty.LABEL],[color_name])
+        row.add_prefix(dot)
         row.add_suffix(Gtk.Image.new_from_icon_name('go-next-symbolic'))
         row.connect('activated',lambda *_:self.run_action(lambda:self.launcher.open_notes(name=note.path.name)))
         box.append(row)
