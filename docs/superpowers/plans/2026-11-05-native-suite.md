@@ -111,3 +111,14 @@ extension code.
 - Independent native visual review: ship at native scope; existing native theme
   remains authoritative. Wide, narrow, light and dark captures inspected.
 - Implementation remains on feat/native-suite; no remote push or merge requested.
+
+- Installed verified source after backup at
+  `~/.local/state/lovycairn/backups/20261105-123244-native-suite`.
+  Desktop and Notes file hashes and existing GSettings values remained unchanged.
+- Installed app starts and owns `io.github.bitfarmy.LovyCairn`; GTK Actions confirms
+  it is responsive. Actual collection: 12 projects, 7 groups, 14 notes.
+  Existing terminal remains `lovyterm --directory {dir}`.
+- The running Shell still has the prior extension module. Its management service
+  reports ReloadExtension is not implemented. New desktop menu and workspace
+  bridge load at the next session login; the suite is usable now with direct
+  current-workspace opening. No logout forced.
