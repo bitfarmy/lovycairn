@@ -46,5 +46,6 @@ Copy `po/lovycairn.pot` to `po/<lang>.po` (extension) and `notes/po/lovycairn-no
 ## Releases
 
 1. Update `version-name` (and `version`) in `extension/metadata.json` and `CHANGELOG.md`.
-2. `scripts/dev.sh check && scripts/dev.sh pack`.
-3. Tag `vX.Y.Z` and publish a release with the zip from `dist/`.
+2. Run `scripts/dev.sh check` and `tests/run-suite-ui.sh`, then commit the release changes.
+3. Run `scripts/release-artifacts.sh` to build the extension zip, complete source archive and checksums from the clean commit.
+4. Push `main` and tag `vX.Y.Z`; the release workflow publishes all three artifacts.

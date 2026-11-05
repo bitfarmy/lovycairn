@@ -128,6 +128,7 @@ lovycairn-add ~/code/mio-progetto        # il tuo primo progetto
 <details>
 <summary><b>Altri modi di installare</b></summary>
 
+- **Release completa:** scarica ed estrai `lovycairn-1.4.0.tar.gz` dalle [release](https://github.com/bitfarmy/lovycairn/releases), poi esegui `scripts/install.sh` nella cartella estratta per installare suite, estensione, note e strumenti.
 - **Da una release:** scarica `lovycairn@bitfarmy.github.io.shell-extension.zip` dalle [release](https://github.com/bitfarmy/lovycairn/releases), poi `gnome-extensions install --force <file>` ed esci/rientra. (Installa solo l'estensione; l'app delle note e gli strumenti a riga di comando arrivano con `scripts/install.sh`.)
 - **Senza l'app delle note:** `scripts/install.sh --no-notes` — l'estensione nasconde semplicemente le voci delle note.
 - **Senza il controllo aggiornamenti:** `scripts/install.sh --no-autostart`.

@@ -5,6 +5,8 @@ project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-11-05
+
 ### Added
 - Desktop-matching project/group symbols and colors throughout the suite, plus saved note colors displayed as dots in note lists.
 - Suite notes archive with separate free/project views, project and tag filters, and contextual note creation in LovyCairn Notes.

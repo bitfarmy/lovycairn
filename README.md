@@ -128,6 +128,7 @@ lovycairn-add ~/code/my-project          # your first project
 <details>
 <summary><b>Other ways to install</b></summary>
 
+- **Complete release:** download and extract `lovycairn-1.4.0.tar.gz` from the [releases](https://github.com/bitfarmy/lovycairn/releases), then run `scripts/install.sh` inside the extracted folder to install the suite, extension, notes and tools.
 - **From a release:** download `lovycairn@bitfarmy.github.io.shell-extension.zip` from the [releases](https://github.com/bitfarmy/lovycairn/releases), then `gnome-extensions install --force <file>` and log out/in. (This installs the extension only; the notes app and the command-line tools come with `scripts/install.sh`.)
 - **Without the notes app:** `scripts/install.sh --no-notes` — the extension then simply hides the note entries.
 - **Without the update watcher:** `scripts/install.sh --no-autostart`.
