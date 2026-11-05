@@ -94,6 +94,10 @@ It checks the parts of GNOME it depends on at every start. If one changes, only 
 
 Run `lovycairn`, choose **LovyCairn** in the applications menu, or right-click the desktop and choose **Open LovyCairn**. A project's **Project details** menu opens its page directly. The native GTK 4/libadwaita app shares the desktop's existing projects and groups: search and sort projects, mark favorites, save a next step, inspect Git changes, manage launchers and browse associated notes.
 
+The suite's **Notes** page follows the same organization as LovyCairn Notes: switch between **Free notes** and **Project notes**, filter free notes by tag, or select a project to see its associated notes. Search stays in place when notes change outside the suite. Create a free note from the free-notes view, or a project note from the project view or a project's details page; the project tag is applied automatically. If no project is selected, the suite asks which project the new note belongs to.
+
+Project and group icons keep the **same shape and color as on the desktop**, including custom choices. Notes use **colored dots** matching their saved color in LovyCairn Notes; color changes made in the editor refresh in the suite.
+
 LovyCairn Notes remains the separate Markdown editor. The suite previews notes and opens or creates them in the configured notes application. Removing a project moves only its launcher to the trash; its code folder and notes remain.
 
 Settings are shared with the extension. Custom terminal, browser and notes commands stay editable; the editor command supports `{dir}`. The global workspace choice starts at **Ask every time** and each project's choice takes precedence. Choose system, light or dark appearance for the suite. If the extension is unavailable, the suite can open a terminal and documentation in the current workspace and shows that limitation.
@@ -134,6 +138,8 @@ lovycairn-add ~/code/my-project          # your first project
 - **Without the update watcher:** `scripts/install.sh --no-autostart`.
 - **extensions.gnome.org:** planned. Releases are packaged the way the site expects.
 </details>
+
+Release downloads also include `SHA256SUMS`. Save it alongside the ZIP and complete archive, then run `sha256sum --check SHA256SUMS` in that folder to verify both downloads. See the [1.4.0 release notes](https://github.com/bitfarmy/lovycairn/releases/tag/v1.4.0) for the native suite and notes additions.
 
 ## Using it
 
@@ -183,6 +189,8 @@ A group is a folder containing a file named `.group` with optional lines `color=
 - `#tags` anywhere in a note; a tag that matches a project puts the note under **Projects**.
 - Collapse a note (the pin button) into a colored sticky on the desktop; click it to expand, right-click to send it back to the archive.
 - Closed notes live in the archive with search; deleted ones sit in the trash until you restore them.
+- The color picker offers **Classic** and **Pastels** sections. The seven pastel choices are Butter, Peach, Blush, Mint, Sky, Lavender and Sand; the chosen color is preserved when a note is collapsed and appears as a matching dot in the suite.
+- Projects with associated notes show a **✎n counter** beside their Git state on the desktop and inside group panels. The counter follows changes in the notes folder.
 
 ## Built to survive GNOME updates
 
@@ -203,6 +211,8 @@ What it cannot do: repair itself. A real fix is a new release; the notification 
 ## Translations
 
 The interface is available in **English** and **Italiano** (it follows your system language). To add a language, copy `po/lovycairn.pot` to `po/<lang>.po` (and `notes/po/lovycairn-notes.pot` for the notes app), translate it, and open a pull request. See [CONTRIBUTING](CONTRIBUTING.md).
+
+The native suite has its own catalog: copy `suite/po/lovycairn-suite.pot` to `suite/po/<lang>.po` to translate it as well.
 
 ## Uninstall
 
