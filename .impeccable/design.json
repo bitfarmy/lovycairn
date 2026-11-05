@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-05T11:30:56.932744+00:00",
+  "title": "Design System: LovyCairn",
+  "extensions": {
+    "breakpoints": [
+      {
+        "name": "collapsed-sidebar-and-stacked-detail",
+        "value": "1000sp"
+      }
+    ],
+    "nativeAuthority": {
+      "toolkit": "GTK 4 / libadwaita",
+      "productionSources": [
+        "suite/lovycairn_suite/app.py",
+        "suite/lovycairn_suite/views.py"
+      ],
+      "colorRoles": {
+        "panel": "@card_bg_color",
+        "sidebar": "alpha(@window_fg_color, .025)",
+        "selected-navigation": "alpha(@window_fg_color, .09)"
+      },
+      "specimenLimit": "HTML specimens are schematic browser system-color approximations, not production GTK widgets or theme tokens. GTK rendering is authoritative."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "description": "Schematic preview only; actual native primary action uses GTK/libadwaita theme geometry and states.",
+      "html": "<button class=\"ds-primary\">Apri con LovyTerm</button>",
+      "css": ".ds-primary{font:inherit;padding:8px 14px;border-radius:8px;border:1px solid ButtonBorder;background:Highlight;color:HighlightText}.ds-primary:hover{filter:brightness(1.08)}.ds-primary:focus-visible{outline:2px solid Highlight;outline-offset:3px}.ds-primary:active{filter:brightness(.92)}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "description": "Schematic preview only; actual native secondary action uses GTK/libadwaita theme geometry and states.",
+      "html": "<button class=\"ds-secondary\">Apri cartella</button>",
+      "css": ".ds-secondary{font:inherit;padding:8px 14px;border-radius:8px;border:1px solid ButtonBorder;background:ButtonFace;color:ButtonText}.ds-secondary:hover{filter:brightness(.95)}.ds-secondary:focus-visible{outline:2px solid Highlight;outline-offset:3px}"
+    },
+    {
+      "name": "Project search",
+      "kind": "input",
+      "description": "Schematic preview only; actual native project search uses GTK/libadwaita theme geometry and states.",
+      "html": "<input class=\"ds-search\" aria-label=\"Cerca progetti\" placeholder=\"Cerca un progetto o una cartella\">",
+      "css": ".ds-search{font:inherit;padding:8px 12px;border:1px solid ButtonBorder;border-radius:8px;background:Field;color:FieldText}.ds-search:hover{border-color:Highlight}.ds-search:focus-visible{outline:2px solid Highlight;outline-offset:2px}"
+    },
+    {
+      "name": "Selected navigation",
+      "kind": "nav",
+      "description": "Schematic preview only; actual native selected navigation uses GTK/libadwaita theme geometry and states.",
+      "html": "<button class=\"ds-nav\" aria-current=\"page\">Tutti i progetti</button>",
+      "css": ".ds-nav{font:inherit;text-align:left;padding:5px 12px;min-height:34px;border:0;border-radius:8px;background:ButtonFace;color:ButtonText}.ds-nav:hover{filter:brightness(.95)}.ds-nav:focus-visible{outline:2px solid Highlight;outline-offset:2px}"
+    },
+    {
+      "name": "Next-step panel",
+      "kind": "card",
+      "description": "Schematic preview only; actual native next-step panel uses GTK/libadwaita theme geometry and states.",
+      "html": "<section class=\"ds-panel\">Verificare il prossimo passo del progetto.</section>",
+      "css": ".ds-panel{font:inherit;padding:20px;border-radius:12px;background:Canvas;color:CanvasText;line-height:1.6}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The GNOME project workspace",
+    "overview": "A practical, native desktop workspace with quiet surfaces and clear working actions. The signature is the project handoff: terminal access, saved next step, associated notes and Git state together. Existing GNOME conventions are the visual authority.",
+    "keyCharacteristics": [
+      "Native GTK 4 and libadwaita controls.",
+      "Compact project rows with generous separation between working sections.",
+      "Existing cairn logo and project identity assets."
+    ],
+    "rules": [
+      {
+        "name": "The System Authority Rule",
+        "body": "Preserve native theme and accent behavior; never copy screenshot colors into a fixed application palette.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do use theme-owned colors, fonts and interaction states.",
+      "Do keep terminal access, next step, Git and notes easy to find.",
+      "Do reuse existing user project colors, shapes and the cairn logo."
+    ],
+    "donts": [
+      "Don't treat browser preview CSS as production tokens.",
+      "Don't hard-code a GNOME accent or screenshot-specific font size.",
+      "Don't embed a replacement note editor in the suite."
+    ]
+  }
+}

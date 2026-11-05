@@ -60,3 +60,7 @@ kill -TERM -"$(cat "$tmp/shell.pid")" 2>/dev/null || true; sleep 2
 [ -f "$out/finished" ] || { echo "scene '$scene' did not finish (see $out/shell.log); last lines:" >&2; tail -25 "$out/shell.log" >&2; exit 1; }
 rm -f "$out/finished"
 grep "SHOT " "$out/shell.log" | sed 's/^.*SHOT /SHOT /' || true
+
+if [ "$scene" = bridge ]; then
+  grep -q 'SHOT BRIDGE PASS' "$out/shell.log" || { echo 'Bridge assertions failed' >&2; exit 1; }
+fi

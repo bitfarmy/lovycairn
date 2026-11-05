@@ -1,0 +1,1 @@
+"""Native LovyCairn companion application."""

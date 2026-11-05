@@ -14,10 +14,16 @@ case "${1:-}" in
   check)
     for f in extension/*.js; do node --input-type=module --check < "$f"; done
     python3 -m py_compile notes/lovycairn-notes; rm -rf notes/__pycache__
+    node scripts/suite-icons.mjs --check
+    python3 -m compileall -q suite/lovycairn_suite suite/lovycairn
+    python3 -m unittest discover -s tests -p 'test_suite_model.py'
+    python3 -m unittest discover -s tests -p 'test_suite_services.py'
     bash -n bin/lovycairn-add; bash -n bin/lovycairn-doctor; bash -n scripts/install.sh; bash -n scripts/uninstall.sh
+    bash -n tests/run-suite-ui.sh; bash -n tests/run-suite-preview.sh
     bash -n tests/run-headless.sh; bash -n tests/shot-notes.sh; bash -n tests/shot-prefs.sh; bash -n tests/fixtures.sh; bash -n tests/container-setup.sh; bash -n tests/ci-container.sh
     glib-compile-schemas --strict --dry-run extension/schemas
-    for f in po/*.po notes/po/*.po; do msgfmt --check -o /dev/null "$f"; done
+    for f in po/*.po notes/po/*.po suite/po/*.po; do [ -f "$f" ] || continue; msgfmt --check -o /dev/null "$f"; done
+    desktop-file-validate suite/data/io.github.bitfarmy.LovyCairn.desktop
     desktop-file-validate notes/data/io.github.bitfarmy.LovyCairnNotes.desktop
     python3 -c "import json; json.load(open('extension/metadata.json'))"
     echo "all checks passed" ;;
@@ -28,6 +34,9 @@ case "${1:-}" in
       --msgid-bugs-address=https://github.com/bitfarmy/lovycairn/issues -o notes/po/lovycairn-notes.pot notes/lovycairn-notes
     for f in po/*.po; do msgmerge --update --backup=none --quiet "$f" po/lovycairn.pot; done
     for f in notes/po/*.po; do msgmerge --update --backup=none --quiet "$f" notes/po/lovycairn-notes.pot; done
+    xgettext --from-code=UTF-8 --language=Python -k_ --package-name=lovycairn-suite \
+      -o suite/po/lovycairn-suite.pot suite/lovycairn_suite/*.py
+    for f in suite/po/*.po; do msgmerge --update --backup=none --quiet "$f" suite/po/lovycairn-suite.pot; done
     echo "templates refreshed" ;;
   pack)
     mkdir -p dist

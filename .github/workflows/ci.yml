@@ -47,6 +47,11 @@ jobs:
           tests/container-setup.sh
           tests/run-headless.sh compat tests/out
           grep -q "failedChecks=background-menu" tests/out/shell.log
+      - name: Native suite and desktop bridge
+        run: |
+          tests/run-suite-ui.sh
+          tests/run-headless.sh bridge tests/out-bridge
+          grep -q "SHOT BRIDGE PASS" tests/out-bridge/shell.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -54,6 +59,7 @@ jobs:
           path: |
             tests/out/*.png
             tests/out/shell.log
+            tests/out-bridge/shell.log
       - uses: actions/upload-artifact@v4
         if: matrix.tag == '44'
         with:

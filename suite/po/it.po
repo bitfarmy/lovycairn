@@ -1,0 +1,887 @@
+# Italian translations for LovyCairn Suite.
+# Copyright (C) 2026 LovyCairn contributors
+# This file is distributed under the same license as LovyCairn.
+msgid ""
+msgstr ""
+"Project-Id-Version: lovycairn-suite\n"
+"Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
+"POT-Creation-Date: 2026-11-05 12:30+0100\n"
+"PO-Revision-Date: 2026-11-05 12:15+0100\n"
+"Last-Translator: LovyCairn contributors\n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: suite/lovycairn_suite/app.py:98 suite/lovycairn_suite/app.py:593
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: suite/lovycairn_suite/app.py:100
+msgid "Projects on your computer"
+msgstr "I progetti sul tuo computer"
+
+#: suite/lovycairn_suite/app.py:110
+msgid "Your workspace"
+msgstr "Il tuo spazio di lavoro"
+
+#: suite/lovycairn_suite/app.py:120
+msgid "Show navigation"
+msgstr "Mostra navigazione"
+
+#: suite/lovycairn_suite/app.py:122
+msgid "Back to projects"
+msgstr "Torna ai progetti"
+
+#: suite/lovycairn_suite/app.py:125 suite/lovycairn_suite/app.py:526
+msgid "Refresh"
+msgstr "Aggiorna"
+
+#: suite/lovycairn_suite/app.py:258
+msgid "All projects"
+msgstr "Tutti i progetti"
+
+#: suite/lovycairn_suite/app.py:261 suite/lovycairn_suite/app.py:314
+msgid "Favorites"
+msgstr "Preferiti"
+
+#: suite/lovycairn_suite/app.py:262 suite/lovycairn_suite/app.py:568
+msgid "Notes"
+msgstr "Note"
+
+#: suite/lovycairn_suite/app.py:263
+msgid "Desktop groups"
+msgstr "Gruppi sulla scrivania"
+
+#: suite/lovycairn_suite/app.py:274 suite/lovycairn_suite/views.py:228
+msgid "New group"
+msgstr "Nuovo gruppo"
+
+#: suite/lovycairn_suite/app.py:314
+msgid "Projects"
+msgstr "Progetti"
+
+#: suite/lovycairn_suite/app.py:315
+msgid "Everything you need to resume your work."
+msgstr "Tutto ciò che serve per riprendere il lavoro."
+
+#: suite/lovycairn_suite/app.py:316 suite/lovycairn_suite/app.py:347
+#: suite/lovycairn_suite/views.py:122
+msgid "Add project"
+msgstr "Aggiungi progetto"
+
+#: suite/lovycairn_suite/app.py:322
+msgid "Resume here"
+msgstr "Riprendi da qui"
+
+#: suite/lovycairn_suite/app.py:325
+msgid "Open the project to continue."
+msgstr "Apri il progetto per continuare."
+
+#: suite/lovycairn_suite/app.py:327 suite/lovycairn_suite/app.py:404
+#: suite/lovycairn_suite/app.py:491
+#, python-format
+msgid "Open with %s"
+msgstr "Apri con %s"
+
+#: suite/lovycairn_suite/app.py:328
+msgid "Project details"
+msgstr "Dettagli del progetto"
+
+#: suite/lovycairn_suite/app.py:333
+msgid "Search a project or folder"
+msgstr "Cerca un progetto o una cartella"
+
+#: suite/lovycairn_suite/app.py:337
+msgid "Recent"
+msgstr "Recenti"
+
+#: suite/lovycairn_suite/app.py:337 suite/lovycairn_suite/views.py:124
+#: suite/lovycairn_suite/views.py:229
+msgid "Name"
+msgstr "Nome"
+
+#: suite/lovycairn_suite/app.py:337
+msgid "Git changes"
+msgstr "Modifiche Git"
+
+#: suite/lovycairn_suite/app.py:339
+msgid "Sort projects"
+msgstr "Ordina progetti"
+
+#: suite/lovycairn_suite/app.py:346 suite/lovycairn_suite/app.py:377
+msgid "No projects yet"
+msgstr "Nessun progetto ancora"
+
+#: suite/lovycairn_suite/app.py:346 suite/lovycairn_suite/app.py:378
+msgid "Add a folder to get started."
+msgstr "Aggiungi una cartella per iniziare."
+
+#: suite/lovycairn_suite/app.py:377
+msgid "No projects found"
+msgstr "Nessun progetto trovato"
+
+#: suite/lovycairn_suite/app.py:377
+msgid "No favorites yet"
+msgstr "Nessun preferito ancora"
+
+#: suite/lovycairn_suite/app.py:378
+msgid "Try another name or path."
+msgstr "Prova un altro nome o percorso."
+
+#: suite/lovycairn_suite/app.py:378
+msgid "Use the star beside a project to keep it here."
+msgstr "Usa la stella accanto a un progetto per conservarlo qui."
+
+#: suite/lovycairn_suite/app.py:380
+msgid "1 project"
+msgstr "1 progetto"
+
+#: suite/lovycairn_suite/app.py:380
+#, python-format
+msgid "%s projects"
+msgstr "%s progetti"
+
+#: suite/lovycairn_suite/app.py:390 suite/lovycairn_suite/app.py:528
+msgid "Reading Git…"
+msgstr "Lettura di Git…"
+
+#: suite/lovycairn_suite/app.py:391 suite/lovycairn_suite/app.py:497
+#: suite/lovycairn_suite/views.py:132
+msgid "Desktop"
+msgstr "Scrivania"
+
+#: suite/lovycairn_suite/app.py:398 suite/lovycairn_suite/app.py:516
+msgid "Project notes"
+msgstr "Note del progetto"
+
+#: suite/lovycairn_suite/app.py:403
+msgid "Remove from favorites"
+msgstr "Rimuovi dai preferiti"
+
+#: suite/lovycairn_suite/app.py:403 suite/lovycairn_suite/app.py:501
+msgid "Add to favorites"
+msgstr "Aggiungi ai preferiti"
+
+#: suite/lovycairn_suite/app.py:467
+msgid "Folder not found"
+msgstr "Cartella non trovata"
+
+#: suite/lovycairn_suite/app.py:467
+msgid "Not a Git repository"
+msgstr "Non è un repository Git"
+
+#: suite/lovycairn_suite/app.py:467
+msgid "Git unavailable"
+msgstr "Git non disponibile"
+
+#: suite/lovycairn_suite/app.py:471
+msgid "No changes"
+msgstr "Nessuna modifica"
+
+#: suite/lovycairn_suite/app.py:471
+msgid "1 changed file"
+msgstr "1 file modificato"
+
+#: suite/lovycairn_suite/app.py:471
+#, python-format
+msgid "%s changed files"
+msgstr "%s file modificati"
+
+#: suite/lovycairn_suite/app.py:488 suite/lovycairn_suite/views.py:122
+msgid "Edit project"
+msgstr "Modifica progetto"
+
+#: suite/lovycairn_suite/app.py:492
+msgid "Open folder"
+msgstr "Apri cartella"
+
+#: suite/lovycairn_suite/app.py:493
+msgid "Open in editor"
+msgstr "Apri nell'editor"
+
+#: suite/lovycairn_suite/app.py:499
+msgid "1 note"
+msgstr "1 nota"
+
+#: suite/lovycairn_suite/app.py:499
+#, python-format
+msgid "%s notes"
+msgstr "%s note"
+
+#: suite/lovycairn_suite/app.py:501
+msgid "In favorites"
+msgstr "Nei preferiti"
+
+#: suite/lovycairn_suite/app.py:512 suite/lovycairn_suite/views.py:211
+msgid "Where I left off"
+msgstr "Dove ero rimasto"
+
+#: suite/lovycairn_suite/app.py:512
+msgid "Edit"
+msgstr "Modifica"
+
+#: suite/lovycairn_suite/app.py:513
+msgid "Write the next step to find it when you return to this project."
+msgstr ""
+"Scrivi il prossimo passo per ritrovarlo quando torni a questo progetto."
+
+#: suite/lovycairn_suite/app.py:516 suite/lovycairn_suite/app.py:621
+msgid "New note"
+msgstr "Nuova nota"
+
+#: suite/lovycairn_suite/app.py:521
+msgid "No notes for this project yet"
+msgstr "Nessuna nota per questo progetto"
+
+#: suite/lovycairn_suite/app.py:521
+msgid "New notes will be associated automatically."
+msgstr "Le nuove note saranno associate automaticamente."
+
+#: suite/lovycairn_suite/app.py:524
+msgid "Notes open in LovyCairn Notes."
+msgstr "Le note si aprono in LovyCairn Notes."
+
+#: suite/lovycairn_suite/app.py:526
+msgid "Git status"
+msgstr "Stato Git"
+
+#: suite/lovycairn_suite/app.py:535
+msgid "Links"
+msgstr "Collegamenti"
+
+#: suite/lovycairn_suite/app.py:543
+msgid "No documentation links"
+msgstr "Nessun collegamento alla documentazione"
+
+#: suite/lovycairn_suite/app.py:543
+msgid "Add links from Edit project."
+msgstr "Aggiungi collegamenti da Modifica progetto."
+
+#: suite/lovycairn_suite/app.py:547
+msgid "Remove project launcher"
+msgstr "Rimuovi lanciatore del progetto"
+
+#: suite/lovycairn_suite/app.py:568
+msgid "Ideas and notes, together with their projects."
+msgstr "Idee e note, insieme ai loro progetti."
+
+#: suite/lovycairn_suite/app.py:569
+msgid "Open LovyCairn Notes"
+msgstr "Apri LovyCairn Notes"
+
+#: suite/lovycairn_suite/app.py:570
+msgid "Search notes"
+msgstr "Cerca note"
+
+#: suite/lovycairn_suite/app.py:584
+msgid "No notes found"
+msgstr "Nessuna nota trovata"
+
+#: suite/lovycairn_suite/app.py:584
+msgid "Create a note in LovyCairn Notes."
+msgstr "Crea una nota in LovyCairn Notes."
+
+#: suite/lovycairn_suite/app.py:593
+msgid "The same environment, from the suite and the desktop."
+msgstr "Lo stesso ambiente, dalla suite e dalla scrivania."
+
+#: suite/lovycairn_suite/app.py:594
+msgid "Opening projects"
+msgstr "Apertura dei progetti"
+
+#: suite/lovycairn_suite/app.py:596 suite/lovycairn_suite/views.py:151
+msgid "Terminal"
+msgstr "Terminale"
+
+#: suite/lovycairn_suite/app.py:596
+msgid "Automatic"
+msgstr "Automatico"
+
+#: suite/lovycairn_suite/app.py:596
+#, python-brace-format
+msgid "{dir} is replaced by the project folder. Empty: detect automatically."
+msgstr ""
+"{dir} viene sostituito dalla cartella del progetto. Vuoto: rilevamento "
+"automatico."
+
+#: suite/lovycairn_suite/app.py:597
+msgid "Browser"
+msgstr "Browser"
+
+#: suite/lovycairn_suite/app.py:597
+msgid "Default browser"
+msgstr "Browser predefinito"
+
+#: suite/lovycairn_suite/app.py:597
+#, python-brace-format
+msgid "{url} is replaced by the documentation address. Empty: default browser."
+msgstr ""
+"{url} viene sostituito dall'indirizzo della documentazione. Vuoto: browser "
+"predefinito."
+
+#: suite/lovycairn_suite/app.py:598
+msgid "Editor"
+msgstr "Editor"
+
+#: suite/lovycairn_suite/app.py:598 suite/lovycairn_suite/services.py:134
+msgid "Not configured"
+msgstr "Non configurato"
+
+#: suite/lovycairn_suite/app.py:598
+#, python-brace-format
+msgid "Set an editor command using {dir}, for example code {dir}."
+msgstr "Imposta un comando editor usando {dir}, ad esempio code {dir}."
+
+#: suite/lovycairn_suite/app.py:599 suite/lovycairn_suite/views.py:165
+msgid "Workspace"
+msgstr "Spazio di lavoro"
+
+#: suite/lovycairn_suite/app.py:599
+msgid "Ask every time"
+msgstr "Chiedi ogni volta"
+
+#: suite/lovycairn_suite/app.py:599 suite/lovycairn_suite/views.py:165
+msgid "New workspace"
+msgstr "Nuovo spazio di lavoro"
+
+#: suite/lovycairn_suite/app.py:599 suite/lovycairn_suite/views.py:165
+msgid "Current workspace"
+msgstr "Spazio di lavoro attuale"
+
+#: suite/lovycairn_suite/app.py:604
+msgid "Notes and appearance"
+msgstr "Note e aspetto"
+
+#: suite/lovycairn_suite/app.py:606
+msgid "Notes on the desktop"
+msgstr "Note sulla scrivania"
+
+#: suite/lovycairn_suite/app.py:606
+msgid "Show notes collapsed to icons."
+msgstr "Mostra le note ridotte a icone."
+
+#: suite/lovycairn_suite/app.py:609
+msgid "Notes command"
+msgstr "Comando note"
+
+#: suite/lovycairn_suite/app.py:609
+msgid "Empty: lovycairn-notes."
+msgstr "Vuoto: lovycairn-notes."
+
+#: suite/lovycairn_suite/app.py:610
+msgid "Notes folder"
+msgstr "Cartella delle note"
+
+#: suite/lovycairn_suite/app.py:611
+msgid "Empty: ~/Notes."
+msgstr "Vuoto: ~/Notes."
+
+#: suite/lovycairn_suite/app.py:614 suite/lovycairn_suite/views.py:135
+msgid "Appearance"
+msgstr "Aspetto"
+
+#: suite/lovycairn_suite/app.py:614
+msgid "System"
+msgstr "Sistema"
+
+#: suite/lovycairn_suite/app.py:614
+msgid "Light"
+msgstr "Chiaro"
+
+#: suite/lovycairn_suite/app.py:614
+msgid "Dark"
+msgstr "Scuro"
+
+#: suite/lovycairn_suite/app.py:619
+msgid "Desktop shortcuts"
+msgstr "Scorciatoie della scrivania"
+
+#: suite/lovycairn_suite/app.py:619
+msgid "Press Enter or Apply to save a shortcut, for example <Super>j."
+msgstr ""
+"Premi Invio o Applica per salvare una scorciatoia, ad esempio <Super>j."
+
+#: suite/lovycairn_suite/app.py:621
+msgid "Find a project"
+msgstr "Trova un progetto"
+
+#: suite/lovycairn_suite/app.py:621
+msgid "New project note"
+msgstr "Nuova nota del progetto"
+
+#: suite/lovycairn_suite/app.py:640 suite/lovycairn_suite/app.py:643
+msgid "Custom command"
+msgstr "Comando personalizzato"
+
+#: suite/lovycairn_suite/app.py:644
+msgid "Command"
+msgstr "Comando"
+
+#: suite/lovycairn_suite/app.py:690
+msgid "Enter an executable command."
+msgstr "Inserisci un comando eseguibile."
+
+#: suite/lovycairn_suite/app.py:692
+msgid "The command has invalid quotation marks."
+msgstr "Il comando contiene virgolette non valide."
+
+#: suite/lovycairn_suite/app.py:694 suite/lovycairn_suite/app.py:702
+#: suite/lovycairn_suite/app.py:711
+msgid "Preference saved."
+msgstr "Preferenza salvata."
+
+#: suite/lovycairn_suite/app.py:699
+msgid "Choose an existing notes folder."
+msgstr "Scegli una cartella delle note esistente."
+
+#: suite/lovycairn_suite/app.py:708
+msgid "Enter a valid keyboard shortcut."
+msgstr "Inserisci una scorciatoia da tastiera valida."
+
+#: suite/lovycairn_suite/app.py:724
+msgid "Next step saved."
+msgstr "Prossimo passo salvato."
+
+#: suite/lovycairn_suite/app.py:748
+#, python-format
+msgid "Remove “%s” from LovyCairn?"
+msgstr "Rimuovere “%s” da LovyCairn?"
+
+#: suite/lovycairn_suite/app.py:749
+msgid ""
+"Only the launcher moves to the trash. The project folder and its notes are "
+"kept."
+msgstr ""
+"Solo il lanciatore viene spostato nel cestino. La cartella del progetto e le "
+"sue note vengono conservate."
+
+#: suite/lovycairn_suite/app.py:750 suite/lovycairn_suite/views.py:97
+msgid "Cancel"
+msgstr "Annulla"
+
+#: suite/lovycairn_suite/app.py:751
+msgid "Remove launcher"
+msgstr "Rimuovi lanciatore"
+
+#: suite/lovycairn_suite/app.py:790
+msgid "The desktop extension is unavailable. Opened in the current workspace."
+msgstr ""
+"L'estensione della scrivania non è disponibile. Apertura nello spazio di "
+"lavoro attuale."
+
+#: suite/lovycairn_suite/app.py:816
+msgid "Show a project from its desktop launcher."
+msgstr "Mostra un progetto dal suo lanciatore sulla scrivania."
+
+#: suite/lovycairn_suite/app.py:849
+msgid "This project is no longer available."
+msgstr "Questo progetto non è più disponibile."
+
+#: suite/lovycairn_suite/app.py:854
+msgid "LovyCairn could not start"
+msgstr "Impossibile avviare LovyCairn"
+
+#: suite/lovycairn_suite/model.py:26
+#, python-format
+msgid "Cannot read data file: %s"
+msgstr "Impossibile leggere il file dei dati: %s"
+
+#: suite/lovycairn_suite/model.py:28
+#, python-format
+msgid "Expected a JSON object: %s"
+msgstr "Era previsto un oggetto JSON: %s"
+
+#: suite/lovycairn_suite/model.py:43 suite/lovycairn_suite/model.py:181
+msgid "A file with this name already exists"
+msgstr "Esiste già un file con questo nome"
+
+#: suite/lovycairn_suite/model.py:50
+msgid "Invalid project metadata"
+msgstr "Metadati del progetto non validi"
+
+#: suite/lovycairn_suite/model.py:52
+msgid "Invalid project activity"
+msgstr "Cronologia del progetto non valida"
+
+#: suite/lovycairn_suite/model.py:112
+msgid "Invalid desktop path"
+msgstr "Percorso della scrivania non valido"
+
+#: suite/lovycairn_suite/model.py:116
+msgid "Symbolic links cannot be managed"
+msgstr "Non è possibile gestire i collegamenti simbolici"
+
+#: suite/lovycairn_suite/model.py:118
+msgid "Select an existing project group"
+msgstr "Seleziona un gruppo di progetti esistente"
+
+#: suite/lovycairn_suite/model.py:167
+msgid "Unknown metadata field"
+msgstr "Campo dei metadati sconosciuto"
+
+#: suite/lovycairn_suite/model.py:188
+msgid "Enter a valid name"
+msgstr "Inserisci un nome valido"
+
+#: suite/lovycairn_suite/model.py:194
+msgid "Choose an existing project folder"
+msgstr "Scegli una cartella di progetto esistente"
+
+#: suite/lovycairn_suite/model.py:195
+msgid "Invalid project color"
+msgstr "Colore del progetto non valido"
+
+#: suite/lovycairn_suite/model.py:196
+msgid "Invalid project shape"
+msgstr "Forma del progetto non valida"
+
+#: suite/lovycairn_suite/model.py:197
+msgid "Invalid documentation address"
+msgstr "Indirizzo della documentazione non valido"
+
+#: suite/lovycairn_suite/model.py:201 suite/lovycairn_suite/model.py:264
+#: suite/lovycairn_suite/services.py:139
+msgid "Project is no longer available"
+msgstr "Il progetto non è più disponibile"
+
+#: suite/lovycairn_suite/model.py:202
+msgid "A launcher with this name already exists"
+msgstr "Esiste già un lanciatore con questo nome"
+
+#: suite/lovycairn_suite/model.py:204
+msgid "This folder already has a project launcher"
+msgstr "Questa cartella ha già un lanciatore di progetto"
+
+#: suite/lovycairn_suite/model.py:210
+msgid ""
+"The destination folder already has saved metadata or activity. Choose "
+"another folder."
+msgstr ""
+"La cartella di destinazione ha già metadati o cronologia salvati. Scegli "
+"un’altra cartella."
+
+#: suite/lovycairn_suite/model.py:216
+msgid "Invalid workspace preference"
+msgstr "Preferenza dello spazio di lavoro non valida"
+
+#: suite/lovycairn_suite/model.py:258
+#, python-format
+msgid "Could not restore project data after a failed save: %s"
+msgstr ""
+"Impossibile ripristinare i dati del progetto dopo un salvataggio non "
+"riuscito: %s"
+
+#: suite/lovycairn_suite/services.py:50
+#, python-format
+msgid "Detached HEAD (%s)"
+msgstr "HEAD scollegato (%s)"
+
+#: suite/lovycairn_suite/services.py:89
+msgid "LovyCairn settings are missing or outdated. Reinstall LovyCairn."
+msgstr ""
+"Le impostazioni di LovyCairn sono assenti o obsolete. Reinstalla LovyCairn."
+
+#: suite/lovycairn_suite/services.py:97
+#, python-format
+msgid "Cannot load LovyCairn settings: %s"
+msgstr "Impossibile caricare le impostazioni di LovyCairn: %s"
+
+#: suite/lovycairn_suite/services.py:98
+msgid ""
+"LovyCairn settings schema is unavailable or outdated. Reinstall LovyCairn."
+msgstr ""
+"Lo schema delle impostazioni di LovyCairn non è disponibile o è obsoleto. "
+"Reinstalla LovyCairn."
+
+#: suite/lovycairn_suite/services.py:108
+#, python-format
+msgid "Invalid command: %s"
+msgstr "Comando non valido: %s"
+
+#: suite/lovycairn_suite/services.py:109
+msgid "Configure a command in Preferences"
+msgstr "Configura un comando nelle Impostazioni"
+
+#: suite/lovycairn_suite/services.py:116
+#, python-format
+msgid "Cannot start %s: %s"
+msgstr "Impossibile avviare %s: %s"
+
+#: suite/lovycairn_suite/services.py:126
+msgid "No terminal found. Configure a terminal command in Preferences."
+msgstr ""
+"Nessun terminale trovato. Configura un comando terminale nelle Impostazioni."
+
+#: suite/lovycairn_suite/services.py:137
+msgid "Invalid workspace mode"
+msgstr "Modalità dello spazio di lavoro non valida"
+
+#: suite/lovycairn_suite/services.py:147
+msgid "The extension rejected this project. Refresh the project list."
+msgstr ""
+"L'estensione ha rifiutato questo progetto. Aggiorna l'elenco dei progetti."
+
+#: suite/lovycairn_suite/services.py:152
+#, python-format
+msgid "Cannot contact the LovyCairn extension: %s"
+msgstr "Impossibile contattare l'estensione LovyCairn: %s"
+
+#: suite/lovycairn_suite/services.py:153
+#, python-format
+msgid "The project folder does not exist: %s"
+msgstr "La cartella del progetto non esiste: %s"
+
+#: suite/lovycairn_suite/services.py:174
+#, python-format
+msgid "Cannot open folder: %s"
+msgstr "Impossibile aprire la cartella: %s"
+
+#: suite/lovycairn_suite/services.py:178
+#, python-brace-format
+msgid "Configure an editor command in Preferences using {dir}."
+msgstr "Configura un comando editor nelle Impostazioni usando {dir}."
+
+#: suite/lovycairn_suite/services.py:186
+msgid "Documentation links must use http, https or file"
+msgstr "I collegamenti alla documentazione devono usare http, https o file"
+
+#: suite/lovycairn_suite/services.py:197
+#, python-format
+msgid "Cannot open documentation: %s"
+msgstr "Impossibile aprire la documentazione: %s"
+
+#: suite/lovycairn_suite/views.py:122 suite/lovycairn_suite/views.py:211
+msgid "Save"
+msgstr "Salva"
+
+#: suite/lovycairn_suite/views.py:123
+msgid "Project"
+msgstr "Progetto"
+
+#: suite/lovycairn_suite/views.py:126
+msgid "Project folder"
+msgstr "Cartella del progetto"
+
+#: suite/lovycairn_suite/views.py:127
+msgid "Choose a folder"
+msgstr "Scegli una cartella"
+
+#: suite/lovycairn_suite/views.py:132
+msgid "Group"
+msgstr "Gruppo"
+
+#: suite/lovycairn_suite/views.py:136
+msgid "Color (#rrggbb, or empty)"
+msgstr "Colore (#rrggbb, oppure vuoto)"
+
+#: suite/lovycairn_suite/views.py:142
+msgid "Cube"
+msgstr "Cubo"
+
+#: suite/lovycairn_suite/views.py:142
+msgid "Folder with code"
+msgstr "Cartella con codice"
+
+#: suite/lovycairn_suite/views.py:142
+msgid "Board"
+msgstr "Lavagna"
+
+#: suite/lovycairn_suite/views.py:142
+msgid "Flag"
+msgstr "Bandiera"
+
+#: suite/lovycairn_suite/views.py:143
+msgid "Folder"
+msgstr "Cartella"
+
+#: suite/lovycairn_suite/views.py:143
+msgid "Stack"
+msgstr "Pila"
+
+#: suite/lovycairn_suite/views.py:143
+msgid "Grid"
+msgstr "Griglia"
+
+#: suite/lovycairn_suite/views.py:143
+msgid "Star"
+msgstr "Stella"
+
+#: suite/lovycairn_suite/views.py:144
+msgid "Git"
+msgstr "Git"
+
+#: suite/lovycairn_suite/views.py:144
+msgid "Penguin"
+msgstr "Pinguino"
+
+#: suite/lovycairn_suite/views.py:144
+msgid "Code"
+msgstr "Codice"
+
+#: suite/lovycairn_suite/views.py:144
+msgid "Container"
+msgstr "Container"
+
+#: suite/lovycairn_suite/views.py:145
+msgid "Gear"
+msgstr "Ingranaggio"
+
+#: suite/lovycairn_suite/views.py:145
+msgid "Network"
+msgstr "Rete"
+
+#: suite/lovycairn_suite/views.py:145
+msgid "Android"
+msgstr "Android"
+
+#: suite/lovycairn_suite/views.py:145
+msgid "Phone"
+msgstr "Telefono"
+
+#: suite/lovycairn_suite/views.py:146
+msgid "Keyboard"
+msgstr "Tastiera"
+
+#: suite/lovycairn_suite/views.py:146
+msgid "Skull"
+msgstr "Teschio"
+
+#: suite/lovycairn_suite/views.py:146
+msgid "Padlock"
+msgstr "Lucchetto"
+
+#: suite/lovycairn_suite/views.py:146
+msgid "Key"
+msgstr "Chiave"
+
+#: suite/lovycairn_suite/views.py:147
+msgid "Eye"
+msgstr "Occhio"
+
+#: suite/lovycairn_suite/views.py:147
+msgid "Hacker"
+msgstr "Hacker"
+
+#: suite/lovycairn_suite/views.py:147
+msgid "Download"
+msgstr "Download"
+
+#: suite/lovycairn_suite/views.py:147
+msgid "Music"
+msgstr "Musica"
+
+#: suite/lovycairn_suite/views.py:148
+msgid "Pictures"
+msgstr "Immagini"
+
+#: suite/lovycairn_suite/views.py:148
+msgid "Video"
+msgstr "Video"
+
+#: suite/lovycairn_suite/views.py:148
+msgid "Games"
+msgstr "Giochi"
+
+#: suite/lovycairn_suite/views.py:148
+msgid "Shield"
+msgstr "Scudo"
+
+#: suite/lovycairn_suite/views.py:149
+msgid "Bolt"
+msgstr "Fulmine"
+
+#: suite/lovycairn_suite/views.py:149
+msgid "Book"
+msgstr "Libro"
+
+#: suite/lovycairn_suite/views.py:149
+msgid "Cloud"
+msgstr "Nuvola"
+
+#: suite/lovycairn_suite/views.py:149
+msgid "Target"
+msgstr "Bersaglio"
+
+#: suite/lovycairn_suite/views.py:149
+msgid "House"
+msgstr "Casa"
+
+#: suite/lovycairn_suite/views.py:150
+msgid "Chip"
+msgstr "Chip"
+
+#: suite/lovycairn_suite/views.py:150
+msgid "Bug"
+msgstr "Bug"
+
+#: suite/lovycairn_suite/views.py:150
+msgid "Database"
+msgstr "Database"
+
+#: suite/lovycairn_suite/views.py:150
+msgid "Package"
+msgstr "Pacchetto"
+
+#: suite/lovycairn_suite/views.py:151
+msgid "Engineering"
+msgstr "Ingegneria"
+
+#: suite/lovycairn_suite/views.py:152
+msgid "Server"
+msgstr "Server"
+
+#: suite/lovycairn_suite/views.py:152
+msgid "Laboratory"
+msgstr "Laboratorio"
+
+#: suite/lovycairn_suite/views.py:154
+msgid "Icon"
+msgstr "Icona"
+
+#: suite/lovycairn_suite/views.py:154
+msgid "Current icon"
+msgstr "Icona attuale"
+
+#: suite/lovycairn_suite/views.py:157
+msgid "Documentation"
+msgstr "Documentazione"
+
+#: suite/lovycairn_suite/views.py:163
+msgid "One http, https or file address per line."
+msgstr "Un indirizzo http, https o file per riga."
+
+#: suite/lovycairn_suite/views.py:165
+msgid "Use global preference"
+msgstr "Usa la preferenza globale"
+
+#: suite/lovycairn_suite/views.py:167
+msgid "Opening a project"
+msgstr "Apertura di un progetto"
+
+#: suite/lovycairn_suite/views.py:170
+msgid "Choose a project folder"
+msgstr "Scegli una cartella di progetto"
+
+#: suite/lovycairn_suite/views.py:192
+msgid "Enter valid documentation addresses."
+msgstr "Inserisci indirizzi della documentazione validi."
+
+#: suite/lovycairn_suite/views.py:195
+msgid "The color must look like #3a9bec."
+msgstr "Il colore deve avere un formato come #3a9bec."
+
+#: suite/lovycairn_suite/views.py:198
+msgid "Choose an existing project folder."
+msgstr "Scegli una cartella di progetto esistente."
+
+#: suite/lovycairn_suite/views.py:212
+#, python-format
+msgid "The next step for %s"
+msgstr "Il prossimo passo per %s"
+
+#: suite/lovycairn_suite/views.py:228
+msgid "Create"
+msgstr "Crea"

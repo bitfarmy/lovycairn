@@ -32,6 +32,56 @@ const finish = () => GLib.spawn_command_line_async(`touch ${OUT}/finished`);
 const lc = () => Main.extensionManager.lookup(UUID).stateObj;
 
 const SCENES = {
+    async bridge() {
+        await wait(6000);
+        const ext = lc(), home = GLib.get_home_dir();
+        const assert = (ok, message) => { if (!ok) throw new Error(message); say(`PASS ${message}`); };
+        const call = (launcher, mode) => new Promise((resolve, reject) => Gio.DBus.session.call(
+            'org.gnome.Shell', '/io/github/bitfarmy/LovyCairn', 'io.github.bitfarmy.LovyCairn',
+            'OpenProject', new GLib.Variant('(ss)', [launcher, mode]), new GLib.VariantType('(b)'),
+            Gio.DBusCallFlags.NONE, 3000, null, (bus, result) => {
+                try { resolve(bus.call_finish(result).deep_unpack()[0]); } catch (e) { reject(e); }
+            }));
+        ext._settings.set_string('terminal-command', '/usr/bin/true {dir}');
+        ext._settings.set_string('browser-command', '/usr/bin/true {url}');
+        assert(await call('work/project-atlas-api.desktop', 'here'), 'managed project accepted');
+        assert(!await call('../project.desktop', 'here'), 'arbitrary launcher refused');
+        assert(!await call('project-dotfiles.desktop', 'invalid'), 'invalid mode refused');
+        const activity = `${GLib.get_user_config_dir()}/lovycairn/activity.json`;
+        const read = () => new TextDecoder().decode(GLib.file_get_contents(activity)[1]);
+        assert(JSON.parse(read())[`${home}/code/atlas-api`] > 0, 'successful spawn recorded');
+        const resumedPath = `${home}/code/dotfiles`;
+        const realWindows = ext._projectWindows;
+        let activated = false;
+        const window = {
+            get_workspace: () => global.workspace_manager.get_active_workspace(),
+            activate: () => { activated = true; },
+        };
+        try {
+            ext._projectWindows = () => [window];
+            ext._goToProject({_project: resumedPath}, 'auto');
+            assert(activated && JSON.parse(read())[resumedPath] > 0, 'existing-window resume records activity');
+        } finally {
+            ext._projectWindows = realWindows;
+        }
+        const previous = read();
+        ext._settings.set_string('terminal-command', '/does/not/exist {dir}');
+        ext._openTerminal(`${home}/code/dotfiles`);
+        assert(read() === previous, 'failed spawn does not record activity');
+        ext._settings.set_string('terminal-command', '/usr/bin/true {dir}');
+        GLib.file_set_contents(activity, '{broken');
+        ext._openTerminal(`${home}/code/dotfiles`);
+        assert(read() === '{broken', 'malformed history preserved');
+        ext._settings.set_string('default-workspace', 'here');
+        assert(ext._whereToOpen({get_string: () => null}) === 'here', 'global workspace fallback');
+        assert(ext._whereToOpen({get_string: () => 'true'}) === 'new', 'project workspace override');
+        Main.extensionManager.disableExtension(UUID); await wait(1000);
+        let absent = false;
+        try { await call('project-dotfiles.desktop', 'here'); } catch (e) { absent = true; }
+        assert(absent, 'disabled bridge removed');
+        say('BRIDGE PASS');
+    },
+
     // Loads the extension and checks that it came up: used by CI.
     async smoke() {
         await wait(6000);

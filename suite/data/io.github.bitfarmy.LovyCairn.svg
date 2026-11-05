@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="LovyCairn">
+  <defs>
+    <linearGradient id="s1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93a2b8"/><stop offset="1" stop-color="#586780"/></linearGradient>
+    <linearGradient id="s2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a5b2c6"/><stop offset="1" stop-color="#67768f"/></linearGradient>
+    <linearGradient id="s3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ee0bf"/><stop offset="1" stop-color="#47a583"/></linearGradient>
+    <linearGradient id="s4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d2f5e6"/><stop offset="1" stop-color="#8ee0bf"/></linearGradient>
+    <filter id="blur" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <ellipse cx="64" cy="116" rx="46" ry="6" fill="#000" opacity=".35" filter="url(#blur)"/>
+  <ellipse cx="64" cy="100" rx="46" ry="19" fill="url(#s1)"/>
+  <path d="M26 96c8-9 22-12 38-12s30 3 38 12" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="67" cy="72" rx="34" ry="16" fill="url(#s2)"/>
+  <path d="M38 69c6-6 16-8 29-8s23 2 29 8" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="2.2" stroke-linecap="round"/>
+  <ellipse cx="61" cy="47" rx="22" ry="12.5" fill="url(#s3)"/>
+  <path d="M42 45c4-4 11-6 19-6s15 2 19 6" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="64" cy="27" rx="10.5" ry="7.5" fill="url(#s4)"/>
+</svg>

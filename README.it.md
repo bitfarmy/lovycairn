@@ -16,7 +16,7 @@
 
 </div>
 
-**LovyCairn trasforma il desktop di GNOME in una bacheca di progetti.** Ogni progetto è un'icona che conosce il proprio stato git. Un clic apre il terminale nella cartella giusta — e, se vuoi, la documentazione nel browser — in uno spazio di lavoro nuovo. Già aperto? Un clic ti ci porta. Raggruppa i progetti, colorali, scrivi note che appartengono a loro.
+**LovyCairn trasforma il desktop di GNOME in una bacheca di progetti.** Ogni progetto è un'icona che conosce il proprio stato git. Un clic apre il terminale nella cartella giusta — e, se vuoi, la documentazione nel browser — nello spazio di lavoro che scegli. Già aperto? Un clic ti ci porta. Raggruppa i progetti, colorali, scrivi note che appartengono a loro.
 
 Nessun demone, nessun database, nessun account. Un progetto è un file `.desktop` sul desktop, un gruppo è una cartella. Se togli LovyCairn, tutto resta tuo.
 
@@ -40,7 +40,7 @@ Nessun demone, nessun database, nessun account. Un progetto è un file `.desktop
 <td width="50%" valign="top">
 
 ### Un clic, pronto a lavorare
-Terminale nella cartella del progetto e le pagine di documentazione che hai scelto, in uno **spazio di lavoro nuovo e vuoto**. Se il progetto è già aperto, vai direttamente alle sue finestre. Preferisci lo spazio attuale? Ogni progetto ha il suo interruttore e il menu offre entrambe le strade.
+Terminale nella cartella del progetto e le pagine di documentazione che hai scelto, dopo averti chiesto quale spazio di lavoro usare. Se il progetto è già aperto, vai direttamente alle sue finestre. Preferisci lo spazio attuale? Ogni progetto ha il suo interruttore e il menu offre entrambe le strade.
 
 </td>
 <td width="50%" valign="top">
@@ -89,6 +89,22 @@ A ogni avvio controlla le parti di GNOME da cui dipende. Se una cambia, si spegn
 </div>
 
 <img src="docs/assets/divider.svg" alt="" width="100%">
+
+## Suite nativa per i progetti
+
+Avvia `lovycairn`, scegli **LovyCairn** nel menu delle applicazioni oppure fai clic destro sullo sfondo e scegli **Apri LovyCairn**. La voce **Dettagli del progetto** apre direttamente la sua scheda. L'app nativa GTK 4/libadwaita condivide progetti e gruppi della scrivania: ricerca, ordinamento, preferiti, prossimo passo, modifiche Git, gestione dei lanciatori e consultazione delle note associate.
+
+LovyCairn Notes resta l'editor Markdown separato. La suite mostra un'anteprima delle note e le apre o le crea nell'app configurata. Rimuovere un progetto sposta nel cestino soltanto il lanciatore; la cartella del codice e le note rimangono.
+
+Le impostazioni sono condivise con l'estensione. I comandi personalizzati di terminale, browser e note restano modificabili; il comando editor supporta `{dir}`. La preferenza globale dello spazio parte da **Chiedi ogni volta** e la scelta del singolo progetto ha precedenza. Il tema della suite può seguire il sistema oppure essere chiaro o scuro. Quando l'estensione non è disponibile, la suite può aprire terminale e documentazione nello spazio attuale e segnala questa limitazione.
+
+```bash
+lovycairn                                      # apre la suite
+lovycairn --project work/project-api.desktop    # mostra un lanciatore gestito, relativo alla Scrivania
+./suite/lovycairn                               # avvio dalla cartella sorgente
+```
+
+I progetti restano file `.desktop` nella Scrivania XDG; i gruppi restano cartelle con un marcatore `.group`. Preferiti e prossimo passo sono in `$XDG_CONFIG_HOME/lovycairn/suite.json`, gli avvii riusciti del terminale e il ritorno alle finestre di un progetto in `activity.json` (normalmente sotto `~/.config/lovycairn/`). Entrambi identificano il progetto dal percorso assoluto normalizzato della cartella. Un JSON non valido viene segnalato e conservato. La disinstallazione conserva progetti, note e backup delle migrazioni; `--purge` rimuove anche la configurazione di LovyCairn.
 
 ## Installazione
 
@@ -239,3 +255,14 @@ Segnalazioni, traduzioni e pull request sono benvenute — vedi [CONTRIBUTING](C
 <img src="docs/assets/divider.svg" alt="" width="100%">
 <sub>Fatto con cura per chi tiene troppi progetti aperti. Un piccolo cairn segna la strada. 🪨</sub>
 </div>
+
+## Verificare la suite nativa
+
+```bash
+scripts/dev.sh check                              # sintassi, schemi, traduzioni, file desktop e test modello/servizi
+scripts/dev.sh pack                               # archivio dell'estensione
+tests/run-headless.sh bridge tests/out-bridge      # GNOME privato: D-Bus, cronologia e scelta dello spazio
+tests/run-suite-ui.sh                             # GTK/Broadway privato: flussi dell'interfaccia
+```
+
+La suite usa la libreria standard Python e PyGObject; Git viene eseguito fuori dal thread GTK. I test usano dati temporanei e non installano nulla nella sessione reale. I contratti di archiviazione e del bridge sono descritti nell'[architettura](docs/ARCHITECTURE.md).

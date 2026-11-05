@@ -2,6 +2,7 @@
 // Copyright (C) 2026 LovyCairn contributors
 
 import Adw from 'gi://Adw';
+import Gtk from 'gi://Gtk';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
@@ -28,6 +29,17 @@ export default class LovyCairnPreferences extends ExtensionPreferences {
         });
         text(launch, 'terminal-command', _('Terminal command'), _('{dir} is replaced by the project folder, e.g. kitty --directory {dir}'));
         text(launch, 'browser-command', _('Browser command'), _('{url} is replaced by the address, e.g. firefox --new-window {url}'));
+        text(launch, 'editor-command', _('Editor command'), _('{dir} is replaced by the project folder'));
+        const choice = (key, title, values, labels) => {
+            const row = new Adw.ComboRow({title, model: Gtk.StringList.new(labels),
+                selected: values.indexOf(settings.get_string(key))});
+            row.connect('notify::selected', () => settings.set_string(key, values[row.selected]));
+            launch.add(row);
+        };
+        choice('default-workspace', _('Default workspace'), ['ask', 'new', 'here'],
+            [_('Ask every time'), _('New workspace'), _('This workspace')]);
+        choice('suite-theme', _('Suite theme'), ['system', 'light', 'dark'],
+            [_('System'), _('Light'), _('Dark')]);
         page.add(launch);
 
         const notes = new Adw.PreferencesGroup({title: _('Notes')});

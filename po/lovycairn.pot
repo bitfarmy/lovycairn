@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lovycairn\n"
 "Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
-"POT-Creation-Date: 2026-10-21 16:43+0200\n"
+"POT-Creation-Date: 2026-11-05 11:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,11 +46,11 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
-#: extension/compat.js:46 extension/prefs.js:49
+#: extension/compat.js:46 extension/prefs.js:61
 msgid "Quick picker"
 msgstr ""
 
-#: extension/compat.js:47 extension/extension.js:1065
+#: extension/compat.js:47 extension/extension.js:1196
 msgid "Git monitor"
 msgstr ""
 
@@ -83,207 +83,219 @@ msgstr ""
 msgid "Copy details"
 msgstr ""
 
-#: extension/extension.js:242 extension/extension.js:1123
+#: extension/extension.js:262 extension/extension.js:1254
 msgid "Remove from Desktop"
 msgstr ""
 
-#: extension/extension.js:242
+#: extension/extension.js:262
 msgid "Add to Desktop"
 msgstr ""
 
-#: extension/extension.js:330 extension/groups.js:740 extension/groups.js:788
+#: extension/extension.js:350 extension/groups.js:741 extension/groups.js:789
 #, javascript-format
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:449
+#: extension/extension.js:534
 msgid "not a git repo"
 msgstr ""
 
-#: extension/extension.js:659
+#: extension/extension.js:744
 msgid "not a git repository"
 msgstr ""
 
-#: extension/extension.js:671
+#: extension/extension.js:756
 #, javascript-format
 msgid "%s changed"
 msgid_plural "%s changed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:671
+#: extension/extension.js:756
 #, javascript-format
 msgid "%s new"
 msgid_plural "%s new"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension/extension.js:672
+#: extension/extension.js:757
 msgid "all saved"
 msgstr ""
 
-#: extension/extension.js:682
+#: extension/extension.js:767
 msgid "CHANGES"
 msgstr ""
 
-#: extension/extension.js:694
+#: extension/extension.js:779
 #, javascript-format
 msgid "… and %s more"
 msgstr ""
 
-#: extension/extension.js:698
+#: extension/extension.js:783
 msgid "RECENT COMMITS"
 msgstr ""
 
-#: extension/extension.js:778
+#: extension/extension.js:863
 #, javascript-format
 msgid "Where do I open “%s”?"
 msgstr ""
 
-#: extension/extension.js:782
+#: extension/extension.js:867
 msgid "You can fix the choice for this project from the right-click menu."
 msgstr ""
 
-#: extension/extension.js:799 extension/groups.js:405
+#: extension/extension.js:884 extension/groups.js:405
 msgid "Cancel"
 msgstr ""
 
-#: extension/extension.js:800
+#: extension/extension.js:885 extension/prefs.js:40
 msgid "This workspace"
 msgstr ""
 
-#: extension/extension.js:801
+#: extension/extension.js:886 extension/prefs.js:40
 msgid "New workspace"
 msgstr ""
 
-#: extension/extension.js:889
+#: extension/extension.js:988
+msgid "LovyCairn could not be opened"
+msgstr ""
+
+#: extension/extension.js:988
+msgid "Install the LovyCairn suite and try again."
+msgstr ""
+
+#: extension/extension.js:1018
 msgid "No terminal found"
 msgstr ""
 
-#: extension/extension.js:889
+#: extension/extension.js:1018
 msgid "Choose one in the LovyCairn preferences."
 msgstr ""
 
-#: extension/extension.js:933
+#: extension/extension.js:1063
 msgid "No active project"
 msgstr ""
 
-#: extension/extension.js:933
+#: extension/extension.js:1063
 msgid ""
 "Open a project from the desktop, or bring its terminal to the front, then "
 "try again."
 msgstr ""
 
-#: extension/extension.js:943
+#: extension/extension.js:1073
 msgid "LovyCairn Notes is not installed"
 msgstr ""
 
-#: extension/extension.js:943
+#: extension/extension.js:1073
 msgid "Install the notes app to use project notes (see the README)."
 msgstr ""
 
-#: extension/extension.js:986
+#: extension/extension.js:1116
 msgid "Choose the project folder"
 msgstr ""
 
-#: extension/extension.js:992
+#: extension/extension.js:1122
 msgid "Add project"
 msgstr ""
 
-#: extension/extension.js:993
+#: extension/extension.js:1123
 msgid ""
 "Folder of the project, for example ~/code/my-app. The project appears on the "
 "desktop."
 msgstr ""
 
-#: extension/extension.js:994
+#: extension/extension.js:1124
 msgid "Add"
 msgstr ""
 
-#: extension/extension.js:995
+#: extension/extension.js:1125
 msgid "This folder does not exist."
 msgstr ""
 
-#: extension/extension.js:1046 extension/extension.js:1105
+#: extension/extension.js:1176 extension/extension.js:1236
 msgid "Open"
 msgstr ""
 
-#: extension/extension.js:1053
+#: extension/extension.js:1183
+msgid "Project details"
+msgstr ""
+
+#: extension/extension.js:1184
 msgid "Open project"
 msgstr ""
 
-#: extension/extension.js:1054
+#: extension/extension.js:1185
 msgid "Open in a new workspace"
 msgstr ""
 
-#: extension/extension.js:1055
+#: extension/extension.js:1186
 msgid "Open in this workspace"
 msgstr ""
 
-#: extension/extension.js:1056
+#: extension/extension.js:1187
 msgid "New terminal here"
 msgstr ""
 
-#: extension/extension.js:1057
+#: extension/extension.js:1188
 msgid "Open folder"
 msgstr ""
 
-#: extension/extension.js:1065
+#: extension/extension.js:1196
 msgid "Close git monitor"
 msgstr ""
 
-#: extension/extension.js:1069
+#: extension/extension.js:1200
 msgid "New project note"
 msgstr ""
 
-#: extension/extension.js:1070
+#: extension/extension.js:1201
 msgid "Project notes"
 msgstr ""
 
-#: extension/extension.js:1078
+#: extension/extension.js:1209
 msgid "Click on this project…"
 msgstr ""
 
-#: extension/extension.js:1079
+#: extension/extension.js:1210
 msgid "Asks where to open"
 msgstr ""
 
-#: extension/extension.js:1079
+#: extension/extension.js:1210
 msgid "Opens in a new workspace"
 msgstr ""
 
-#: extension/extension.js:1080
+#: extension/extension.js:1211
 msgid "Opens in this workspace"
 msgstr ""
 
-#: extension/extension.js:1095 extension/extension.js:1112
+#: extension/extension.js:1226 extension/extension.js:1243
 msgid "Move out of group"
 msgstr ""
 
-#: extension/extension.js:1097 extension/extension.js:1114
+#: extension/extension.js:1228 extension/extension.js:1245
 #: extension/groups.js:555 extension/groups.js:571
 msgid "New group…"
 msgstr ""
 
-#: extension/extension.js:1099 extension/extension.js:1116
+#: extension/extension.js:1230 extension/extension.js:1247
 msgid "Arrange icons"
 msgstr ""
 
-#: extension/extension.js:1106
+#: extension/extension.js:1237
 msgid "Rename…"
 msgstr ""
 
-#: extension/extension.js:1107
+#: extension/extension.js:1238
 msgid "New subgroup…"
 msgstr ""
 
-#: extension/extension.js:1118
+#: extension/extension.js:1249
 msgid "Ungroup (contents stay)"
 msgstr ""
 
-#: extension/extension.js:1123
+#: extension/extension.js:1254
 msgid "Remove"
 msgstr ""
 
@@ -598,18 +610,22 @@ msgid "Move to…"
 msgstr ""
 
 #: extension/groups.js:573
+msgid "Open LovyCairn"
+msgstr ""
+
+#: extension/groups.js:574
 msgid "Add project…"
 msgstr ""
 
-#: extension/groups.js:744
+#: extension/groups.js:745
 msgid "Empty group. Drag desktop icons here, or use “Move to…” in their menu."
 msgstr ""
 
-#: extension/groups.js:845
+#: extension/groups.js:846
 msgid "Search a project, app or group…"
 msgstr ""
 
-#: extension/groups.js:876
+#: extension/groups.js:877
 msgid "No results"
 msgstr ""
 
@@ -617,75 +633,107 @@ msgstr ""
 msgid "Empty note"
 msgstr ""
 
-#: extension/prefs.js:12
+#: extension/prefs.js:13
 msgid "LovyCairn"
 msgstr ""
 
-#: extension/prefs.js:26
+#: extension/prefs.js:27
 msgid "Opening a project"
 msgstr ""
 
-#: extension/prefs.js:27
+#: extension/prefs.js:28
 msgid "Leave a field empty to detect the right command automatically."
 msgstr ""
 
-#: extension/prefs.js:29
+#: extension/prefs.js:30
 msgid "Terminal command"
 msgstr ""
 
-#: extension/prefs.js:29
+#: extension/prefs.js:30
 msgid "{dir} is replaced by the project folder, e.g. kitty --directory {dir}"
 msgstr ""
 
-#: extension/prefs.js:30
+#: extension/prefs.js:31
 msgid "Browser command"
 msgstr ""
 
-#: extension/prefs.js:30
+#: extension/prefs.js:31
 msgid "{url} is replaced by the address, e.g. firefox --new-window {url}"
 msgstr ""
 
-#: extension/prefs.js:33
+#: extension/prefs.js:32
+msgid "Editor command"
+msgstr ""
+
+#: extension/prefs.js:32
+msgid "{dir} is replaced by the project folder"
+msgstr ""
+
+#: extension/prefs.js:39
+msgid "Default workspace"
+msgstr ""
+
+#: extension/prefs.js:40
+msgid "Ask every time"
+msgstr ""
+
+#: extension/prefs.js:41
+msgid "Suite theme"
+msgstr ""
+
+#: extension/prefs.js:42
+msgid "System"
+msgstr ""
+
+#: extension/prefs.js:42
+msgid "Light"
+msgstr ""
+
+#: extension/prefs.js:42
+msgid "Dark"
+msgstr ""
+
+#: extension/prefs.js:45
 msgid "Notes"
 msgstr ""
 
-#: extension/prefs.js:35
+#: extension/prefs.js:47
 msgid "Collapsed notes on the desktop"
 msgstr ""
 
-#: extension/prefs.js:36
+#: extension/prefs.js:48
 msgid ""
 "Draw collapsed notes as sticky icons and remember where note windows were."
 msgstr ""
 
-#: extension/prefs.js:40
+#: extension/prefs.js:52
 msgid "Notes app command"
 msgstr ""
 
-#: extension/prefs.js:40
+#: extension/prefs.js:52
 msgid "Empty: lovycairn-notes, if installed"
 msgstr ""
 
-#: extension/prefs.js:41
+#: extension/prefs.js:53
 msgid "Notes folder"
 msgstr ""
 
-#: extension/prefs.js:41
+#: extension/prefs.js:53
 msgid "Empty: the Notes folder in your home"
 msgstr ""
 
-#: extension/prefs.js:45
+#: extension/prefs.js:57
 msgid "Shortcuts"
 msgstr ""
 
-#: extension/prefs.js:46
+#: extension/prefs.js:58
 msgid "Edit with the keyboard shortcut syntax, for example &lt;Super&gt;j."
 msgstr ""
 
-#: extension/prefs.js:48
+#: extension/prefs.js:60
 msgid "New note"
 msgstr ""
 
-#: extension/prefs.js:48
+#: extension/prefs.js:60
 msgid "New note for the active project"
 msgstr ""

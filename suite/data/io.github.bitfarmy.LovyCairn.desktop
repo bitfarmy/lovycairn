@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=LovyCairn
+Comment=Find, organize and resume your projects
+Comment[it]=Trova, organizza e riprendi i tuoi progetti
+Exec=lovycairn
+Icon=io.github.bitfarmy.LovyCairn
+Terminal=false
+Categories=Development;
+StartupNotify=true

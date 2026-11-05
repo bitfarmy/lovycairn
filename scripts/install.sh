@@ -43,6 +43,23 @@ mkdir -p "$bin"
 echo "→ commands: $bin/lovycairn-add, $bin/lovycairn-doctor"
 install -m 0755 "$root/bin/lovycairn-add" "$root/bin/lovycairn-doctor" "$bin/"
 
+echo "→ suite: $bin/lovycairn"
+install -m 0755 "$root/suite/lovycairn" "$bin/lovycairn"
+mkdir -p "$data/lovycairn" "$data/applications" "$data/icons/hicolor/scalable/apps"
+# Replace only the shipped package; unrelated user files stay in place.
+rm -rf "$data/lovycairn/lovycairn_suite"
+cp -r "$root/suite/lovycairn_suite" "$data/lovycairn/"
+find "$data/lovycairn/lovycairn_suite" -type d -name __pycache__ -prune -exec rm -rf {} +
+install -m 0644 "$root/suite/data/io.github.bitfarmy.LovyCairn.desktop" "$data/applications/"
+install -m 0644 "$root/suite/data/io.github.bitfarmy.LovyCairn.svg" "$data/icons/hicolor/scalable/apps/"
+for po in "$root"/suite/po/*.po; do
+  [ -f "$po" ] || continue
+  lang="$(basename "$po" .po)"; mkdir -p "$data/locale/$lang/LC_MESSAGES"
+  msgfmt -o "$data/locale/$lang/LC_MESSAGES/lovycairn-suite.mo" "$po"
+done
+update-desktop-database "$data/applications" 2>/dev/null || true
+gtk-update-icon-cache -q "$data/icons/hicolor" 2>/dev/null || true
+
 if [ -d "$data/nautilus" ] || command -v nautilus >/dev/null; then
   mkdir -p "$data/nautilus/scripts"
   install -m 0755 "$root/nautilus/add-as-lovycairn-project" "$data/nautilus/scripts/Add as LovyCairn project"

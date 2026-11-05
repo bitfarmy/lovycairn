@@ -570,6 +570,7 @@ export class Groups {
                 continue;
             menu._groupsItem = menu.addAction(_('New group…'), () => this.newGroup());
             this._bgItems.push(menu._groupsItem);
+            this._bgItems.push(menu.addAction(_('Open LovyCairn'), () => this.ext._openSuite()));
             this._bgItems.push(menu.addAction(_('Add project…'), () => this.ext._askProject()));
             added++;
         }

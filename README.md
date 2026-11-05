@@ -16,7 +16,7 @@
 
 </div>
 
-**LovyCairn turns your GNOME desktop into a project board.** Every project is an icon that knows its own git status. One click opens the terminal in the right folder — and the docs in your browser, if you want — in a fresh workspace. Already open? One click takes you there. Group projects, color them, jot notes that belong to them.
+**LovyCairn turns your GNOME desktop into a project board.** Every project is an icon that knows its own git status. One click opens the terminal in the right folder — and the docs in your browser, if you want — in the workspace you choose. Already open? One click takes you there. Group projects, color them, jot notes that belong to them.
 
 No daemon, no database, no account. A project is a `.desktop` file on your desktop, a group is a folder. Remove LovyCairn and everything is still yours.
 
@@ -40,7 +40,7 @@ No daemon, no database, no account. A project is a `.desktop` file on your deskt
 <td width="50%" valign="top">
 
 ### One click, ready to work
-Terminal in the project folder and the documentation pages you chose, in a **new empty workspace**. If the project is already open, you are taken to its windows instead. Prefer the current workspace? Every project has its own switch, and the menu offers both.
+Terminal in the project folder and the documentation pages you chose, after asking which workspace to use. If the project is already open, you are taken to its windows instead. Prefer the current workspace? Every project has its own switch, and the menu offers both.
 
 </td>
 <td width="50%" valign="top">
@@ -90,9 +90,25 @@ It checks the parts of GNOME it depends on at every start. If one changes, only 
 
 <img src="docs/assets/divider.svg" alt="" width="100%">
 
+## Native project suite
+
+Run `lovycairn`, choose **LovyCairn** in the applications menu, or right-click the desktop and choose **Open LovyCairn**. A project's **Project details** menu opens its page directly. The native GTK 4/libadwaita app shares the desktop's existing projects and groups: search and sort projects, mark favorites, save a next step, inspect Git changes, manage launchers and browse associated notes.
+
+LovyCairn Notes remains the separate Markdown editor. The suite previews notes and opens or creates them in the configured notes application. Removing a project moves only its launcher to the trash; its code folder and notes remain.
+
+Settings are shared with the extension. Custom terminal, browser and notes commands stay editable; the editor command supports `{dir}`. The global workspace choice starts at **Ask every time** and each project's choice takes precedence. Choose system, light or dark appearance for the suite. If the extension is unavailable, the suite can open a terminal and documentation in the current workspace and shows that limitation.
+
+```bash
+lovycairn                                      # open the suite
+lovycairn --project work/project-api.desktop    # show a managed launcher relative to Desktop
+./suite/lovycairn                               # run from the source checkout
+```
+
+Projects remain `.desktop` files in the XDG Desktop folder; groups remain folders with a `.group` marker. Favorites and next steps live in `$XDG_CONFIG_HOME/lovycairn/suite.json` and successful terminal opens and existing-window resumes in `activity.json` (normally `~/.config/lovycairn/`). Both identify projects by normalized absolute folder path. Invalid JSON is reported and preserved. Uninstall preserves projects, notes and migration backups; `--purge` additionally removes LovyCairn configuration.
+
 ## Install
 
-**You need:** GNOME Shell 50 or 51 (Fedora 44 and 46, and friends), `git`, and a terminal (Ptyxis, GNOME Console, GNOME Terminal, Konsole, kitty, Alacritty, foot, WezTerm or xterm are detected; any other can be set in the preferences). The notes app also needs `python3-gobject`, GTK 4 and libadwaita — all present on a stock GNOME.
+**You need:** GNOME Shell 50 or 51 (Fedora 44 and 46, and friends), `git`, and a terminal (Ptyxis, GNOME Console, GNOME Terminal, Konsole, kitty, Alacritty, foot, WezTerm or xterm are detected; any other can be set in the preferences). The native suite and notes app also need `python3-gobject`, GTK 4 and libadwaita — all present on a stock GNOME.
 
 ```bash
 git clone https://github.com/bitfarmy/lovycairn.git
@@ -239,3 +255,14 @@ Bug reports, translations and pull requests are welcome — see [CONTRIBUTING](C
 <img src="docs/assets/divider.svg" alt="" width="100%">
 <sub>Made with care for people who keep too many projects open. A small cairn marks the way. 🪨</sub>
 </div>
+
+## Native suite verification
+
+```bash
+scripts/dev.sh check                              # syntax, schemas, catalogs, desktop entries and model/service tests
+scripts/dev.sh pack                               # extension release archive
+tests/run-headless.sh bridge tests/out-bridge      # private GNOME session: D-Bus, history and workspace choices
+tests/run-suite-ui.sh                             # private GTK/Broadway session: native UI flows
+```
+
+The suite uses Python's standard library and PyGObject, with Git executed outside the GTK thread. Tests create temporary data; the isolated GNOME and GTK harnesses do not install into your desktop. See [architecture](docs/ARCHITECTURE.md) for the storage and bridge contracts.

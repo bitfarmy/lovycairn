@@ -93,3 +93,21 @@ extension code.
 - Baseline: `scripts/dev.sh check` passed; installed LovyCairn 1.3.0 ACTIVE.
 - Split model/services, extension/packaging, and native UI into nonoverlapping
   implementation domains under the parallel-agent skill.
+
+- Routine implementation decision: an empty editor command requires explicit
+  configuration instead of opening the folder's default application, which is
+  commonly the file manager rather than a code editor. The native settings hint
+  now gives `code {dir}` as an example; the design specification reflects this.
+
+- Shared model/services: 16 real tests passed (10 storage, 6 services).
+- Native UI: 11 tests passed in private HOME, D-Bus, settings and Broadway;
+  includes actual wide-window allocation, explicit-save forms, persistence,
+  monitor draft preservation, configured browser, async sorting and note search.
+- Isolated GNOME bridge: 10 assertions passed, including resume history, invalid
+  requests, malformed activity preservation and teardown. Smoke compatibility
+  checks passed. Static/schema/gettext checks and extension packaging passed.
+- Independent code reviews found metadata conflict, hidden-name, resume-history
+  and three UI behavior bugs; regression tests reproduced each before fixes.
+- Independent native visual review: ship at native scope; existing native theme
+  remains authoritative. Wide, narrow, light and dark captures inspected.
+- Implementation remains on feat/native-suite; no remote push or merge requested.

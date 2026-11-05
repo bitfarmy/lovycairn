@@ -1,7 +1,7 @@
 # LovyCairn Suite — app desktop
 
-Stato: anteprima visiva approvata dall’utente il 5 novembre 2026; specifica
-di integrazione pronta per revisione prima dell’implementazione.
+Stato: anteprima e specifica approvate dall’utente il 5 novembre 2026;
+implementazione nativa verificata prima dell’installazione.
 
 ## Obiettivo e risultato
 
@@ -80,7 +80,9 @@ dipende da un browser, da un server locale o da un servizio remoto.
 - La scelta dello spazio per un singolo progetto continua a prevalere sulla
   preferenza globale; globale iniziale “Chiedi ogni volta”, come oggi.
 - I comandi personalizzati mantengono i segnaposto esistenti; il comando editor
-  ammette `{dir}`. Nessuna interpretazione implicita tramite una shell.
+  ammette `{dir}` e richiede una configurazione esplicita: un comando vuoto non
+  viene interpretato come editor predefinito della cartella (che potrebbe essere
+  il gestore file). Nessuna interpretazione implicita tramite una shell.
 - Le scorciatoie sono validate prima del salvataggio. Le scelte personalizzate
   rimangono visibili e modificabili, senza sostituzioni automatiche.
 

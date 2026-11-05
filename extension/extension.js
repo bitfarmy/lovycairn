@@ -48,6 +48,10 @@ export default class LovyCairn extends Extension {
         this._syncTimer = 0;
         this._timers = new Set();
         this._groups = new Groups(this, DESKTOP_DIR);
+        this._bridge = Gio.DBusExportedObject.wrapJSObject(
+            '<node><interface name="io.github.bitfarmy.LovyCairn"><method name="OpenProject"><arg type="s" direction="in"/><arg type="s" direction="in"/><arg type="b" direction="out"/></method></interface></node>',
+            {OpenProject: (launcher, mode) => this._openManagedProject(launcher, mode)});
+        this._bridge.export(Gio.DBus.session, '/io/github/bitfarmy/LovyCairn');
         this._environments = new Map();   // project path -> windows opened from here
 
         this._guardMethods();
@@ -96,6 +100,8 @@ export default class LovyCairn extends Extension {
     }
 
     disable() {
+        this._bridge?.unexport();
+        this._bridge = null;
         for (const k of this._keys ?? [])
             Main.wm.removeKeybinding(k);
         this._keys = [];
@@ -845,7 +851,7 @@ export default class LovyCairn extends Extension {
     //   here → always open it in the current workspace, without switching.
     _whereToOpen(app) {
         const v = app.get_string('X-LovyCairn-NewWorkspace');
-        return v === 'true' ? 'new' : v === 'false' ? 'here' : 'ask';
+        return v === 'true' ? 'new' : v === 'false' ? 'here' : this._settings.get_string('default-workspace');
     }
 
     // The workspace is never decided silently. Resolves to 'new', 'here' or null (cancelled).
@@ -891,6 +897,7 @@ export default class LovyCairn extends Extension {
             const openWindows = this._projectWindows(path);
             if (openWindows.length) {
                 Main.activateWindow(openWindows[0]);   // switches workspace and raises the window
+                this._recordActivity(path);
                 if (name)
                     this._openMonitor(icon, name, openWindows[0].get_workspace());
                 return;
@@ -962,13 +969,59 @@ export default class LovyCairn extends Extension {
         this._later(20000, () => global.display.disconnectObject(watching));
     }
 
+    _openManagedProject(launcher, mode) {
+        if (!['auto', 'new', 'here'].includes(mode) || !launcher || GLib.path_is_absolute(launcher) ||
+            launcher.split('/').some(part => !part || part === '.' || part === '..'))
+            return false;
+        const project = [...this._groups.all()].find(item => item.rel === launcher);
+        const path = project?.app.get_string('X-LovyCairn-Path');
+        if (!path || !GLib.path_is_absolute(path))
+            return false;
+        const existing = this._icons.get(launcher);
+        const icon = existing?._project === path ? existing : {_project: path, _app: project.app};
+        this._launch(icon, launcher, mode);
+        return true;
+    }
+
+    _openSuite(launcher = null) {
+        const executable = GLib.find_program_in_path('lovycairn') ??
+            GLib.build_filenamev([HOME, '.local', 'bin', 'lovycairn']);
+        if (!System.spawn([executable, ...(launcher ? ['--project', launcher] : [])]))
+            Main.notify(_('LovyCairn could not be opened'), _('Install the LovyCairn suite and try again.'));
+    }
+
+    _recordActivity(path) {
+        const file = Gio.File.new_for_path(configPath('activity.json'));
+        try {
+            let entries = {}, etag = null;
+            try {
+                const [, bytes, currentEtag] = file.load_contents(null);
+                entries = JSON.parse(new TextDecoder().decode(bytes));
+                etag = currentEtag;
+                if (!entries || Array.isArray(entries) || typeof entries !== 'object' ||
+                    Object.entries(entries).some(([key, value]) => !GLib.path_is_absolute(key) ||
+                        typeof value !== 'number' || !Number.isFinite(value)))
+                    throw new Error('Invalid activity data');
+            } catch (e) {
+                if (!e.matches?.(Gio.IOErrorEnum, Gio.IOErrorEnum.NOT_FOUND))
+                    throw e;
+            }
+            entries[GLib.canonicalize_filename(path, null)] = Math.floor(Date.now() / 1000);
+            GLib.mkdir_with_parents(GLib.path_get_dirname(file.get_path()), 0o700);
+            file.replace_contents(JSON.stringify(entries), etag, false, Gio.FileCreateFlags.PRIVATE, null);
+        } catch (e) {
+            console.warn(`lovycairn: activity was preserved: ${e}`);
+        }
+    }
+
     _openTerminal(path) {
         const command = System.terminalCommand(this._settings.get_string('terminal-command'), path);
         if (!command) {
             Main.notify(_('No terminal found'), _('Choose one in the LovyCairn preferences.'));
             return;
         }
-        System.spawn(...command);
+        if (System.spawn(...command))
+            this._recordActivity(path);
     }
 
     // Default browser in a NEW WINDOW (so it appears in the workspace just opened, without bringing
@@ -1129,6 +1182,7 @@ export default class LovyCairn extends Extension {
             this._presentMenu(menu, icon);
             return;
         }
+        menu.addAction(_('Project details'), () => this._openSuite(name));
         menu.addAction(_('Open project'), () => this._launch(icon, name));
         menu.addAction(_('Open in a new workspace'), () => this._launch(icon, name, 'new'));
         menu.addAction(_('Open in this workspace'), () => this._launch(icon, name, 'here'));

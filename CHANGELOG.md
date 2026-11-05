@@ -5,6 +5,16 @@ project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Native GTK 4/libadwaita project suite (`lovycairn`) with shared desktop projects/groups, search, favorites, next steps, Git status, launcher management, notes previews and shared preferences; English and Italian interface.
+- Desktop “Open LovyCairn” and project “Project details” actions, and a validated session D-Bus bridge for workspace-aware project opening.
+- Shared editor command, global workspace preference and suite theme settings; separate, protected activity history for successful terminal opens.
+- Isolated model/service, native UI and GNOME bridge coverage; per-user suite executable, package, desktop entry and icon installation.
+
+### Changed
+- Per-project workspace choices take precedence over the global choice, which defaults to asking each time.
+- Uninstall preserves migration backups as well as existing projects and notes.
+
 ## [1.3.0] — 2026-10-21
 
 ### Added

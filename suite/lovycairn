@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""Launch LovyCairn from its source tree or its per-user installation."""
+import os
+from pathlib import Path
+import sys
+
+source = Path(__file__).resolve().parent
+installed = Path(os.environ.get('XDG_DATA_HOME', Path.home()/'.local/share'))/'lovycairn'
+sys.path.insert(0, str(source if (source/'lovycairn_suite').is_dir() else installed))
+from lovycairn_suite.app import main
+
+raise SystemExit(main())

@@ -708,3 +708,39 @@ msgstr "Nuova nota del progetto attivo"
 
 #~ msgid "Click opens in a new workspace"
 #~ msgstr "Il clic apre in un nuovo spazio di lavoro"
+
+msgid "Open LovyCairn"
+msgstr "Apri LovyCairn"
+
+msgid "Project details"
+msgstr "Dettagli del progetto"
+
+msgid "LovyCairn could not be opened"
+msgstr "Impossibile aprire LovyCairn"
+
+msgid "Install the LovyCairn suite and try again."
+msgstr "Installa la suite LovyCairn e riprova."
+
+msgid "Editor command"
+msgstr "Comando editor"
+
+msgid "{dir} is replaced by the project folder"
+msgstr "{dir} viene sostituito dalla cartella del progetto"
+
+msgid "Default workspace"
+msgstr "Spazio di lavoro predefinito"
+
+msgid "Ask every time"
+msgstr "Chiedi ogni volta"
+
+msgid "Suite theme"
+msgstr "Tema della suite"
+
+msgid "System"
+msgstr "Sistema"
+
+msgid "Light"
+msgstr "Chiaro"
+
+msgid "Dark"
+msgstr "Scuro"

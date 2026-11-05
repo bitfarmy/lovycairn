@@ -1,5 +1,6 @@
 dist/
 tests/out/
+tests/out-*/
 tests/out-it/
 tests/.wallpaper.png
 __pycache__/
