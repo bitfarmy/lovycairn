@@ -5,3 +5,7 @@ tests/.wallpaper.png
 __pycache__/
 *.mo
 *.zip
+.superpowers/
+.taste-skill/
+.playwright-cli/
+output/playwright/
