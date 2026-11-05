@@ -42,4 +42,4 @@ dbus-run-session -- env HOME="$tmp/home" XDG_CONFIG_HOME="$tmp/config" XDG_DATA_
   XDG_CACHE_HOME="$tmp/cache" XDG_RUNTIME_DIR="$tmp/runtime" GSETTINGS_BACKEND=memory \
   GDK_BACKEND=broadway BROADWAY_DISPLAY=":$display" GTK_A11Y=none LANGUAGE=en \
   LOVYCAIRN_LAYOUT_TEST="$layout" PYTHONWARNINGS="ignore::DeprecationWarning:gi.events" \
-  GIO_USE_VFS=local PYTHONPATH="$root/suite" python3 -m unittest discover -s "$root/tests" -p test_suite_ui.py -v
+  GIO_USE_VFS=local PYTHONPATH="$root/suite" python3 -m unittest discover -s "$root/tests" -p 'test_*ui.py' -v

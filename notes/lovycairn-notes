@@ -59,6 +59,13 @@ COLORS = {  # key: (name, color)
     "blue": (_("Blue"), "#62a0ea"),
     "lilac": (_("Lilac"), "#c061cb"),
     "gray": (_("Gray"), "#9a9996"),
+    "pastel-yellow": (_("Butter"), "#f5e7ac"),
+    "pastel-orange": (_("Peach"), "#f4c8ad"),
+    "pastel-pink": (_("Blush"), "#edc3d1"),
+    "pastel-green": (_("Mint"), "#bfe3cb"),
+    "pastel-blue": (_("Sky"), "#bed9ed"),
+    "pastel-lilac": (_("Lavender"), "#d8c9e9"),
+    "pastel-gray": (_("Sand"), "#dedbd2"),
 }
 DEFAULT_COLOR = "yellow"
 
@@ -208,12 +215,23 @@ class NoteWindow(Adw.ApplicationWindow):
         self.view.grab_focus()
 
     def _color_button(self):
-        row = Gtk.Box(spacing=8, margin_top=8, margin_bottom=8, margin_start=8, margin_end=8)
-        pop = Gtk.Popover(child=row)
-        for key, (name, _c) in COLORS.items():
-            b = Gtk.Button(tooltip_text=name, css_classes=["color", f"color-{key}"])
-            b.connect("clicked", lambda _b, k=key: (self.set_color(k), pop.popdown()))
-            row.append(b)
+        palette = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12,
+                          margin_top=12, margin_bottom=12, margin_start=12, margin_end=12)
+        pop = Gtk.Popover(child=palette)
+        for pastel, title in ((False, _("Classic")), (True, _("Pastels"))):
+            group = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+            group.append(Gtk.Label(label=title, xalign=0, css_classes=["dim-label"]))
+            row = Gtk.Box(spacing=8)
+            for key, (name, _c) in COLORS.items():
+                if key.startswith("pastel-") != pastel:
+                    continue
+                b = Gtk.Button(tooltip_text=name, css_classes=["color", f"color-{key}"],
+                               width_request=28, height_request=28)
+                b.update_property([Gtk.AccessibleProperty.LABEL], [name])
+                b.connect("clicked", lambda _b, k=key: (self.set_color(k), pop.popdown()))
+                row.append(b)
+            group.append(row)
+            palette.append(group)
         return Gtk.MenuButton(icon_name="preferences-color-symbolic", popover=pop, tooltip_text=_("Note color"))
 
     def set_color(self, key, save=True):

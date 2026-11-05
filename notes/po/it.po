@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lovycairn-notes\n"
 "Report-Msgid-Bugs-To: https://github.com/bitfarmy/lovycairn/issues\n"
-"POT-Creation-Date: 2026-10-20 21:11+0200\n"
+"POT-Creation-Date: 2026-11-05 16:15+0100\n"
 "PO-Revision-Date: 2026-10-20 20:00+0200\n"
 "Last-Translator: LovyCairn contributors\n"
 "Language-Team: Italian\n"
@@ -42,82 +42,118 @@ msgstr "Lilla"
 msgid "Gray"
 msgstr "Grigio"
 
-#: notes/lovycairn-notes:101
+#: notes/lovycairn-notes:62
+msgid "Butter"
+msgstr "Burro"
+
+#: notes/lovycairn-notes:63
+msgid "Peach"
+msgstr "Pesca"
+
+#: notes/lovycairn-notes:64
+msgid "Blush"
+msgstr "Rosa cipria"
+
+#: notes/lovycairn-notes:65
+msgid "Mint"
+msgstr "Menta"
+
+#: notes/lovycairn-notes:66
+msgid "Sky"
+msgstr "Azzurro pastello"
+
+#: notes/lovycairn-notes:67
+msgid "Lavender"
+msgstr "Lavanda"
+
+#: notes/lovycairn-notes:68
+msgid "Sand"
+msgstr "Sabbia"
+
+#: notes/lovycairn-notes:108
 msgid "Empty note"
 msgstr "Nota vuota"
 
-#: notes/lovycairn-notes:190 notes/lovycairn-notes:365
+#: notes/lovycairn-notes:197 notes/lovycairn-notes:383
 msgid "New note (Ctrl+N)"
 msgstr "Nuova nota (Ctrl+N)"
 
-#: notes/lovycairn-notes:192
+#: notes/lovycairn-notes:199
 msgid "Archive (Ctrl+E)"
 msgstr "Archivio (Ctrl+E)"
 
-#: notes/lovycairn-notes:196 notes/lovycairn-notes:454
+#: notes/lovycairn-notes:203 notes/lovycairn-notes:472
 msgid "Move to trash"
 msgstr "Sposta nel cestino"
 
-#: notes/lovycairn-notes:199
+#: notes/lovycairn-notes:206
 msgid "Collapse to an icon on the desktop"
 msgstr "Riduci a icona sul desktop"
 
-#: notes/lovycairn-notes:217
+#: notes/lovycairn-notes:221
+msgid "Classic"
+msgstr "Classici"
+
+#: notes/lovycairn-notes:221
+msgid "Pastels"
+msgstr "Pastello"
+
+#: notes/lovycairn-notes:235
 msgid "Note color"
 msgstr "Colore della nota"
 
-#: notes/lovycairn-notes:351 notes/lovycairn-notes:359
+#: notes/lovycairn-notes:369 notes/lovycairn-notes:377
 msgid "Notes"
 msgstr "Note"
 
-#: notes/lovycairn-notes:360
+#: notes/lovycairn-notes:378
 msgid "Projects"
 msgstr "Progetti"
 
-#: notes/lovycairn-notes:368
+#: notes/lovycairn-notes:386
 msgid "Trash"
 msgstr "Cestino"
 
-#: notes/lovycairn-notes:372 notes/lovycairn-notes:420
+#: notes/lovycairn-notes:390 notes/lovycairn-notes:438
 msgid "Search notes…"
 msgstr "Cerca nelle note…"
 
-#: notes/lovycairn-notes:383
+#: notes/lovycairn-notes:401
 msgid "No notes"
 msgstr "Nessuna nota"
 
-#: notes/lovycairn-notes:420
+#: notes/lovycairn-notes:438
 msgid "Search projects…"
 msgstr "Cerca nei progetti…"
 
-#: notes/lovycairn-notes:454
+#: notes/lovycairn-notes:472
 msgid "Restore"
 msgstr "Ripristina"
 
-#: notes/lovycairn-notes:526
+#: notes/lovycairn-notes:544
 msgid "Open an empty note right away"
 msgstr "Apre subito una nota vuota"
 
-#: notes/lovycairn-notes:528
+#: notes/lovycairn-notes:546
 msgid "Open the archive"
 msgstr "Apre l'archivio"
 
-#: notes/lovycairn-notes:530
+#: notes/lovycairn-notes:548
 msgid "Expand a note collapsed to an icon"
 msgstr "Espande una nota ridotta a icona"
 
-#: notes/lovycairn-notes:532
+#: notes/lovycairn-notes:550
 msgid "Take a note off the desktop and send it to the archive"
 msgstr "Toglie una nota dal desktop e la manda in archivio"
 
-#: notes/lovycairn-notes:534
+#: notes/lovycairn-notes:552
 msgid "With --new: a new note with #TAG. Alone: the archive filtered by #TAG"
 msgstr "Con --new: nota nuova con #TAG. Da solo: archivio filtrato per #TAG"
 
-#: notes/lovycairn-notes:536
+#: notes/lovycairn-notes:554
 msgid "Only restore the pinned notes"
 msgstr "Ripristina solo le note fissate"
 
-#: notes/lovycairn-notes:538
+#: notes/lovycairn-notes:556
 msgid "Folder where the notes are stored (default: ~/Notes)"
 msgstr "Cartella dove sono salvate le note (predefinita: ~/Notes)"

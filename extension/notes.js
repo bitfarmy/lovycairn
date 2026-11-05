@@ -22,6 +22,8 @@ const ICON_H = 84;
 const DRAG_THRESHOLD = 6;
 const COLORS = {
     yellow: '#f6d32d', orange: '#ff7800', pink: '#e879a8', green: '#33d17a', blue: '#62a0ea', lilac: '#c061cb', gray: '#9a9996',
+    'pastel-yellow': '#f5e7ac', 'pastel-orange': '#f4c8ad', 'pastel-pink': '#edc3d1',
+    'pastel-green': '#bfe3cb', 'pastel-blue': '#bed9ed', 'pastel-lilac': '#d8c9e9', 'pastel-gray': '#dedbd2',
 };
 
 function noteTitle(dir, name) {
